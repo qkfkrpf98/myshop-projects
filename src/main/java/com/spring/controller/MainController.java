@@ -71,4 +71,10 @@ public class MainController {
 	public String notice_board() {
 		return "notice_board";
 	}
+	
+	//¸®ºä ¸®½ºÆ®
+	@RequestMapping(value="/admin_ReviewList.do", method=RequestMethod.GET)
+	public String admin_ReviewList() {
+		return "/admin/admin_ReviewList";
+	}
 }
