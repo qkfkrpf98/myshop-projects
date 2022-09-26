@@ -77,14 +77,15 @@ public class MainController {
 	public String admin_ReviewList() {
 		return "/admin/admin_ReviewList";
 	}
-	//리뷰 리스트
+	//공지사항 리스트
 	@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
 	public String admin_notice_list() {
 		return "/admin/admin_notice_list";
 	}
-	//리뷰 리스트
+	//q&a 리스트
 	@RequestMapping(value="/admin_qna_list.do", method=RequestMethod.GET)
 	public String admin_qna_list() {
 		return "/admin/admin_qna_list";
 	}
+
 }
