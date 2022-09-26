@@ -24,6 +24,12 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
+	<!-- serive 객체 생성 -->
+	<beans:bean id="memberService"  class="com.shoppingmall.service.MemberServiceImpl"></beans:bean>
+	
+	<!-- dao 객체 생성 :  -->
+	<beans:bean id="memberDao"  class="com.shoppingmall.dao.Myshop_memberDAO"></beans:bean>
+	
 	<context:component-scan base-package="com.spring.myshop" />
 	<context:component-scan base-package="com.spring.controller"/>
 
