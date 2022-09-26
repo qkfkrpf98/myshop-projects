@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_product_list.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>회원 관리페이지</title> 
 
@@ -92,54 +93,44 @@
 					<h3 class="search_title">상품 현황</h3>
 				</div>
 				<div class="seller_content">
-					<div class=search>
-						<div class="form_status">
-							<ul class="status_list">
-								<li>
-									<a class="link-area">
-										<span class="material-symbols-outlined"> border_all </span>		
-										<div class="status-text">
-											<p>전체</p>
-											<strong>200</strong>
-											<em>건</em>
-										</div>
-									</a>
-								</li>
-								<li>
-									<a class="link-area">
-											<span class="material-symbols-outlined"> shopping_cart </span>
-										<div class="status-text">
-											<p>판매 중</p>
-											<strong>198</strong>
-											<em>건</em>
-										</div>
-									</a>
-								</li>
-								<li>
-									<a class="link-area">
-										<span class="material-symbols-outlined">
-											remove_shopping_cart </span>
-										<div class="status-text">
-											<p>판매 종료</p>
-											<strong>2</strong>
-											<em>건</em>
-										</div>
-									</a>
-								</li>
-								<li>
-									<a class="link-area">
-										<span class="material-symbols-outlined">
-											production_quantity_limits </span>
-										<div class="status-text">
-											<p>품절</p>
-											<strong>2</strong>
-											<em>건</em>
-										</div>
-									</a>
-								</li>
-							</ul>
+					<form name="reviewListForm" action="conditional_search.do"
+						method="post">
+						<div class="search">
+							<div class="form_status">
+								<ul class="status_list">
+									<li><a class="link-area"> <span
+											class="material-symbols-outlined"> border_all </span>
+											<div class="status-text">
+												<p>전체</p>
+												<strong>200</strong> <em>건</em>
+											</div>
+									</a></li>
+									<li><a class="link-area"> <span
+											class="material-symbols-outlined"> shopping_cart </span>
+											<div class="status-text">
+												<p>판매 중</p>
+												<strong>198</strong> <em>건</em>
+											</div>
+									</a></li>
+									<li><a class="link-area"> <span
+											class="material-symbols-outlined">
+												remove_shopping_cart </span>
+											<div class="status-text">
+												<p>판매 종료</p>
+												<strong>2</strong> <em>건</em>
+											</div>
+									</a></li>
+									<li><a class="link-area"> <span
+											class="material-symbols-outlined">
+												production_quantity_limits </span>
+											<div class="status-text">
+												<p>품절</p>
+												<strong>2</strong> <em>건</em>
+											</div>
+									</a></li>
+								</ul>
+							</div>
 						</div>
-					</div>
 				</div>
 				<div class="title_box">
 					<h3 class="search_title">상품 상세 조회</h3>
@@ -149,40 +140,34 @@
 						<table class="seller_search">
 							<tr>
 								<th>검색</th>
-								<td>
-									<select class="search_class">
+								<td><select class="search_class">
 										<option value="defalt">분류</option>
 										<option value="registration">상품번호</option>
 										<option value="popularity">상품명</option>
 										<option value="stock">브랜드 명</option>
-									</select>
-									<input type="text" class="search_bar">
-								</td>
+								</select> <input type="text" class="search_bar"></td>
 								<th>카테고리</th>
-								<td>
-									<select class="search_class main">
+								<td><select class="search_class_main">
 										<option value="defalt">대분류</option>
 										<option value="x">준비 중</option>
-									</select>
-									<select class="search_class sub">
+								</select> <select class="search_class_sub">
 										<option value="defalt">소분류</option>
 										<option value="x">준비 중</option>
-									</select>
-								</td>
+								</select></td>
 							</tr>
 							<tr>
 								<th>기간</th>
 								<td colspan="3">
-									<button class="period_search">오늘</button>
-									<button class="period_search">1주일</button>
-									<button class="period_search">1개월</button>
-									<button class="period_search">3개월</button>
-									<button class="period_search">6개월</button>
-									<button class="period_search">1년</button>
-									<button class="period_search">전체</button>
-									<input type="date" class="first-date">~
-									<input type="date"> 
-								</td>	
+									<button type="button" class="period_search" id="p1">오늘</button>
+									<button type="button" class="period_search" id="p2">1주일</button>
+									<button type="button" class="period_search" id="p3">1개월</button>
+									<button type="button" class="period_search" id="p4">3개월</button>
+									<button type="button" class="period_search" id="p5">6개월</button>
+									<button type="button" class="period_search" id="p6">1년</button>
+									<button type="button" class="period_search" id="p7">전체</button>
+									<input type="date" class="first-date">~ <input
+									type="date" class="last-date">
+								</td>
 							</tr>
 						</table>
 						<div class="seller_search_btns">
@@ -190,7 +175,7 @@
 							<button class="search_btn" type="reset">초기화</button>
 						</div>
 					</div>
-				
+					</form>
 				</div>
 				<div class="seller_list">
 					<div class="list_heading">
@@ -204,7 +189,7 @@
 								<option value="popularity">인기도 순</option>
 								<option value="stock">남은 재고 수량순</option>
 							</select>
-							<button type="button">선택 삭제</button>
+							<button type="button" class="btn_delete">선택 삭제</button>
 							<button type="button">상품 등록</button>
 						</div>
 					</div>
@@ -212,7 +197,7 @@
 						<div class="table_flame">
 							<table class="list_table">
 								<tr>
-									<th><input type="checkbox"></th>
+									<th><input type="checkbox" class="product_check" name="checkAll" ></th>
 									<th>상품명</th>
 									<th>브랜드</th>
 									<th>카테고리</th>
@@ -225,7 +210,7 @@
 									<th>최종 수정일</th>
 								</tr>
 								<tr>
-									<td><input type="checkbox"></td>
+									<td><input type="checkbox" class="product_check" name="check"></td>
 									<td>22SS 톰브라운 셔츠 히든 옥스퍼트 White</td>
 									<td>톰브라운</td>
 									<td>셔츠</td>
@@ -238,7 +223,7 @@
 									<td>2022/09/17</td>
 								</tr>
 								<tr>
-									<td><input type="checkbox"></td>
+									<td><input type="checkbox" class="product_check" name="check"></td>
 									<td>22SS 톰브라운 셔츠 히든 옥스퍼트 White</td>
 									<td>톰브라운</td>
 									<td>셔츠</td>

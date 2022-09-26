@@ -2,7 +2,7 @@
 	   let period_search_count = 0;
 	   let period_search_id = "";
 	  
-	   /* 리뷰 작성일 형식은 하나만 선택 가능 */
+	   /* 작성일 형식은 하나만 선택 가능 */
 	   $(".period_search").click(function(){
 		   /* alert("선택"); */
 		   if(period_search_count ==0){
@@ -68,7 +68,7 @@
 		 }
 	  });
 	  
-	  /* 체크박스 전체 선택  */
+	  /* 체크박스 전체 선택(리뷰)  */
 	  $("input[name=checkAll]").click(function(){
 		  if($("input[name=checkAll]").prop("checked")){
 			  $(".review_check").prop("checked",true);
@@ -77,6 +77,24 @@
 		  }
 	  });
 	  
+	   /* 체크박스 전체 선택(공지사항)  */
+		  $("input[name=checkAll]").click(function(){
+			  if($("input[name=checkAll]").prop("checked")){
+				  $(".notice_check").prop("checked",true);
+			  }else{
+				  $(".notice_check").prop("checked",false);
+			  }
+		  });
+	 
+	   /* 체크박스 전체 선택(상품)  */
+		  $("input[name=checkAll]").click(function(){
+			  if($("input[name=checkAll]").prop("checked")){
+				  $(".product_check").prop("checked",true);
+			  }else{
+				  $(".product_check").prop("checked",false);
+			  }
+		  });
+	  
 	 /* 전체 선택 중 체크박스 하나를 풀었을 때, checkAll flase */
 	 $("input[name=check]").click(function(){
 		  if($("input[name=check]").prop("checked")){
@@ -84,13 +102,17 @@
 		  }
 	 });
 	 
-	 /* 선택된 리스트가 없으면 선택 삭제 불가 알림 */
-	 $(".btn_delete").click(function(){
-		 if($("input[name=check]").prop("checked",false)){
-			 alert("선택된 리스트가 없습니다.");
-		 } 
-		
-	 });
+	  /* 선택된 리스트가 없으면 선택 삭제 불가 알림 */
+		 $(".btn_delete").click(function(){
+			 if($("input[name=check]:checked").length < 1){
+				 alert("선택된 리스트가 없습니다.");
+			 }else{
+				 alert("삭제");
+			 }
+			
+		 });
+		 
+		 
    });
 
 

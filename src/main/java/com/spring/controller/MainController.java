@@ -31,7 +31,7 @@ public class MainController {
 	//관리자 - 상품관리 페이지 
 	@RequestMapping(value="/admin_product_list.do", method=RequestMethod.GET)
 	public String admin_product_list() {
-		return "/admin/admin_product_product_list";
+		return "/admin/admin_product_list";
 	}
 	//관리자 - 사용자관리/메세지 페이지
 	@RequestMapping(value="/admin_message.do", method=RequestMethod.GET)
@@ -76,5 +76,15 @@ public class MainController {
 	@RequestMapping(value="/admin_ReviewList.do", method=RequestMethod.GET)
 	public String admin_ReviewList() {
 		return "/admin/admin_ReviewList";
+	}
+	//리뷰 리스트
+	@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
+	public String admin_notice_list() {
+		return "/admin/admin_notice_list";
+	}
+	//리뷰 리스트
+	@RequestMapping(value="/admin_qna_list.do", method=RequestMethod.GET)
+	public String admin_qna_list() {
+		return "/admin/admin_qna_list";
 	}
 }
