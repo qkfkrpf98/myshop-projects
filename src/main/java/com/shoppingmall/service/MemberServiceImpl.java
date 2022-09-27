@@ -16,4 +16,11 @@ public class MemberServiceImpl implements MemberService{
 			
 		return 	memberDao.insert(vo);
 	}
+	
+	/** 
+	 * 아이디 중복 확인 처리(ajax)
+	 */
+	public int getIdCheck(String id) {
+		return memberDao.idcheck(id);
+	}
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.service.MemberServiceImpl;
@@ -37,5 +38,15 @@ public class JoinController {
 			}
 			
 			return mv;
+		}
+		
+		/**
+		 * idCheck.do : 아이디 중복처리 - ajax
+		 */
+		@ResponseBody
+		@RequestMapping(value="/id_check.do", method=RequestMethod.GET)
+		public String idCheck(String id) {
+			int result = memberService.getIdCheck(id);
+			return String.valueOf(result);
 		}
 }

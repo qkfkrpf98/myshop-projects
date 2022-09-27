@@ -18,6 +18,9 @@
 				alert("아이디를 입력해주세요");
 				$("#id").focus();
 				return false;
+			}else if($("#idCheckMsg").text()==""){
+				alert("중복확인을 진행해주세요!");
+				return false;
 			}else if($("#pass").val() == ""){
 				alert("패스워드를 입력해주세요");
 				$("#pass").focus();
@@ -25,6 +28,14 @@
 			}else if($("#cpass").val() == ""){
 				alert("패스워드 확인을 입력해주세요");
 				$("#cpass").focus();
+				return false;
+			}else if($("#email").val() == ""){
+				alert("이메일을 입력해주세요");
+				$("#email").focus();
+				return false;
+			}else if(!isEmail($("email").val())){
+				alert("올바른 이메일 형식이 아닙니다.");
+				$("#email").focus();
 				return false;
 			}else if($("#name").val() == ""){
 				alert("성명을 입력해주세요");
@@ -93,7 +104,71 @@
 			}
 		});
 		
-	});
+			/*********************
+			아이디 중복확인 이벤트 처리 --> AJAX
+		**********************/
+		$("#idCheck").click(function(){
+			if($("#id").val()==""){
+				alert("아이디를 입력해주세요.");
+				$("#id").focus();
+				return false;
+			}else{
+				$.ajax({
+					url:"id_check.do?id="+$("#id").val(),
+					success:function(result){
+						if(result == 1){
+							$("#idCheckMsg").text("사용중인 아이디입니다. 다시 입력해주세요")
+								.css("color","red").css("font-size","11px");
+							$("#id").val("").focus();							
+						}else{
+							$("#idCheckMsg").text("사용 가능한 아이디입니다.")
+							.css("color","blue").css("font-size","11px");
+							$("#pass").focus();
+						}
+					}
+				});
+			}
+		}); // 아이디 중복확인 function
+		
+		
+		/*********************
+		회원가입 - 정규 표현식 처리
+	**********************/
+		$("#pass").on("blur",()=>{
+			var regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/;
+			if(!regExp.test($("#pass").val())){
+				$("#passMsg").text("비밀번호는 영문과 숫자, 특수기호를 혼합하여 8자 이상 15자 이내여야 합니다.")
+				.css("color","red").css("font-size","11px");
+				/* alert("비밀번호는 영문과 숫자, 특수기호를 혼합하여 8자 이상 15자 이내여야 합니다."); */
+				$("#pass").val("");
+			}else{
+				$("#passMsg").text("");
+			}
+		});
+		 /* $("#email").on("blur",()=>{
+			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			if(!regExp.test($("#email").val())){
+				alert("올바른 이메일 형식이 아닙니다.");
+				
+			}
+		});  */
+		 
+		
+		function isEmail(asValue){
+			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			return regExp.test(asValue);
+		}
+		
+		/*********************
+			이메일select 박스 선택 시 val 적용 
+		**********************/
+		$("#select_email").change(function(){
+			var select_val = $("#email").val()+"@"+$(this).val();
+			$("#email").val(select_val);
+			
+		});
+	
+	});	
 </script>
 <style>
 .join {
@@ -332,13 +407,14 @@
 								id="id" maxlength="12" value=""
 								 style="ime-mode: disabled;" placeholder="영문 또는 영문+숫자 조합 4~12">
 								 <button type="button" class="btn_style" id="idCheck">중복확인</button>
+								 <div id="idCheckMsg"></div>
 								 </td>
 							
 						</tr>
 						<tr>
 							<th>비밀번호</th>
 							<td><input type="password" class="new_text" name="pass"
-								id="pass" maxlength="15" placeholder="영문,숫자 특수문자 조합 8~15"></td>
+								id="pass" maxlength="15" placeholder="영문,숫자 특수문자 조합 8~15"><span id="passMsg"></span></td>
 						</tr>
 						<tr>
 							<th>비밀번호 확인</th>
@@ -350,8 +426,8 @@
 							<td><input type="text" class="new_text" name="email"
 								id="email" maxlength="50" placeholder="이메일"> <label
 								class="mi-selectbox mi-inline-block mi-group-r5"
-								style="width: 160px"> <select class="mi-input"
-									name="select_email" onchange="fnEmailDomain(this.value, '')">
+								style="width: 160px"> <select class="mi-input" id="select_email"
+									name="select_email">
 										<option value="">직접입력</option>
 										<option value="naver.com">naver.com</option>
 										<option value="gmail.com">gmail.com</option>

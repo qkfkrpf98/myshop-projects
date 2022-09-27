@@ -12,5 +12,10 @@
 				, #{hp}, #{pnumber}, #{addr}, #{birth}, sysdate, 'BASIC'
 				, #{email_check}, #{gender})
 	</insert>
+	
+	<!-- member idcheck-->
+	<select id="idcheck" parameterType="java.lang.String" resultType="int">
+		select count(*) from myshop_member where id = #{id}
+	</select>
 
 </mapper>  

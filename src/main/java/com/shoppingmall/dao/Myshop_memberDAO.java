@@ -18,5 +18,13 @@ public class Myshop_memberDAO {
 		
 		return sqlSession.insert("mapper.member.join", vo);
 	}
+	/**
+	 * idcheck : 아이디 중복확인
+	 */
+	public int idcheck(String id) {
+		//sqlSession 객체의 메소드를 호출하여 실행결과를 가져옴
+		
+		return sqlSession.selectOne("mapper.member.idcheck", id);
+	}
 
 }
