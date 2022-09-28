@@ -28,10 +28,11 @@ public class JoinController {
 		@RequestMapping(value="/joinCheck.do", method=RequestMethod.POST)
 		public ModelAndView joinCheck(Myshop_memberVO vo) {
 			ModelAndView mv = new ModelAndView();
-			System.out.println(vo.getId());
+			/* System.out.println(vo.getId()); */
 			int result = memberService.getJoinResult(vo);
 			
 			if(result == 1){
+				mv.addObject("join_result","ok");
 				mv.setViewName("/login");
 			}else{
 				mv.setViewName("error_page");

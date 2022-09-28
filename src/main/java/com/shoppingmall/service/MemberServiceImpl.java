@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shoppingmall.dao.Myshop_memberDAO;
 import com.shoppingmall.vo.Myshop_memberVO;
+import com.shoppingmall.vo.SessionVO;
 
 public class MemberServiceImpl implements MemberService{
 	@Autowired
@@ -22,5 +23,12 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	public int getIdCheck(String id) {
 		return memberDao.idcheck(id);
+	}
+	
+	/** 
+	 * 로그인 처리
+	 */
+	public SessionVO getLoginResult(Myshop_memberVO vo) {
+		return memberDao.select(vo);
 	}
 }

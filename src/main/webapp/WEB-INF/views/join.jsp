@@ -33,10 +33,10 @@
 				alert("이메일을 입력해주세요");
 				$("#email").focus();
 				return false;
-			}else if(!isEmail($("email").val())){
+			/* }else if(!isEmail($("email").val())){
 				alert("올바른 이메일 형식이 아닙니다.");
 				$("#email").focus();
-				return false;
+				return false; */ 
 			}else if($("#name").val() == ""){
 				alert("성명을 입력해주세요");
 				$("#name").focus();
@@ -145,19 +145,22 @@
 				$("#passMsg").text("");
 			}
 		});
-		 /* $("#email").on("blur",()=>{
+		
+		$("#email").on("blur",()=>{
 			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			if(!regExp.test($("#email").val())){
 				alert("올바른 이메일 형식이 아닙니다.");
-				
+				$("#email").val("").css("border","2px solid red");
+			}else{
+				$("#email").css("border","2px solid green");
 			}
-		});  */
+		});
 		 
 		
-		function isEmail(asValue){
+		/* function isEmail(asValue){
 			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 			return regExp.test(asValue);
-		}
+		} */
 		
 		/*********************
 			이메일select 박스 선택 시 val 적용 
@@ -167,6 +170,9 @@
 			$("#email").val(select_val);
 			
 		});
+		
+		
+
 	
 	});	
 </script>

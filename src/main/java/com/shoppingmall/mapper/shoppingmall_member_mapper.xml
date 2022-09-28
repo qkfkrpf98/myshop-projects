@@ -17,5 +17,12 @@
 	<select id="idcheck" parameterType="java.lang.String" resultType="int">
 		select count(*) from myshop_member where id = #{id}
 	</select>
+	
+	<!-- member login-->
+	<select id="login" parameterType="com.shoppingmall.vo.Myshop_memberVO" resultType="com.shoppingmall.vo.SessionVO">
+		select count(*) loginresult, name, id
+			from myshop_member where id=#{id} and pass=#{pass}
+			group by name, id
+	</select>
 
 </mapper>  
