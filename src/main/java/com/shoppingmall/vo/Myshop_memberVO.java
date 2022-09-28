@@ -77,7 +77,7 @@ public class Myshop_memberVO {
 
 	public String getAddr() {
 		if(addr == null) {
-			return addr1+addr2;
+			return addr1+""+addr2;
 		}else {
 			return addr; 
 		}

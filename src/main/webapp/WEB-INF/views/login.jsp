@@ -5,6 +5,109 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
+<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+<script>
+	let join_result = '${join_result}';  //joincontroller에서 처리상태 알림
+	let login_result = '${login_result}';  //logincontroller 처리상태 알림
+	let auth_result= '${auth}'; //intercetor로 처리상태 알림
+	
+	if(join_result == 'ok'){
+		alert("회원가입에 성공하셨습니다.");
+	}
+	
+	if(auth_result == "fail"){
+		alert("접근 권한이 없습니다. 로그인을 진행해 주세요.");
+	}
+	
+	if(login_result == 'fail'){
+		alert("아이디 또는 패스워드가 다릅니다. 다시 로그인해주세요");	
+	}
+	
+	$(document).ready(function(){
+		
+		/*********************
+		아이디 저장 - 쿠키사용
+	**********************/
+		var key = getCookie("key");  //저장된 쿠키 값 가져오기
+		$("#id").val(key);
+		
+		if($("#id").val() != ""){		//로그인창 로딩시 id입력칸에 값이 있으면
+			$("#checkbox_savaID").attr("checked",true); 	//id 저장하기 체크 상태
+		}
+		
+		$("#checkbox_savaID").change(function(){  
+			if($("checkbox_savaID").is(":checked")){  //아이디 저장에 체크하면
+				setCookie("key",$("#id").val(), 7);  //7일 동안 쿠키 보관
+			}else{
+				deleteCookie("key");
+			}
+		});
+		
+		//아이디 저장하기 체크 상태에서 id를 입력하는 경우
+		$("#id").keyup(function(){
+			if($("#checkbox_savaID").is(":checked")){
+				setCookie("key",$("#id").val(),7);
+			}
+		})
+		
+		//쿠키 저장하기 함수
+		function setCookie(cookieName, value, exdays){
+			var exdate = new Date();
+			exdate.setDate(exdate.getDate()+ exdays); //유효 기간 계산
+			var cookieValue = escape(value) + ((exdays ==null)? "" : "; expires="+exdate.toGMTString());
+			document.cookie = cookieName + "=" + cookieValue;
+		}
+		
+		//쿠기 가져오기
+		function getCookie(cookieName){
+			cookieName = cookieName + '=';
+			var cookieData = document.cookie;
+			var start = cookieData.indexOf(cookieName);
+			var cookieValue = '';
+			if (start != -1) { // 쿠키가 존재하면
+				start += cookieName.length;
+				var end = cookieData.indexOf(';', start);
+				if (end == -1) // 쿠키 값의 마지막 위치 인덱스 번호 설정 
+					end = cookieData.length;
+	               /*  console.log("end위치  : " + end); */
+				cookieValue = cookieData.substring(start, end);
+			}
+			return unescape(cookieValue);
+			
+		}
+		//쿠기 삭제
+		function deleteCookie(cookieName){
+			var expireDate = new Date();
+			expireDate.setDate(expireDate.getDate() - 1);
+			document.cookie = cookieName + "= " + "; expires="
+					+ expireDate.toGMTString();
+		}
+		
+		
+		
+		
+		
+		/*********************
+			로그인 처리-유효성 체크
+		**********************/
+		$("#btnLogin").click(function(){
+			if($("#id").val() == ""){
+				alert("아이디를 입력해주세요");
+				$("#id").focus();
+				return false;
+			}else if($("#pass").val() == ""){
+				alert("패스워드를 입력해주세요");
+				$("#pass").focus();
+				return false;
+			}else{
+				//서버전송
+				loginForm.submit();
+			}
+		});
+		
+	});
+</script>
 <style>
 	/* 폰트적용 */
     html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
@@ -214,16 +317,16 @@
 						      <input type="radio" id="tab-1" name="tab-group-1" checked>
 						      <label class="tab-1" for="tab-1">회원로그인</label>
 						      <div class="content">
-						        <form name="loginForm" action="" method="">
+						        <form name="loginForm" action="loginCheck.do" method="post">
 						        	<div class="default">
 						        		<div class = "login_box">
-						        			<input type="text" class="LoginID" placeholder="아이디">
-						        			<input type="password" class="LoginPW" placeholder="패스워드">
-						        			<button type="submit" class="btnLogin">로그인</button>
+						        			<input type="text" class="LoginID" name="id" id="id" placeholder="아이디">
+						        			<input type="password" class="LoginPW" name="pass" id="pass" placeholder="패스워드">
+						        			<button type="button" class="btnLogin" id="btnLogin">로그인</button>
 						        		</div>
 						        		<div class="login_addon">
 						        			<div class="saveID">
-						        				<input type="checkbox" class="checkbox_savaID">아이디 저장
+						        				<input type="checkbox" class="checkbox_savaID" id="checkbox_savaID">아이디 저장
 						        			</div>
 						        			<div class="find_lnfo">
 						        				<a href="/find_id">아이디 찾기</a>
@@ -233,7 +336,7 @@
 						        		</div>
 						        		<div class="social_login">
 						        			<div class="kakao_login">
-						        				<button type="button" class="kakao_login_box" onclick="window.open('https://kauth.kakao.com/oauth/authorize?client_id=68b2f8ac84a0230855cd96fe9a508f5f&redirect_uri=https%3A%2F%2Fm.mustit.co.kr%2Fmember%2Fkakao_login_callback&state=web||%2Fmain%2Findex||5a6e22875368245b44e75c80c10625cb||&encode_state=true&response_type=code', '카카오 계정으로 로그인', 'width=320, height=480, toolbar=no, location=no');">
+						        				<button type="button" class="kakao_login_box" onclick="window.open('https://kauth.kakao.com/oauth/authorize?client_id=2d1a1cde6ff91abdc242dae6596db50f&redirect_uri=http://localhost:9000/myshop/oauth&response_type=code', '카카오 계정으로 로그인', 'width=320, height=480, toolbar=no, location=no');">
 						        					<i class="icon-simple-login-v2 kakao" id="kakao_icon"></i>카카오로 시작하기
 						        				</button>
 						        			</div>
