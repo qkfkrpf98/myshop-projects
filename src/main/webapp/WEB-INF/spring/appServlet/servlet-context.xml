@@ -30,10 +30,12 @@
 	<!-- dao 객체 생성 :  -->
 	<beans:bean id="memberDao"  class="com.shoppingmall.dao.Myshop_memberDAO"></beans:bean>
 	
+	<!-- Interceptor 객체 생성 -->
+	<beans:bean id="authInterceptor"  class="com.shoppingmall.interceptor.AuthInterceptor"></beans:bean>
+	
+	
 	<context:component-scan base-package="com.spring.myshop" />
 	<context:component-scan base-package="com.spring.controller"/>
-
-
 	
 	
 	
