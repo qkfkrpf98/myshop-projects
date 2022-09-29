@@ -17,11 +17,7 @@ public class MainController {
 		return "myshop";
 	}
 	
-	//로그인 페이지 
-	@RequestMapping(value="/login.do", method=RequestMethod.GET)
-	public String login() {
-		return "login";
-	}
+	
 	//관리자 - Home페이지
 	@RequestMapping(value="/admin.do", method=RequestMethod.GET)
 	public String admin() {
@@ -87,5 +83,11 @@ public class MainController {
 	public String admin_qna_list() {
 		return "/admin/admin_qna_list";
 	}
+	//메인화면 테스트
+	@RequestMapping(value="/indextest.do", method=RequestMethod.GET)
+	public String indextest() {
+		return "/indextest";
+	}
+	
 
 }
