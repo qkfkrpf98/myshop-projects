@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mapper.notice">
+	<!-- notice join-->
+	<insert id="insert" parameterType="com.shoppingmall.vo.Myshop_noticeVO">
+		insert into myshop_notice
+			values('n_'||sequ_myshop_notice.nextval,#{ntitle}, #{ncontent}, #{nfile}, #{nsfile}, #{ncrucial}, #{nsdate}, #{nedate})
+	</insert>
+
+</mapper>  

@@ -123,7 +123,8 @@
 						</div>
 						<div class="heading_right">
 							<button type="button" class="btn_delete">선택 삭제</button>
-							<button type="button">공지사항 등록</button>
+							<a href="admin_notice_write.do">
+							<button type="button">공지사항 등록</button></a>
 						</div>
 					</div>
 					<div class="list_content">

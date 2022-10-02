@@ -33,20 +33,26 @@
 				alert("이메일을 입력해주세요");
 				$("#email").focus();
 				return false;
-			/* }else if(!isEmail($("email").val())){
-				alert("올바른 이메일 형식이 아닙니다.");
-				$("#email").focus();
-				return false; */ 
-			}else if($("#name").val() == ""){
-				alert("성명을 입력해주세요");
-				$("#name").focus();
+			}else if($("#select_email").val() == "default"){
+				alert("주소를 선택해주세요");
+				$("#select_email").focus();
 				return false;
 			}else if($(".hp_check").val()=="defalt"){
-				alert("통신사를 선택해주세요");
-				return false;
+				if(email_regExp()== false){
+					alert("올바른 이메일 형식이 아닙니다.");
+					$("#email").focus();
+				}else{
+					alert("통신사를 선택해주세요");
+					$("#hp").focus();
+					return false;
+				}
 			}else if($("#pnumber").val() == ""){
 				alert("폰번호를 입력해주세요");
 				$("#pnumber").focus();
+				return false;
+			}else if($("#name").val() == ""){
+				alert("성명을 입력해주세요");
+				$("#name").focus();
 				return false;
 			}else if($("#addr1").val() == ""){
 				alert("주소를 입력해주세요");
@@ -132,7 +138,7 @@
 		
 		
 		/*********************
-		회원가입 - 정규 표현식 처리
+		회원가입 - 비밀번호 재확인 처리
 	**********************/
 		$("#pass").on("blur",()=>{
 			var regExp = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,15}$/;
@@ -146,32 +152,48 @@
 			}
 		});
 		
-		$("#email").on("blur",()=>{
-			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-			if(!regExp.test($("#email").val())){
-				alert("올바른 이메일 형식이 아닙니다.");
-				$("#email").val("").css("border","2px solid red");
-			}else{
-				$("#email").css("border","2px solid green");
-			}
-		});
-		 
-		
-		/* function isEmail(asValue){
-			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-			return regExp.test(asValue);
-		} */
 		
 		/*********************
-			이메일select 박스 선택 시 val 적용 
-		**********************/
+		회원가입 - 이메일 정규식 확인 & email 선택박스 처리
+	**********************/	
 		$("#select_email").change(function(){
-			var select_val = $("#email").val()+"@"+$(this).val();
-			$("#email").val(select_val);
-			
+			if($(this).val()=="self"){
+				$("#email").focus();
+			}else{
+				var select_val = $("#email").val()+"@"+$(this).val();
+				$("#email").val(select_val);
+			}
 		});
 		
+		/*********************
+		회원가입 - 본인인증(인증번호 발송)
+	**********************/
+		$("#self_auth_btn").click(function(){
+			if($("#pnumber").val()==""){
+				alert("번호를 입력해주세요");
+				$("#pnumber").focus();
+			}else{  //올바른 이메일 일 경우
+				$.ajax({
+					url:"sendmess.do?pnumber="+$("#pnumber").val(),
+					success:function(code){
+						
+						alert("code="+code);
+						$("#self_auth_hidden").val(code);
+					}
+				});
+			}	
+		}); 
 		
+		/*********************
+		회원가입 - 본인인증(인증번호 비교)
+	**********************/
+		$("#self_auth_key").blur(function(){
+			if($("#self_auth_key").val()==$("#self_auth_hidden").val()){
+				alert("인증번호가 일치합니다");
+			}else{
+				alert("인증번호가 일치하지 않습니다.")
+			}
+		});
 
 	
 	});	
@@ -434,7 +456,8 @@
 								class="mi-selectbox mi-inline-block mi-group-r5"
 								style="width: 160px"> <select class="mi-input" id="select_email"
 									name="select_email">
-										<option value="">직접입력</option>
+										<option value="">선택</option>
+										<option value="self">직접입력</option>
 										<option value="naver.com">naver.com</option>
 										<option value="gmail.com">gmail.com</option>
 										<option value="hanmail.net">hanmail.net</option>
@@ -445,9 +468,28 @@
 							</label> </td>
 						</tr>
 						<tr>
-							<th colspan="2">휴대폰번호, 이름, 생년월일은 '본인인증' 확인 후 자동 입력됩니다.<input
-								type="button" value="본인인증" class="btn_mwhite mi-group-l10"
-								onclick="popCheckPlusSafe('seller');"></th>
+							<th>휴대폰번호</th>
+							<td>
+								<div>
+									<select name="hp" id="hp" class="hp_check">
+										<option value="defalt">통신사 선택</option>
+										<option value="SK">SK</option>
+										<option value="LG">LG</option>
+										<option value="KT">KT</option>
+									</select>
+								</div>
+								<div>
+									<input type="text" class="new_text seller_phone" name="pnumber"
+										id="pnumber" maxlength="20" value=""
+										style="background-color: #f8f8f8;">
+									<input type="button" value="인증번호받기" class="btn_mwhite mi-group-l10" id="self_auth_btn">
+								</div>
+								<div>
+									<input type="text" id="self_auth_key" value="" placeholder="인증번호 입력하세요">
+									<input type="hidden" id="self_auth_hidden" value="">
+								</div>
+								
+							</td>
 						</tr>
 						<tr>
 							<th>이름</th>
@@ -467,25 +509,6 @@
 						</tr>
 
 
-						<tr>
-							<th>휴대폰번호</th>
-							<td>
-								<div>
-									<select name="hp" id="hp" class="hp_check">
-										<option value="defalt">선택</option>
-										<option value="SK">SK</option>
-										<option value="LG">LG</option>
-										<option value="KT">KT</option>
-									</select>
-								</div>
-								<div>
-									<input type="text" class="new_text seller_phone" name="pnumber"
-										id="pnumber" maxlength="20" value=""
-										style="background-color: #f8f8f8;"> <input
-										type="hidden" id="chk_phone">
-								</div>
-							</td>
-						</tr>
 						<tr>
 							<th>주소입력</th>
 							<td>
