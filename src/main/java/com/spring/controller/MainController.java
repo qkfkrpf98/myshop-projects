@@ -18,33 +18,6 @@ public class MainController {
 	}
 	
 	
-	//관리자 - Home페이지
-	@RequestMapping(value="/admin.do", method=RequestMethod.GET)
-	public String admin() {
-		return "/admin/admin";
-	}
-	
-	//관리자 - 상품관리 페이지 
-	@RequestMapping(value="/admin_product_list.do", method=RequestMethod.GET)
-	public String admin_product_list() {
-		return "/admin/admin_product_list";
-	}
-	//관리자 - 사용자관리/메세지 페이지
-	@RequestMapping(value="/admin_message.do", method=RequestMethod.GET)
-	public String admin_message() {
-		return "/admin/admin_message";
-	}
-	//관리자 - 주문관리/주문내역 페이지
-	@RequestMapping(value="/admin_order_management.do", method=RequestMethod.GET)
-	public String admin_order_management() {
-		return "/admin/admin_order_management";
-	}
-	//관리자 - 주문관리/주문취소 페이지
-	@RequestMapping(value="/admin_order_cancel_management.do", method=RequestMethod.GET)
-	public String admin_order_cancel_management() {
-		return "/admin/admin_order_cancel_management";
-	}
-	
 	//상품페이지
 	@RequestMapping(value="/product_list.do", method=RequestMethod.GET)
 	public String product_list() {
@@ -68,21 +41,6 @@ public class MainController {
 		return "notice_board";
 	}
 	
-	//리뷰 리스트
-	@RequestMapping(value="/admin_ReviewList.do", method=RequestMethod.GET)
-	public String admin_ReviewList() {
-		return "/admin/admin_ReviewList";
-	}
-	//공지사항 리스트
-	@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
-	public String admin_notice_list() {
-		return "/admin/admin_notice_list";
-	}
-	//q&a 리스트
-	@RequestMapping(value="/admin_qna_list.do", method=RequestMethod.GET)
-	public String admin_qna_list() {
-		return "/admin/admin_qna_list";
-	}
 	//메인화면 테스트
 	@RequestMapping(value="/indextest.do", method=RequestMethod.GET)
 	public String indextest() {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.service.MemberServiceImpl;
@@ -48,5 +49,16 @@ public class LoginController {
 		return mv;
 	}
 	
+	
+	//본인인증
+	@ResponseBody
+	@RequestMapping(value="/sendmess.do", method=RequestMethod.GET)
+	public String sendmess(String pnumber) {
+		
+		String code= memberService.sendRandomMessage(pnumber);
+		
+		
+		return code;
+	}
 		
 }

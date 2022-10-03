@@ -102,15 +102,10 @@
 		  }
 	 });
 	 
-	  /* 선택된 리스트가 없으면 선택 삭제 불가 알림 */
-		 $(".btn_delete").click(function(){
-			 if($("input[name=check]:checked").length < 1){
-				 alert("선택된 리스트가 없습니다.");
-			 }else{
-				 alert("삭제");
-			 }
-			
-		 });
+	  /* 선택된 리스트가 없으면 선택 삭제 불가 알림, 선택한 게시판 삭제 */
+		 
+		 
+		 
 		 
 		 
    });

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,45 @@
     <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>회원 관리페이지</title>
+<script>
+$(document).ready(function(){
+	
+	$(".btn_delete").click(function(){
+		 var cnt = $("input[name=check]:checked").length;
+		 var delete_list = new Array();
+		 if(cnt < 1){
+			 alert("선택된 리스트가 없습니다.");
+		 }else{
+		 	 $("input[name=check]:checked").each(function(){
+		 	 	delete_list.push($(this).val());
+		 	 });
+		 	 /* for(var i =0; i<delete_list.length; i++){
+				alert(delete_list[i]+"삭제");
+		 	 } */
+		 	 if(confirm("선택한 항목을 정말 삭제하시겠습니까?")==true){
+		 		 alert(cnt);
+			 	$.ajax({
+			 		type: "POST",
+			 		url:"admin_notice_list_delete.do",
+			 		data: "delete_list=" +delete_list+ "&CNT=" +cnt,
+			 		traditional : true,
+			 		dataType:"json",
+			 		success:function(result){
+			 			if(result != 1){
+			 				alert("삭제 오류");
+			 			}else{
+			 				alert("삭제 성공");
+			 			}
+			 		}//success
+			 	}); 
+			 	 
+		 	 }//if문
+		 }//if-else
+		
+	});
+})
 
+</script>
 </head>
 <body>
     <input type="checkbox" id="nav-toggle">
@@ -119,11 +158,12 @@
 				<div class="seller_list">
 					<div class="list_heading">
 						<div class="heading_left">
-							<h3>공지사항 목록(총 200개)</h3>
+							<h3>공지사항 목록(총 ${totalcount}개)</h3>
 						</div>
 						<div class="heading_right">
 							<button type="button" class="btn_delete">선택 삭제</button>
-							<button type="button">공지사항 등록</button>
+							<a href="admin_notice_write.do">
+							<button type="button">공지사항 등록</button></a>
 						</div>
 					</div>
 					<div class="list_content">
@@ -133,13 +173,38 @@
 									<th><input type="checkbox" class="notice_check" name="checkAll"></th>
 									<th>번호</th>
 									<th>제목</th>
-									<th>분류</th>
 									<th>중요 여부</th>
-									<th>등록일</th>
+									<th>첨부 파일 유무</th>
 									<th>전시 시작일</th>
 									<th>전시 종료일</th>
 								</tr>
+							    <c:forEach var="vo" items="${list}">
 								<tr>
+									<td><input type="checkbox" class="notice_check" name="check" value="${vo.nid}"></td>
+									<td><a href="admin_notice_update.do?nid=${vo.nid}">${vo.nid}</a></td>
+									<td>${vo.ntitle}</td>
+									<c:choose>
+										<c:when test="${vo.ncrucial == 1 }">
+											<td>설정</td>
+										</c:when>
+										<c:otherwise>
+											<td>미 설정</td>
+										</c:otherwise>
+									</c:choose>
+									<td>${vo.nfile}</td>
+									<td>${vo.nsdate}</td>
+									<td>${vo.nedate}</td>
+									<%-- <c:choose>
+										<c:when test="${vo.nedate == 9999-12-31 }">
+											<td>-</td>
+										</c:when>
+										<c:otherwise>
+											<td>${vo.nedate}</td>
+										</c:otherwise>
+									</c:choose> --%>
+								<tr>
+								</c:forEach>
+								<!-- <tr>
 									<td><input type="checkbox" class="notice_check" name="check"></td>
 									<td>200581287</td>
 									<td>알립니다!</td>
@@ -158,7 +223,7 @@
 									<td>2022/09/23</td>
 									<td>2022/09/23</td>
 									<td>2022/10/23</td>
-								</tr>	
+								</tr> -->	
 							</table>
 						</div>
 					</div>

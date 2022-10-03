@@ -1,10 +1,14 @@
 package com.shoppingmall.service;
 
+import java.util.Random;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shoppingmall.dao.Myshop_memberDAO;
+import com.shoppingmall.dao.Naver_Sens_V2;
 import com.shoppingmall.vo.Myshop_memberVO;
 import com.shoppingmall.vo.SessionVO;
+
 
 public class MemberServiceImpl implements MemberService{
 	@Autowired
@@ -30,5 +34,23 @@ public class MemberServiceImpl implements MemberService{
 	 */
 	public SessionVO getLoginResult(Myshop_memberVO vo) {
 		return memberDao.select(vo);
+	}
+	
+	/** 
+	 * 본인인증 처리 난수 발송
+	 */
+	public String sendRandomMessage(String pnumber){
+	    Naver_Sens_V2 message = new Naver_Sens_V2();
+	    Random rand = new Random();
+	    String numStr = "";
+	    for (int i = 0; i < 6; i++) {
+	        String ran = Integer.toString(rand.nextInt(10));
+	        numStr += ran;
+	    }
+	    System.out.println("회원가입 문자 인증 => " + numStr);
+
+	    message.send_msg(pnumber, numStr);
+
+	    return numStr;
 	}
 }
