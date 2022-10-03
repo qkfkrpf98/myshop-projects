@@ -81,6 +81,7 @@ public class Myshop_noticeVO {
 		}
 	}
 	public void setNedate(String nedate) {
+		
 		this.nedate = nedate;
 	}
 	
