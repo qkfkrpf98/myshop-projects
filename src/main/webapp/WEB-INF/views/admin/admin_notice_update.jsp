@@ -58,8 +58,10 @@
 				
 		});
 		
+		//전시 기간 재설정
 		$("#ncrucial_check").click(function(){
 			if($("#ncrucial_check").is(":checked")){
+				
 				$("#ncrucial").val("1");
 				/* alert($("#ncrucial").val()); */
 			}else{

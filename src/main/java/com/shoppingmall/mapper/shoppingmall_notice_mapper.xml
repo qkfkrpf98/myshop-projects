@@ -8,12 +8,13 @@
 	<!-- notice join-->
 	<insert id="insert" parameterType="com.shoppingmall.vo.Myshop_noticeVO">
 		insert into myshop_notice
-			values('n_'||sequ_myshop_notice.nextval,#{ntitle}, #{ncontent}, #{nfile}, #{nsfile}, #{ncrucial}, #{nsdate}, #{nedate})
+			values('n_'||sequ_myshop_notice.nextval,#{ntitle}, #{ncontent}, #{ncode}, #{nfile}, #{nsfile}, #{ncrucial}, #{nsdate}, #{nedate})
 	</insert>
 	
 	<!-- notice select_all-->
 	<select id="select_all" resultType="com.shoppingmall.vo.Myshop_noticeVO">
-		select nid, ntitle, ncrucial, nfile ,nsdate, nedate from myshop_notice
+		select rownum rno, nid, ntitle, ncrucial, nfile ,nsdate, nedate, ncode
+				from(select nid, ntitle, ncrucial, nfile ,nsdate, nedate, ncode from myshop_notice)
 	</select>
 	
 	<!-- notice total_count-->

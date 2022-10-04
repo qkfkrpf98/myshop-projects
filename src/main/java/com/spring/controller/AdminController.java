@@ -1,15 +1,15 @@
 package com.spring.controller;
 
 import java.util.ArrayList;
-import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -75,24 +75,27 @@ public class AdminController {
 		//관리자 - 공지사항 리스트에서 선택 삭제(다중삭제) - ajax
 		@ResponseBody
 		@RequestMapping(value="/admin_notice_list_delete.do", method=RequestMethod.POST)
-		public int admin_notice_list_delete(Map<String,Object> commandMap) throws Exception{
+		public int admin_notice_list_delete(@RequestParam(value="clist[]") ArrayList<String> clist) {
 			int result = 0;
-			System.out.println((String)commandMap.get("CNT"));
-			System.out.println((String)commandMap.get("delete_list"));
-			try {
-				int cnt = Integer.parseInt((String)commandMap.get("CNT"));
-				String delete_notice = (String)commandMap.get("delete_list");
-				String [] delete_list = delete_notice.split(",");
-				for(int i=0; i<cnt; i++) {
-					String nid = (String)delete_list[i];
-					result = noticeService.getDelete(nid);
-				}
-				
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-			
-			
+			System.out.println("11111");
+			for(String nid : clist) {
+	            System.out.println(nid);
+	            result = noticeService.getDelete(nid);
+	        }
+		
+//			try {
+//				int cnt = Integer.parseInt((String) commandMap.get("CNT"));
+//				String delete_notice = (String) commandMap.get("delete_list");
+//				String[] delete_list = delete_notice.split(",");
+//				for (int i = 0; i < cnt; i++) {
+//					String nid = (String) delete_list[i];
+//					result = noticeService.getDelete(nid);
+//				}
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+
 			return result;
 		}
 		

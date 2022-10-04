@@ -274,6 +274,16 @@
 							<div class="flame">
 								<table class="write_table">
 									<tr>
+										<th>분류
+										</th>
+										<td>
+												<select name="ncode">
+												<option value="notice">공지</option>
+												<option value="event">이벤트</option>
+												</select>
+										</td>
+									</tr>
+									<tr>
 										<th>제목</th>
 										<td><input type="text" id="ntitle" name="ntitle" class="textbox"
 											placeholder="제목을 입력해 주세요"> <input type="checkbox"
