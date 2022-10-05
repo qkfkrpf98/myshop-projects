@@ -40,7 +40,8 @@ public class Myshop_noticeDAO {
 	 * delete : 공지사항 삭제
 	 */
 	public int delete(String nid) {
-		return sqlSession.delete(namespace+".total_count",nid);
+		System.out.println("dao진입");
+		return sqlSession.delete(namespace+".delete",nid);
 	}
 
 	/**

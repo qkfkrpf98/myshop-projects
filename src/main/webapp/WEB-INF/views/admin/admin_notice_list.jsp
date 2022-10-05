@@ -11,56 +11,10 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_notice_list.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>회원 관리페이지</title>
-<script>
-$(document).ready(function(){
-	
-	$(".btn_delete").click(function(){
-		 var cnt = $("input[name=check]:checked").length;
-		 /*var delete_list = new Array();
-		 var aJson = new Object();
-		 var aJsonArray = new Array(); */
-		 if($("input[name=check]:checked").length == 0){
-			 alert("선택된 리스트가 없습니다.");
-		 }else{
-			
-			 var delete_list = new Array();
-			 
-		 	 $("input[name=check]:checked").each(function(){
-		 	 	delete_list.push($(this).val());
-		 	 });
-		 	 
-		 	
-		 	//var obj = JSON.stringify(delete_list);
-		 	//alert(obj);
-		 	
-		 	 if(confirm("선택한 항목을 정말 삭제하시겠습니까?")==true){
-		 		 /* alert(cnt); */
-		 		 
-			 	$.ajax({
-			 		url:"admin_notice_list_delete.do",
-			 		type: "POST",
-			 		data: {clist: delete_list},
-			 		dataType:"json",
-			 		success:function(result){
-			 			if(result != 1){
-			 				alert("삭제 오류");
-			 			}else{
-			 				alert("삭제 성공");
-			 			}
-			 		}//success
-			 	}); 
-			 	 
-		 	 }//if문 
-		 	
-		 }//if-else
-		
-	});
-})
 
-</script>
 </head>
 <body>
     <input type="checkbox" id="nav-toggle">

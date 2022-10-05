@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_ReviewList.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
    <!--폰트어썸 최신 CDN-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">

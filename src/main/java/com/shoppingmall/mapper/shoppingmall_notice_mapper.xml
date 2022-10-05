@@ -29,11 +29,11 @@
 	
 	<!-- notice select-->
 	<select id="select" parameterType="java.lang.String" resultType="com.shoppingmall.vo.Myshop_noticeVO">
-		select nid, ntitle, ncontent, ncrucial, nfile ,nsdate, nedate from myshop_notice where nid=#{nid}
+		select nid, ncode, ntitle, ncontent, ncrucial, nfile ,nsdate, nedate from myshop_notice where nid=#{nid}
 	</select>
 	<!-- notice update-->
 	<update id="update" parameterType="com.shoppingmall.vo.Myshop_noticeVO">
-		update myshop_notice set ntitle=#{ntitle}, ncontent=#{ncontent}, nfile=#{nfile}, nsfile=#{nsfile} , ncrucial=#{ncrucial}, nsdate=#{nsdate}, nedate=#{nedate}
+		update myshop_notice set ncode=#{ncode}, ntitle=#{ntitle}, ncontent=#{ncontent}, nfile=#{nfile}, nsfile=#{nsfile} , ncrucial=#{ncrucial}, nsdate=#{nsdate}, nedate=#{nedate}
 		 where nid=#{nid}
 	</update>
 </mapper>  
