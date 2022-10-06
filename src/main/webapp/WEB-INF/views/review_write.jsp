@@ -13,21 +13,53 @@
 		text-align:center;
 		padding: 20px;
 	}
-	.flame{
-		border:1px solid red;
-	}
+	
 	span{
 		padding:10px; 5px;
 		display:block;
 		font-size:20px;
 		font-weight:bold;
 	}
+	/* 상품정보 */
 	.product_info{
-		border:1px solid gray;
+		/* border:1px solid gray; */
 		border-radius:5px;
 		width:100%;
-		height:200px;
 		display: inline-block;
+	}
+	.pro_flame{
+		margin:20px;
+		border:1px solid gray;
+	}
+	
+	 .pro_img{
+		border:1px solid black;
+		width:150px;
+		height:140px;
+		float:left;
+		border-radius:5px;
+		margin-right:10px;
+	}
+	.pro_text{
+		text-align:left;
+	}
+	.pro_text ul{
+		list-style:none;
+	}
+	.pro_text li{
+		margin-bottom:20px;
+	}
+	.pro_text li a{
+		color:gray;
+	}
+	.pro_text li:nth-child(2){
+		font-size:15px;
+		font-weight:bold;
+	}
+	.pro_text li:last-child{
+		color:#a00;
+		font-size:20px;
+		font-weight:bold;
 	}
 	
 	/*  별점주기 */
@@ -56,12 +88,12 @@
 	.rcontent{
 		width:95%;
 		height:150px;
-		
+		margin-bottom:20px;
+		border:1px solid #878787;
 	}
 	
 	/* 첨부파일 */
 	.filebox input[type="file"] {
-		border:1px solid red;
 	    position: absolute;
 	    width: 0;
 	    height: 0;
@@ -77,7 +109,7 @@
 	    cursor: pointer;
 	    width:80%;
 	    border:1px solid #a00;
-	    margin-bottom:10px;
+	    margin:20px 0 10px 0;
 	}
 	
 	
@@ -93,11 +125,21 @@
 </style>
 </head>
 <body>
-	<form name="reviewwriteForm" action="review_write_check.do" method="post" enctype="multipart/form-data">
 		<div class="review_write">
+			<form name="reviewwriteForm" action="review_write_check.do" method="post" enctype="multipart/form-data">
 			<div class="flame">
-				<span>상품정보</span>
 				<div class="product_info">
+					<div class="pro_flame">
+						<div class="pro_img">
+						</div>
+						<div class="pro_text">
+							<ul>
+								<li>상품제목/<a>옵션</a></li>
+								<li>브랜드</li>
+								<li>가격</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 				<span>상품에 만족하셨나요?</span>
 				<div class="score_star">
@@ -107,16 +149,15 @@
 			        <input type="radio" name="rating" value="2" id="rate4"><label for="rate4">⭐</label>
 			        <input type="radio" name="rating" value="1" id="rate5"><label for="rate5">⭐</label>
 				</div>
-				<span>간단하게 리뷰를 작성해 주세요!</span>
-				<input type="text" class="rcontent">
-				<span>사진 업로드</span>
 				<div class="filebox">
 					<label for="file1"><span class="material-symbols-outlined">add_a_photo</span><a>사진 추가하기(0/1)</a></label> 
 					<input type="file" id="file1" name="file1">
 				</div>
+				<span>간단하게 리뷰를 작성해 주세요!</span>
+				<input type="text" class="rcontent">
 				<button type="button" class="btn_style"><span>리뷰 남기기</span></button>
 			</div>
+			</form>
 		</div>
-	</form>
 </body>
 </html>

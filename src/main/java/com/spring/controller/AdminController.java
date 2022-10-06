@@ -26,9 +26,9 @@ public class AdminController {
 		private NoticeServiceImpl  noticeService;
 		
 		//관리자 - 리뷰 리스트
-		@RequestMapping(value="/admin_ReviewList.do", method=RequestMethod.GET)
-		public String admin_ReviewList() {
-			return "/admin/admin_ReviewList";
+		@RequestMapping(value="/admin_review_list.do", method=RequestMethod.GET)
+		public String admin_review_list() {
+			return "/admin/admin_review_list";
 		}
 		//관리자 - 공지사항 리스트
 		@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
@@ -52,18 +52,14 @@ public class AdminController {
 		public ModelAndView admin_notice_write_check(Myshop_noticeVO vo, HttpServletRequest request)
 			throws Exception{
 			ModelAndView mv = new ModelAndView();
-			System.out.println(vo.getNtitle());
-			System.out.println(vo.getNcontent());
-			System.out.println(vo.getNcrucial());
-			System.out.println(vo.getNsdate());
-			System.out.println(vo.getNedate());
 			
 			vo = fileService.fileCheck(vo);
+			System.out.println(vo.getNsfile());
 			int result = noticeService.getWriteResult(vo);
 			
 			if(result == 1){			
 				fileService.fileSave(vo, request);
-				mv.setViewName("redirect:/admin_notice_list.do");
+				mv.setViewName("redirect:/admin_notice.do");
 			}else{
 
 				mv.setViewName("error_page");

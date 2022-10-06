@@ -170,12 +170,12 @@
 					</div>
 					<div class="list_content">
 						<div class="table_flame">
-							<table class="list_table">
+							<table class="list_table" style="table-layout: fixed;" >
 								<tr>
 									<th><input type="checkbox" class="review_check" name="checkAll"></th>
 									<th>리뷰 상품명</th>
 									<th>상품 카테고리</th>
-									<th>리뷰 제목</th>
+									<th>리뷰 내용</th>
 									<th>리뷰 작성자</th>
 									<th>사용자 평점</th>
 									<th>사진 첨부유무</th>
@@ -186,7 +186,7 @@
 									<td><input type="checkbox" class="review_check" name="check"></td>
 									<td>22SS 톰브라운 셔츠 히든 옥스퍼트 White</td>
 									<td>셔츠</td>
-									<td>굿</td>
+									<td>굿ㅁㄴㅇㅁㄴㅇㅁㅊㄴㅁㅊㅊㅁㄴㅊㅁㄴㅊㅊㅊㅊㅇㄴㅇㅍㅇㄴㅍㅇㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㅍㄴㅇㅍㄴㅇㅍㄴㅇㅍㄴㅊㄴㅇㅇㅊㅁㅈㅇㅊㄴㅇㄴㅍㄷ</td>
 									<td>강**</td>
 									<td>5.0</td>
 									<td>유</td>

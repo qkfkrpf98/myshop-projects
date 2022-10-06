@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="mapper.review">
+	<insert id="insert" parameterType="com.shoppingmall.vo.Myshop_reviewVO">
+		insert into myshop_review
+			values ('r_'||sequ_myshop_review.nextval, #{pid}, #{pname}, #{pcategory_id}, #{id}, #{score}, #{rcontent}, #{rfile}, #{rsfile}, 0, sysdate)
+	</insert>
+</mapper>

@@ -294,6 +294,7 @@ td {padding: .5rem 1rem; font-size: .9rem; color: #222;}
 		/* height: 500px; */
 	    border: 1px solid #dbdde2;
 	    border-collapse: collapse;
+	    text-overflow: ellipsis; 
 	}
 	.list_table td{
 		/* padding: 1em .5em; */
@@ -302,8 +303,21 @@ td {padding: .5rem 1rem; font-size: .9rem; color: #222;}
 		border: 1px solid #dbdde2;
 		text-align: center;
 		/* padding:10px; */
-		
+		white-space: nowrap;
+  		text-overflow: ellipsis;
+		overflow:hidden;
 	}
+	
+	.list_table th:nth-child(1){
+		width:50px;
+	}
+	.list_table th:nth-child(2){
+		width:350px;
+	}
+	.list_table th:nth-child(4){
+		width:350px;
+	}
+	
 	.list_table th{
 		vertical-align: middle;
 		background: var(--main-color);

@@ -102,7 +102,7 @@
 		  }
 	 });
 	 
-	  /* 선택된 리스트가 없으면 선택 삭제 불가 알림, 선택한 게시판 삭제 */
+	  /* 공지사항 - 선택된 리스트가 없으면 선택 삭제 불가 알림, 선택한 게시판 삭제 */
 		$(".btn_delete").click(function(){
 		 var cnt = $("input[name=check]:checked").length;
 		 /*var delete_list = new Array();
