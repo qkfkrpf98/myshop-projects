@@ -10,4 +10,5 @@ public interface ReviewService {
 	int getTotalCount();
 	int getDelete(String rid);
 	Myshop_reviewVO getContent(String rid);
+	ArrayList<Myshop_reviewVO> getList(int startCount, int endCount);
 }

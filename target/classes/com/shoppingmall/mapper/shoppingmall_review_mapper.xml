@@ -23,4 +23,11 @@
 	<select id="content" parameterType="java.lang.String" resultType="com.shoppingmall.vo.Myshop_reviewVO">
 		select score, id, to_char(rdate, 'yyyy-mm-dd') rdate, rcontent, pname, recom, rsfile from myshop_review where rid = #{rid}
 	</select>
+	<select id="selectAll" parameterType="map" resultType="com.shoppingmall.vo.Myshop_reviewVO">
+		select rno, rid, pname, pcategory_id, rcontent, id, score, rfile, recom, rdate
+		from(select rownum rno, rid, pname, pcategory_id, rcontent, id, score, rfile, recom, rdate
+		from(select rid, pname, pcategory_id, rcontent, id, score, rfile, recom, to_char(rdate, 'yyyy-mm-dd') rdate
+			from myshop_review))
+			where rno between #{start} and #{end}
+	</select>
 </mapper>

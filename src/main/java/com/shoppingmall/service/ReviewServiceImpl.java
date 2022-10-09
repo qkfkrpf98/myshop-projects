@@ -30,4 +30,7 @@ public class ReviewServiceImpl implements ReviewService{
 	public Myshop_reviewVO getContent(String rid) {
 		return reviewDao.select(rid);
 	}
+	public ArrayList<Myshop_reviewVO> getList(int startCount, int endCount) {
+		return reviewDao.selectAll(startCount,endCount);
+	}
 }

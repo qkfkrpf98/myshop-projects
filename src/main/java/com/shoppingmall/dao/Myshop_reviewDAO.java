@@ -1,7 +1,9 @@
 package com.shoppingmall.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,5 +42,15 @@ public class Myshop_reviewDAO {
 	//
 	public int delete(String rid) {
 		return sqlSession.delete(namespace+".delete",rid);
+	}
+	
+	//사용자 -리뷰 리스트
+	public ArrayList<Myshop_reviewVO> selectAll(int startCount, int endCount) {
+		Map<String,Integer> param = new HashMap<String,Integer>();
+		param.put("start", startCount);
+		param.put("end", endCount);
+		
+		List<Myshop_reviewVO> list = sqlSession.selectList(namespace+".selectAll",param);
+		return (ArrayList<Myshop_reviewVO>) list;
 	}
 }

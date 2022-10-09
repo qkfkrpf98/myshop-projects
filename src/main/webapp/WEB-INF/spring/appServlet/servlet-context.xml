@@ -34,6 +34,7 @@
 	<beans:bean id="fileService"  class="com.shoppingmall.service.FileServiceImpl"></beans:bean>
 	<beans:bean id="orderService"  class="com.shoppingmall.service.OrderServiceImpl"></beans:bean>
 	<beans:bean id="reviewService"  class="com.shoppingmall.service.ReviewServiceImpl"></beans:bean>
+	<beans:bean id="pageService"  class="com.shoppingmall.service.PageServiceImpl"></beans:bean>
 	
 	<!-- dao 객체 생성 :  -->
 	<beans:bean id="memberDao"  class="com.shoppingmall.dao.Myshop_memberDAO"></beans:bean>

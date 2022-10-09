@@ -16,7 +16,7 @@ public class NoticeServiceImpl implements NoticeService{
 		return noticeDao.insert(vo);
 	}
 	
-	//전체 공지사항 리스트
+	//admin - 전체 공지사항 리스트
 	public ArrayList<Myshop_noticeVO> getList(){
 		return noticeDao.selectAll();
 	}
@@ -39,5 +39,15 @@ public class NoticeServiceImpl implements NoticeService{
 	//공지사항 정보 가져오기
 	public int getUpdate(Myshop_noticeVO vo) {
 		return noticeDao.update(vo);
+	}
+	
+	//사용자 - 전체 공지사항 리스트
+	public ArrayList<Myshop_noticeVO> getList(int startCount, int endCount){
+		return noticeDao.user_selectAll(startCount,endCount);
+	}
+	
+	//사용자 - 검색 공지사항 리스트
+	public ArrayList<Myshop_noticeVO> getSearchList(String text, String searchtype, int startCount, int endCount){
+		return noticeDao.search_select(text, searchtype, startCount,endCount);
 	}
 }

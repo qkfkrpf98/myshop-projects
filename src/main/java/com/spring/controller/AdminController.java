@@ -93,7 +93,7 @@ public class AdminController {
 			
 			if(result == 1){			
 				fileService.fileSave(vo, request);
-				mv.setViewName("redirect:/admin_notice.do");
+				mv.setViewName("redirect:/admin_notice_list.do");
 			}else{
 
 				mv.setViewName("error_page");

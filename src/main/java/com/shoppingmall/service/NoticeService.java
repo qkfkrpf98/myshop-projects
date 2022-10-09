@@ -11,4 +11,6 @@ public interface NoticeService {
 	int getDelete(String nid);
 	Myshop_noticeVO getContent(String nid);
 	int getUpdate(Myshop_noticeVO vo);
+	ArrayList<Myshop_noticeVO> getList(int startCount, int endCount);
+	ArrayList<Myshop_noticeVO> getSearchList(String text, String searchtype, int startCount, int endCount);
 }
