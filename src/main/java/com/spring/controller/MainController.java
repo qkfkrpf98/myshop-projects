@@ -35,11 +35,6 @@ public class MainController {
 		return "membership_benefit";
 	}
 	
-	//공지사항 페이지
-	@RequestMapping(value="/notice_board.do", method=RequestMethod.GET)
-	public String notice_board() {
-		return "notice_board";
-	}
 	
 	//메인화면 테스트
 	@RequestMapping(value="/indextest.do", method=RequestMethod.GET)

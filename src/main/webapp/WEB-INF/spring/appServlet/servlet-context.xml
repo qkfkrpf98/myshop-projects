@@ -32,10 +32,15 @@
 	<beans:bean id="memberService"  class="com.shoppingmall.service.MemberServiceImpl"></beans:bean>
 	<beans:bean id="noticeService"  class="com.shoppingmall.service.NoticeServiceImpl"></beans:bean>
 	<beans:bean id="fileService"  class="com.shoppingmall.service.FileServiceImpl"></beans:bean>
+	<beans:bean id="orderService"  class="com.shoppingmall.service.OrderServiceImpl"></beans:bean>
+	<beans:bean id="reviewService"  class="com.shoppingmall.service.ReviewServiceImpl"></beans:bean>
+	<beans:bean id="pageService"  class="com.shoppingmall.service.PageServiceImpl"></beans:bean>
 	
 	<!-- dao 객체 생성 :  -->
 	<beans:bean id="memberDao"  class="com.shoppingmall.dao.Myshop_memberDAO"></beans:bean>
 	<beans:bean id="noticeDao"  class="com.shoppingmall.dao.Myshop_noticeDAO"></beans:bean>
+	<beans:bean id="orderDao"  class="com.shoppingmall.dao.Myshop_orderDAO"></beans:bean>
+	<beans:bean id="reviewDao"  class="com.shoppingmall.dao.Myshop_reviewDAO"></beans:bean>
 	
 	<!-- Interceptor 객체 생성 -->
 	<beans:bean id="authInterceptor"  class="com.shoppingmall.interceptor.AuthInterceptor"></beans:bean>

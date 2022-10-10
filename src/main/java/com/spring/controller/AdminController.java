@@ -1,7 +1,6 @@
 package com.spring.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,7 +14,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.service.FileServiceImpl;
 import com.shoppingmall.service.NoticeServiceImpl;
+import com.shoppingmall.service.ReviewServiceImpl;
 import com.shoppingmall.vo.Myshop_noticeVO;
+import com.shoppingmall.vo.Myshop_reviewVO;
 @Controller
 public class AdminController {
 	
@@ -24,12 +25,45 @@ public class AdminController {
 		
 		@Autowired
 		private NoticeServiceImpl  noticeService;
+		@Autowired
+		private ReviewServiceImpl  reviewService;
 		
 		//관리자 - 리뷰 리스트
-		@RequestMapping(value="/admin_ReviewList.do", method=RequestMethod.GET)
-		public String admin_ReviewList() {
-			return "/admin/admin_ReviewList";
+		@RequestMapping(value="/admin_review_list.do", method=RequestMethod.GET)
+		public ModelAndView admin_review_list() {
+			ModelAndView mv = new ModelAndView();
+			
+			int totalcount = reviewService.getTotalCount();
+			ArrayList<Myshop_reviewVO> list= reviewService.getList();
+			mv.addObject("list", list);
+			mv.addObject("totalcount",totalcount);
+			mv.setViewName("/admin/admin_review_list");
+			return mv;
 		}
+		@ResponseBody
+		@RequestMapping(value="/admin_review_content.do", method=RequestMethod.GET)
+		public Myshop_reviewVO admin_review_content(String rid) {
+			Myshop_reviewVO vo = reviewService.getContent(rid);
+			return vo;
+		}
+		
+		//관리자 - 리뷰 리스트에서 선택 삭제(다중삭제) - ajax
+			@ResponseBody
+			@RequestMapping(value="/admin_review_list_delete.do", method=RequestMethod.POST)
+			public int admin_review_list_delete(@RequestParam(value="clist[]") ArrayList<String> clist) {
+				int result = 0;
+				System.out.println("11111");
+				for(String rid : clist) {
+			        System.out.println(rid);
+			        result = reviewService.getDelete(rid);
+			    }
+				
+				return result;
+			}
+		
+		
+		
+		
 		//관리자 - 공지사항 리스트
 		@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
 		public ModelAndView admin_notice_list() {
@@ -52,13 +86,9 @@ public class AdminController {
 		public ModelAndView admin_notice_write_check(Myshop_noticeVO vo, HttpServletRequest request)
 			throws Exception{
 			ModelAndView mv = new ModelAndView();
-			System.out.println(vo.getNtitle());
-			System.out.println(vo.getNcontent());
-			System.out.println(vo.getNcrucial());
-			System.out.println(vo.getNsdate());
-			System.out.println(vo.getNedate());
 			
 			vo = fileService.fileCheck(vo);
+			System.out.println(vo.getNsfile());
 			int result = noticeService.getWriteResult(vo);
 			
 			if(result == 1){			
@@ -83,19 +113,6 @@ public class AdminController {
 	            result = noticeService.getDelete(nid);
 	        }
 		
-//			try {
-//				int cnt = Integer.parseInt((String) commandMap.get("CNT"));
-//				String delete_notice = (String) commandMap.get("delete_list");
-//				String[] delete_list = delete_notice.split(",");
-//				for (int i = 0; i < cnt; i++) {
-//					String nid = (String) delete_list[i];
-//					result = noticeService.getDelete(nid);
-//				}
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-
 			return result;
 		}
 		
