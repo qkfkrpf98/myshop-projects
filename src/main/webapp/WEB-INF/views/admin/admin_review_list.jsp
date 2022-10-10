@@ -41,20 +41,20 @@ $(document).ready(function() {
 		 			output +="<label>⭐</label>";
 	 			}
 	 			output +="<span>"+rvo.score+"</span>";
-	 			output +="<div>"+rvo.id+"  |  "+rvo.rdate+"</div>";
+	 			output +="<div>"+rvo.rwriter+"  |  "+rvo.rdate+"</div>";
 	 			output +="</div>";
 	 			output +="<div class='rcontent'>"+rvo.rcontent+"</div>";
 	 			if(rvo.rsfile != null){
 	 				output +="<div class='rsfile'>"+rvo.rsfile+"</div>";
 	 			}
 	 			output += "<div class='order_info'>";
-	 			output +="<span>"+rvo.pname+"  |  상품주문번호</span>";
+	 			output +="<span>"+rvo.pname+"  |  "+rvo.oid+"</span>";
 	 			output +="</div>";
 	 			output +="<div class='review_info'>";
 	 			output +="<table>";
 	 			output +="<tr>";
 	 			output +="<th>리뷰 글 번호</th>";
-	 			output +="<td>5000251</td>";
+	 			output +="<td>"+rvo.rid+"</td>";
 	 			output +="<th>리뷰 공감수</th>";
 	 			output +="<td>"+rvo.recom+"</td>";
 	 			output +="</tr>";
@@ -377,22 +377,24 @@ $(document).ready(function() {
 							<table class="list_table" style="table-layout: fixed;" >
 								<tr>
 									<th><input type="checkbox" class="review_check" name="checkAll"></th>
+									<th style="width:150px;">리뷰글 번호</th>
 									<th>리뷰 상품명</th>
-									<th>상품 카테고리</th>
+									<th style="width:200px;" >상품 카테고리</th>
 									<th>리뷰 내용</th>
-									<th>리뷰 작성자</th>
-									<th>사용자 평점</th>
-									<th>사진 첨부유무</th>
-									<th>리뷰 공감 수</th>
-									<th>작성일</th>
+									<th style="width:100px;">리뷰 작성자</th>
+									<th style="width:150px;">사용자 평점</th>
+									<th style="width:125px;">사진 첨부유무</th>
+									<th style="width:125px;">리뷰 공감 수</th>
+									<th style="width:150px;">작성일</th>
 								</tr>
 								<c:forEach var="vo" items="${list}">
 									<tr>
 										<td><input type="checkbox" class="review_check" name="check" value="${vo.rid}" ></td>
+										<td>${vo.rid }</td>
 										<td>${vo.pname }</td>
-										<td>${vo.pcategory_id}</td>
+										<td>${vo.category_id}</td>
 										<td><button class="openModalPop" type="button" value="${vo.rid}">${vo.rcontent }</button></td>
-										<td>${vo.id}</td>
+										<td>${vo.rwriter}</td>
 										<td><c:forEach  begin="1" end="${vo.score }"><label>⭐</label></c:forEach>${vo.score }</td>
 										<c:choose>
 											<c:when test="${empty vo.rfile}">

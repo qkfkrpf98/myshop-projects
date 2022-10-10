@@ -110,13 +110,13 @@
 						<li>
 							<div class="review_list">
 								<div class="review_list_header">
-									<div class="title">브랜드</div>
+									<div class="title">${vo.brand}</div>
 									<div class="score"><c:forEach  begin="1" end="${vo.score }"><label>⭐</label></c:forEach></div>
 									<div class="size">구매사이즈 : 260</div>
 								</div>
 								<div class="review_list_content">
 									<div class="review_list_content_header">
-										<div>자켓</div>
+										<div>${vo.category_id}</div>
 										<span>|</span>
 										<div class="link">
 											<a href="">${vo.pname }</a>
@@ -127,7 +127,7 @@
 										<button>
 											<i class="xi-thumbs-up"></i>${vo.recom}
 										</button>
-										<div>${vo.id }</div>
+										<div>${vo.rwriter}</div>
 										<div>${vo.rdate }</div>
 									</div>
 								</div>

@@ -1,5 +1,7 @@
 package com.spring.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,23 +12,23 @@ import com.shoppingmall.service.OrderServiceImpl;
 import com.shoppingmall.vo.Myshop_ordersVO;
 
 @Controller
-public class OrderController {
+public class MypageController {
 	@Autowired
 	private OrderServiceImpl orderService;
 	
-	
-		//주문 리스트 페이지
-		@RequestMapping(value="/order_list.do", method=RequestMethod.GET)
-		public ModelAndView order_list() {
+		//마이페이지 - 주문관리
+		@RequestMapping(value="/mypage_order.do", method=RequestMethod.GET)
+		public ModelAndView mypage_order() {
 			ModelAndView mv = new ModelAndView();
+			String id = "test";
 			
-			Myshop_ordersVO vo = orderService.getInfo();
-			System.out.println(vo.getOid());
-
-			mv.addObject("vo",vo);
-			mv.setViewName("/order_list");
+			ArrayList<Myshop_ordersVO> list = orderService.getList(id);			
+			
+			mv.addObject("list",list);
+			mv.setViewName("/mypage_order");
 			
 			return mv;
 		}
+		
 		
 }

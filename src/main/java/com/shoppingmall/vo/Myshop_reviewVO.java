@@ -3,9 +3,27 @@ package com.shoppingmall.vo;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class Myshop_reviewVO {
-	int pid, score, recom;
-	String rid, pname, pcategory_id, id, rcontent, rfile, rsfile, rdate;
+	int pid, oid, score, recom;
+	String rid, pname, category_id, rwriter, rcontent, rfile, rsfile, rdate, brand;
 	CommonsMultipartFile file1;
+	public int getOid() {
+		return oid;
+	}
+	public void setOid(int oid) {
+		this.oid = oid;
+	}
+	public String getCategory_id() {
+		return category_id;
+	}
+	public void setCategory_id(String category_id) {
+		this.category_id = category_id;
+	}
+	public String getBrand() {
+		return brand;
+	}
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
 	public CommonsMultipartFile getFile1() {
 		return file1;
 	}
@@ -42,17 +60,12 @@ public class Myshop_reviewVO {
 	public void setPname(String pname) {
 		this.pname = pname;
 	}
-	public String getPcategory_id() {
-		return pcategory_id;
+	
+	public String getRwriter() {
+		return rwriter;
 	}
-	public void setPcategory_id(String pcategory_id) {
-		this.pcategory_id = pcategory_id;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
+	public void setRwriter(String rwriter) {
+		this.rwriter = rwriter;
 	}
 	public String getRcontent() {
 		return rcontent;

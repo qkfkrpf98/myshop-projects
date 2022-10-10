@@ -9,13 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.shoppingmall.service.FileServiceImpl;
 import com.shoppingmall.service.NoticeServiceImpl;
+import com.shoppingmall.service.OrderServiceImpl;
 import com.shoppingmall.service.PageServiceImpl;
 import com.shoppingmall.service.ReviewServiceImpl;
 import com.shoppingmall.vo.Myshop_noticeVO;
+import com.shoppingmall.vo.Myshop_ordersVO;
 import com.shoppingmall.vo.Myshop_reviewVO;
 @Controller
 public class NoticeController {
@@ -31,10 +34,16 @@ public class NoticeController {
 	@Autowired
 	private PageServiceImpl  pageService;
 	
-	//府轰 累己 -test
+	@Autowired
+	private OrderServiceImpl orderService;
+	
+	//府轰 累己 其捞瘤-test
+	@ResponseBody
 	@RequestMapping(value="/review_write.do", method=RequestMethod.GET)
-	public String review_write() {
-		return "/review_write";
+	public Myshop_ordersVO review_write(String oid) {
+		Myshop_ordersVO vo = orderService.getInfo(oid);
+		
+		return vo;
 	}
 	//府轰其捞瘤
 	@RequestMapping(value="/review_test.do", method=RequestMethod.GET)
@@ -58,9 +67,7 @@ public class NoticeController {
 		ModelAndView mv = new ModelAndView();
 		
 		System.out.println(vo.getPid());
-		System.out.println(vo.getPname());
-		System.out.println(vo.getPcategory_id());
-		System.out.println(vo.getId());
+		System.out.println(vo.getRwriter());
 		System.out.println(vo.getScore());
 		System.out.println(vo.getRcontent());
 		
@@ -69,7 +76,7 @@ public class NoticeController {
 		
 		if(result == 1){			
 			fileService.fileSave(vo, request);
-			mv.setViewName("redirect:/order_list.do");
+			mv.setViewName("redirect:/mypage_order.do");
 		}else{
 
 			mv.setViewName("error_page");

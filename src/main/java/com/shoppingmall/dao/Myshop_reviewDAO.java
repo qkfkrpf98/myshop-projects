@@ -53,4 +53,5 @@ public class Myshop_reviewDAO {
 		List<Myshop_reviewVO> list = sqlSession.selectList(namespace+".selectAll",param);
 		return (ArrayList<Myshop_reviewVO>) list;
 	}
+	
 }
