@@ -103,7 +103,44 @@
 	 });
 	 
 	  /* 선택된 리스트가 없으면 선택 삭제 불가 알림, 선택한 게시판 삭제 */
-		 
+		$(".btn_delete").click(function(){
+		 var cnt = $("input[name=check]:checked").length;
+		 /*var delete_list = new Array();
+		 var aJson = new Object();
+		 var aJsonArray = new Array(); */
+		 if($("input[name=check]:checked").length == 0){
+			 alert("선택된 리스트가 없습니다.");
+		 }else{
+			
+			 var delete_list = new Array();
+			 
+		 	 $("input[name=check]:checked").each(function(){
+		 	 	delete_list.push($(this).val());
+		 	 });
+		 	
+		 	 if(confirm("선택한 항목을 정말 삭제하시겠습니까?")==true){
+		 		 /* alert(cnt); */
+		 		 
+			 	$.ajax({
+			 		url:"admin_notice_list_delete.do",
+			 		type: "POST",
+			 		data: {clist: delete_list},
+			 		dataType:"json",
+			 		success:function(result){
+			 			if(result != 1){
+			 				alert("삭제 오류");
+			 			}else{
+			 				alert("삭제가 성공적으로 이루어졌습니다!");
+			 				location.reload();
+			 			}
+			 		}//success
+			 	}); 
+			 	 
+		 	 }//if문 
+		 	
+		 }//if-else
+		
+	}); 
 		 
 		 
 		 

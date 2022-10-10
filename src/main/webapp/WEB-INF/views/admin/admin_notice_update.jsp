@@ -11,82 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
     <title>회원 관리페이지</title>
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
-<script>
-	 
-	
+    <script src="http://localhost:9000/myshop/resources/js/admin_notice_update.js"></script>
 
-	$(document).ready(function(){
-		//중요 공지사항 체크여부
-		if($("#ncrucial").val()=="1"){
-			$("#ncrucial_check").attr("checked",true);
-		}else{
-			$("#ncrucial_check").attr("checked",false);
-		}
-		
-		//파일 이름 변경처리
-		$("#file1").on('change',function(){
-			  var fileName = $("#file1").val();
-			  $(".upload-name").val(fileName);
-			});
-		
-		//전시기간 설정기능-게시글 수정
-		$("#ex_check").click(function(){
-			var chk =$(this).is(":checked");
-			if(chk == true){
-				$("#nsdate_fk").attr("disabled",false);
-				$("#nedate_fk").attr("disabled",false);	
-					
-			}else{
-				$("#nsdate_fk").attr("disabled",true);
-				$("#nedate_fk").attr("disabled",true);	
-			}
-		});
-		
-		//유효성체크
-		$("#btnUpdateNotice").click(function(){
-			
-			/* alert("선택") */
-			if($("#ntitle").val()==""){
-				alert("제목을 입력해주세요");
-				return false;
-			}else if($("#ncontent").val()==""){
-				alert("내용을 입력해주세요");
-				return false;
-			}else{
-				noticeupdateForm.submit();
-			}
-				
-		});
-		
-		$("#ncrucial_check").click(function(){
-			if($("#ncrucial_check").is(":checked")){
-				$("#ncrucial").val("1");
-				/* alert($("#ncrucial").val()); */
-			}else{
-				$("#ncrucial").val("0");
-				/* alert($("#ncrucial").val()); */
-			} 
-		});
-		
-		$("#nsdate_fk").blur(function(){
-			$("#nsdate").val($(this).val());
-			/* alert($("#nsdate").val()); */
-			
-		});
-		$("#nedate_fk").blur(function(){
-			$("#nedate").val($(this).val());
-			/* alert($("#nedate").val()); */
-			
-		});
-		
-		
-		
-	});
-
-
-
-	
-</script>
 <style>
 	.flame{
 		border:1px solid #dbdde2;
@@ -293,6 +219,16 @@
 						<input type="hidden" id="nsfile" name="nsfile" value="${vo.nsfile}">
 							<div class="flame">
 								<table class="write_table">
+									<tr>
+									    <th>분류</th>
+										<td>
+												<input type="hidden" id="ncode_defu" value="${vo.ncode}">
+												<select name="ncode" id="ncode">
+												<option value="notice">공지</option>
+												<option value="event">이벤트</option>
+												</select>
+										</td>
+									</tr>
 									<tr>
 										<th>제목</th>
 										<td><input type="text" id="ntitle" name="ntitle" class="textbox"

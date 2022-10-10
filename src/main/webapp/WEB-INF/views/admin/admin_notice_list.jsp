@@ -11,48 +11,10 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_notice_list.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>회원 관리페이지</title>
-<script>
-$(document).ready(function(){
-	
-	$(".btn_delete").click(function(){
-		 var cnt = $("input[name=check]:checked").length;
-		 var delete_list = new Array();
-		 if(cnt < 1){
-			 alert("선택된 리스트가 없습니다.");
-		 }else{
-		 	 $("input[name=check]:checked").each(function(){
-		 	 	delete_list.push($(this).val());
-		 	 });
-		 	 /* for(var i =0; i<delete_list.length; i++){
-				alert(delete_list[i]+"삭제");
-		 	 } */
-		 	 if(confirm("선택한 항목을 정말 삭제하시겠습니까?")==true){
-		 		 alert(cnt);
-			 	$.ajax({
-			 		type: "POST",
-			 		url:"admin_notice_list_delete.do",
-			 		data: "delete_list=" +delete_list+ "&CNT=" +cnt,
-			 		traditional : true,
-			 		dataType:"json",
-			 		success:function(result){
-			 			if(result != 1){
-			 				alert("삭제 오류");
-			 			}else{
-			 				alert("삭제 성공");
-			 			}
-			 		}//success
-			 	}); 
-			 	 
-		 	 }//if문
-		 }//if-else
-		
-	});
-})
 
-</script>
 </head>
 <body>
     <input type="checkbox" id="nav-toggle">
@@ -172,17 +134,19 @@ $(document).ready(function(){
 								<tr>
 									<th><input type="checkbox" class="notice_check" name="checkAll"></th>
 									<th>번호</th>
+									<th>분류</th>
 									<th>제목</th>
 									<th>중요 여부</th>
 									<th>첨부 파일 유무</th>
-									<th>전시 시작일</th>
-									<th>전시 종료일</th>
+									<th>게시 시작일</th>
+									<th>게시 종료일</th>
 								</tr>
 							    <c:forEach var="vo" items="${list}">
 								<tr>
 									<td><input type="checkbox" class="notice_check" name="check" value="${vo.nid}"></td>
-									<td><a href="admin_notice_update.do?nid=${vo.nid}">${vo.nid}</a></td>
-									<td>${vo.ntitle}</td>
+									<td>${vo.rno}</td>
+									<td>${vo.ncode }</td>
+									<td><a href="admin_notice_update.do?nid=${vo.nid}">${vo.ntitle}</a></td>
 									<c:choose>
 										<c:when test="${vo.ncrucial == 1 }">
 											<td>설정</td>
@@ -204,26 +168,7 @@ $(document).ready(function(){
 									</c:choose> --%>
 								<tr>
 								</c:forEach>
-								<!-- <tr>
-									<td><input type="checkbox" class="notice_check" name="check"></td>
-									<td>200581287</td>
-									<td>알립니다!</td>
-									<td>안내</td>
-									<td>유</td>
-									<td>2022/09/23</td>
-									<td>-</td>
-									<td>-</td>
-								</tr>
-								<tr>
-									<td><input type="checkbox" class="notice_check" name="check"></td>
-									<td>200581287</td>
-									<td>리뷰 이벤트 안내</td>
-									<td>이벤트</td>
-									<td>무</td>
-									<td>2022/09/23</td>
-									<td>2022/09/23</td>
-									<td>2022/10/23</td>
-								</tr> -->	
+								
 							</table>
 						</div>
 					</div>

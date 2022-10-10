@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_ReviewList.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/admin_ReviewList.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
    <!--폰트어썸 최신 CDN-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
@@ -125,22 +125,6 @@
 										for="review_check4"></label> <span>4점</span> <input
 										type="checkbox" id="review_check5"> <label
 										for="review_check5"></label> <span>5점</span></td>
-									<th>답글 여부</th>
-									<td><select class="answer_search_class">
-											<option value="defalt">선택 안함</option>
-											<option value="unanswered">미 답글</option>
-											<option value="answer">답글</option>
-									</select></td>
-								</tr>
-								<tr>
-									<th>전시상태</th>
-									<td><input type="radio" id="review_radio1"
-										name="exhibition_status" checked="checked"> <label
-										for="review_radio1"></label> <span>전체</span> <input
-										type="radio" id="review_radio2" name="exhibition_status">
-										<label for="review_radio2"></label> <span>정상</span> <input
-										type="radio" id="review_radio3" name="exhibition_status">
-										<label for="review_radio3"></label> <span>블라인드</span></td>
 								</tr>
 								<tr>
 									<th>검색</th>
@@ -189,41 +173,37 @@
 							<table class="list_table">
 								<tr>
 									<th><input type="checkbox" class="review_check" name="checkAll"></th>
-									<th>리뷰 제목</th>
-									<th>리뷰 등록자</th>
-									<th>구매 상품명</th>
+									<th>리뷰 상품명</th>
 									<th>상품 카테고리</th>
-									<th>구매자 평점</th>
-									<th>리뷰 조회수</th>
-									<th>리뷰 등록일</th>
-									<th>전시상태</th>
-									<th>답글 여부</th>
+									<th>리뷰 제목</th>
+									<th>리뷰 작성자</th>
+									<th>사용자 평점</th>
+									<th>사진 첨부유무</th>
+									<th>리뷰 공감 수</th>
+									<th>작성일</th>
 								</tr>
 								<tr>
 									<td><input type="checkbox" class="review_check" name="check"></td>
-									<td>굿</td>
-									<td>강**</td>
 									<td>22SS 톰브라운 셔츠 히든 옥스퍼트 White</td>
 									<td>셔츠</td>
+									<td>굿</td>
+									<td>강**</td>
 									<td>5.0</td>
-									<td>20 회</td>
+									<td>유</td>
+									<td>20</td>
 									<td>2022/09/17</td>
-									<td>블라인드</td>
-									<td>미 답글</td>
 								</tr>
 								<tr>
 									<td><input type="checkbox" class="review_check" name="check"></td>
-									<td>굿</td>
-									<td>강**</td>
 									<td>22SS 톰브라운 셔츠 히든 옥스퍼트 White</td>
 									<td>셔츠</td>
+									<td>굿</td>
+									<td>강**</td>
 									<td>5.0</td>
-									<td>20 회</td>
+									<td>유</td>
+									<td>20</td>
 									<td>2022/09/17</td>
-									<td>블라인드</td>
-									<td>미 답글</td>
 								</tr>
-								
 							</table>
 						</div>
 					</div>

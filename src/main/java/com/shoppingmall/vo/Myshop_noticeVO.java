@@ -7,8 +7,14 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 public class Myshop_noticeVO {
 	int rno;
-	String nid, ntitle, ncontent, nfile, nsfile, ncrucial, nsdate, nedate;
+	String nid, ntitle, ncontent, nfile, nsfile, ncrucial, nsdate, nedate,ncode;
 	CommonsMultipartFile file1;
+	public String getNcode() {
+		return ncode;
+	}
+	public void setNcode(String ncode) {
+		this.ncode = ncode;
+	}
 	
 	public CommonsMultipartFile getFile1() {
 		return file1;
