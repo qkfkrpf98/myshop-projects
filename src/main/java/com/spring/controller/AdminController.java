@@ -2,6 +2,7 @@ package com.spring.controller;
 
 import java.util.ArrayList;
 
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +71,32 @@ public class AdminController {
 			ModelAndView mv = new ModelAndView();
 			ArrayList<Myshop_noticeVO> list = noticeService.getList();
 			int totalcount = noticeService.getTotalCount();
+
 			
 			mv.addObject("totalcount",totalcount);
 			mv.addObject("list",list);
 			mv.setViewName("/admin/admin_notice_list");
 			return mv;
 		}
+		
+		//관리자 - 공지사항 조건검색 -ajax
+		@ResponseBody
+		@RequestMapping(value="/admin_notice_search.do", method=RequestMethod.GET)
+		public ModelAndView admin_notice_search(String searchtype, String text, String startdate, String enddate) {
+			ModelAndView mv = new ModelAndView();
+//			System.out.println(searchtype);
+//			System.out.println(text);
+//			System.out.println(startdate);
+//			System.out.println(enddate);
+			ArrayList<Myshop_noticeVO> list = noticeService.getAdminSearchList(searchtype, text,startdate , enddate);
+			
+			
+			
+			return mv;
+		}
+		
+		
+		
 		//관리자 - 공지사항 글쓰기
 		@RequestMapping(value="/admin_notice_write.do", method=RequestMethod.GET)
 		public String admin_notice_write() {

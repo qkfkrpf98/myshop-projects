@@ -21,6 +21,11 @@ public class NoticeServiceImpl implements NoticeService{
 		return noticeDao.selectAll();
 	}
 	
+	//admin - 조건 검색 리스트
+	public ArrayList<Myshop_noticeVO>getAdminSearchList(String text, String searchtype, String nsdate, String nedate){
+		return noticeDao.search_select(text, searchtype, nsdate, nedate);
+	}
+	
 	//전체 공지사항 개수
 	public int getTotalCount() {
 		return noticeDao.totalCount();
@@ -50,4 +55,6 @@ public class NoticeServiceImpl implements NoticeService{
 	public ArrayList<Myshop_noticeVO> getSearchList(String text, String searchtype, int startCount, int endCount){
 		return noticeDao.search_select(text, searchtype, startCount,endCount);
 	}
+	
+	
 }

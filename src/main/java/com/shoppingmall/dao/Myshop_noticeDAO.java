@@ -32,6 +32,20 @@ public class Myshop_noticeDAO {
 		return (ArrayList<Myshop_noticeVO>) list;
 	}
 	/**
+	 * selectAll : admin - 공지사항 list 조건검색
+	 */
+	public ArrayList<Myshop_noticeVO> search_select(String text,String searchtype,String nsdate,String nedate){
+		Map<String,String> param = new HashMap<String,String>();
+		param.put("searchtype",searchtype);
+		param.put("text",text);
+		param.put("nsdate",nsdate);
+		param.put("nedate", nedate);
+		
+		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".admin_search_select",param);
+		return (ArrayList<Myshop_noticeVO>) list;
+	}
+	
+	/**
 	 * totalCount : 공지사항 수
 	 */
 	public int totalCount() {
@@ -75,12 +89,14 @@ public class Myshop_noticeDAO {
 	 * search_select: 사용자 - 공지사항 list 검색조회
 	 */
 	public ArrayList<Myshop_noticeVO>search_select(String text, String searchtype, int startCount, int endCount){
+		System.out.println(text);
+		System.out.println(searchtype);
 		
 		Map<String,String> param = new HashMap<String,String>();
 		param.put("searchtype",searchtype);
 		param.put("text",text);
-		param.put("start", Integer.toString(startCount));
-		param.put("end", Integer.toString(endCount));
+		param.put("start",String.valueOf(startCount));
+		param.put("end", String.valueOf(endCount));
 		
 		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".search_select",param);
 		return (ArrayList<Myshop_noticeVO>) list;

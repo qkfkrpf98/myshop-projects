@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>   
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+   
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,6 +17,40 @@
     <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>회원 관리페이지</title>
+<script>
+$(document).ready(function(){
+	
+	//데이터 전송, 유효성 체크
+	$("#submitbtn").click(function(){
+		var searchtype = $(".search_class").val();
+		var startdate = $("input[name='startdate']").val();
+		var enddate = $("input[name='enddate']").val();
+		var text = $(".search_bar").val();
+		/* alert(searchtype);
+		alert(startdate);
+		alert(enddate);
+		alert(text); */
+		$.ajax({
+	 		url:"admin_notice_search.do?searchtype="+searchtype+"&text="+text+"&startdate="+startdate+"&enddate="+enddate,
+	 		success:function(nvo){
+	 			
+	 		}//success
+	 	});//ajax
+	});//function
+		
+		
+	$("#resetbtn").click(function(){
+		$(".search_class").val("notice_title");
+		$("input[type='date']").val("");
+		$(".search_bar").val("");
+		alert("리셋");
+	
+	});
+	
+});
+
+
+</script>
 
 </head>
 <body>
@@ -90,32 +127,29 @@
 
 
 			<div class="recent-grid">
-				
+
 				<div class="title_box">
 					<h3 class="search_title">공지사항 조건 검색</h3>
 				</div>
 				<div class="seller_content">
-					<form name="noticeListForm" action="notice_conditional_search.do"
-						method="post">
-						<div class="list_content">
-							<table class="seller_search">
-								<tr>
-									<th>검색</th>
-									<td><select class="search_class">
-											<option value="notice_title">글 제목</option>
-											<option value="noticeNum">게시글 번호</option>
-									</select> <input type="text" class="search_bar"></td>
-									<th>기간</th>
-									<td><input type="date" class="first-date">~ <input
-										type="date"></td>
-								</tr>
-							</table>
-							<div class="seller_search_btns">
-								<button class="search_btn" type="submit">검색</button>
-								<button class="search_btn" type="reset">초기화</button>
-							</div>
+					<div class="list_content">
+						<table class="seller_search">
+							<tr>
+								<th>검색</th>
+								<td><select class="search_class">
+										<option value="notice_title">글 제목</option>
+										<option value="noticeNum">게시글 번호</option>
+								</select> <input type="text" class="search_bar"></td>
+								<th>기간</th>
+								<td><input type="date" name="startdate">~ <input
+									type="date" name="enddate"></td>
+							</tr>
+						</table>
+						<div class="seller_search_btns">
+							<button class="search_btn" id="submitbtn" type="button">검색</button>
+							<button class="search_btn" id="resetbtn" type="button">초기화</button>
 						</div>
-					</form>
+					</div>
 				</div>
 				<div class="seller_list">
 					<div class="list_heading">
@@ -125,40 +159,61 @@
 						<div class="heading_right">
 							<button type="button" class="btn_delete">선택 삭제</button>
 							<a href="admin_notice_write.do">
-							<button type="button">공지사항 등록</button></a>
+								<button type="button">공지사항 등록</button>
+							</a>
 						</div>
 					</div>
 					<div class="list_content">
 						<div class="table_flame">
 							<table class="list_table">
 								<tr>
-									<th><input type="checkbox" class="notice_check" name="checkAll"></th>
+									<th><input type="checkbox" class="notice_check"
+										name="checkAll"></th>
 									<th>번호</th>
 									<th>분류</th>
 									<th>제목</th>
 									<th>중요 여부</th>
 									<th>첨부 파일 유무</th>
+									<th>게시 현황</th>
 									<th>게시 시작일</th>
 									<th>게시 종료일</th>
 								</tr>
-							    <c:forEach var="vo" items="${list}">
-								<tr>
-									<td><input type="checkbox" class="notice_check" name="check" value="${vo.nid}"></td>
-									<td>${vo.rno}</td>
-									<td>${vo.ncode }</td>
-									<td><a href="admin_notice_update.do?nid=${vo.nid}">${vo.ntitle}</a></td>
-									<c:choose>
-										<c:when test="${vo.ncrucial == 1 }">
-											<td>설정</td>
-										</c:when>
-										<c:otherwise>
-											<td>미 설정</td>
-										</c:otherwise>
-									</c:choose>
-									<td>${vo.nfile}</td>
-									<td>${vo.nsdate}</td>
-									<td>${vo.nedate}</td>
-									<%-- <c:choose>
+								<c:forEach var="vo" items="${list}">
+									<tr>
+										<td><input type="checkbox" class="notice_check"
+											name="check" value="${vo.nid}"></td>
+										<td>${vo.rno}</td>
+										<td>${vo.ncode }</td>
+										<td><a href="admin_notice_update.do?nid=${vo.nid}">${vo.ntitle}</a></td>
+										<c:choose>
+											<c:when test="${vo.ncrucial == 1 }">
+												<td>설정</td>
+											</c:when>
+											<c:otherwise>
+												<td>미 설정</td>
+											</c:otherwise>
+										</c:choose>
+										<td>${vo.nfile}</td>
+										<c:set var="now" value="<%=new java.util.Date()%>" />
+										<fmt:formatDate value="${now}" pattern="yyyy-MM-dd"
+											var="nowDate" />
+
+										<c:choose>
+											<c:when
+												test="${vo.nsdate <= nowDate && vo.nedate >= nowDate}">
+												<td>게시 중</td>
+											</c:when>
+											<c:when test="${vo.nsdate > nowDate}">
+												<td>게시 준비 중</td>
+											</c:when>
+											<c:otherwise>
+												<td>게시 종료</td>
+											</c:otherwise>
+										</c:choose>
+										<!-- <td>-</td> -->
+										<td>${vo.nsdate}</td>
+										<td>${vo.nedate}</td>
+										<%-- <c:choose>
 										<c:when test="${vo.nedate == 9999-12-31 }">
 											<td>-</td>
 										</c:when>
@@ -166,9 +221,9 @@
 											<td>${vo.nedate}</td>
 										</c:otherwise>
 									</c:choose> --%>
-								<tr>
+									<tr>
 								</c:forEach>
-								
+
 							</table>
 						</div>
 					</div>

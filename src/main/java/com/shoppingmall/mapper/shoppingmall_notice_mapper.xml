@@ -49,11 +49,25 @@
 	
 	<!-- notice search_select-->
 	<select id="search_select" parameterType="map" resultType="com.shoppingmall.vo.Myshop_noticeVO">
+		
 		select rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
 		from (select rownum rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
-				from(select nid, ntitle, ncrucial, nsdate, nedate, ncode from myshop_notice where #{searchtype} like '%#{text}%')
+				from(select nid, ntitle, ncrucial, nsdate, nedate, ncode from myshop_notice 
+				 <choose>
+				    <when test="searchtype == 'ntitle'">
+				      where ntitle like '%'||#{text}||'%'
+				    </when>
+				    <otherwise>
+				       where ncontent like '%'||#{text}||'%'
+				    </otherwise>
+				  </choose>
+				
+				)
 				where to_char(sysdate, 'yyyy-mm-dd')>=nsdate and nedate>=to_char(sysdate, 'yyyy-mm-dd')
 				)
 		where rno between #{start} and #{end}
+		
 	</select>
+	
+	
 </mapper>  
