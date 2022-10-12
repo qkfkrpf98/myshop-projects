@@ -2,11 +2,11 @@ package com.spring.controller;
 
 import java.util.ArrayList;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +18,7 @@ import com.shoppingmall.service.NoticeServiceImpl;
 import com.shoppingmall.service.ReviewServiceImpl;
 import com.shoppingmall.vo.Myshop_noticeVO;
 import com.shoppingmall.vo.Myshop_reviewVO;
+import com.shoppingmall.vo.Myshop_searchVO;
 @Controller
 public class AdminController {
 	
@@ -81,14 +82,13 @@ public class AdminController {
 		
 		//관리자 - 공지사항 조건검색 -ajax
 		@ResponseBody
-		@RequestMapping(value="/admin_notice_search.do", method=RequestMethod.GET)
-		public ModelAndView admin_notice_search(String searchtype, String text, String startdate, String enddate) {
+		@RequestMapping(value="/admin_notice_search.do", method=RequestMethod.POST)
+		public ModelAndView admin_notice_search(@RequestBody Myshop_searchVO vo) {
 			ModelAndView mv = new ModelAndView();
-//			System.out.println(searchtype);
-//			System.out.println(text);
-//			System.out.println(startdate);
-//			System.out.println(enddate);
-			ArrayList<Myshop_noticeVO> list = noticeService.getAdminSearchList(searchtype, text,startdate , enddate);
+			System.out.println("컨트롤러");
+			/* System.out.println(vo.getText()); */
+
+			ArrayList<Myshop_noticeVO> list = noticeService.getAdminSearchList(vo);
 			
 			
 			

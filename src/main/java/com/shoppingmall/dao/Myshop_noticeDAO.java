@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.shoppingmall.vo.Myshop_noticeVO;
+import com.shoppingmall.vo.Myshop_searchVO;
 
 @Repository
 public class Myshop_noticeDAO {
@@ -34,14 +35,30 @@ public class Myshop_noticeDAO {
 	/**
 	 * selectAll : admin - 공지사항 list 조건검색
 	 */
-	public ArrayList<Myshop_noticeVO> search_select(String text,String searchtype,String nsdate,String nedate){
+	public ArrayList<Myshop_noticeVO> search_select(Myshop_searchVO vo){
 		Map<String,String> param = new HashMap<String,String>();
-		param.put("searchtype",searchtype);
-		param.put("text",text);
-		param.put("nsdate",nsdate);
-		param.put("nedate", nedate);
+		param.put("searchtype",vo.getSearchtype());
+		param.put("text",vo.getText());
+		param.put("nsdate",vo.getStartdate());
+		param.put("nedate", vo.getEnddate());
+		param.put("ncode", vo.getNcode());
+		param.put("ncrucial", vo.getNcrucial());
+		param.put("posttype", vo.getPosttype());
 		
-		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".admin_search_select",param);
+//		System.out.println(searchtype);
+//		System.out.println(text);
+//		System.out.println(nsdate);
+//		System.out.println(nedate);
+		
+		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".search_select",param);
+		System.out.println("list:"+list.size());
+		
+		for(Myshop_noticeVO nvo : list) {
+			System.out.print(nvo.getNid()+"\t");
+			System.out.print(nvo.getNtitle()+"\t");
+			System.out.print(nvo.getNcrucial()+"\n");
+			System.out.println("--------------");
+		}
 		return (ArrayList<Myshop_noticeVO>) list;
 	}
 	
@@ -98,7 +115,7 @@ public class Myshop_noticeDAO {
 		param.put("start",String.valueOf(startCount));
 		param.put("end", String.valueOf(endCount));
 		
-		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".search_select",param);
+		List<Myshop_noticeVO> list = sqlSession.selectList(namespace+".admin_search_select",param);
 		return (ArrayList<Myshop_noticeVO>) list;
 	}
 }

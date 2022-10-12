@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.shoppingmall.dao.Myshop_noticeDAO;
 import com.shoppingmall.vo.Myshop_noticeVO;
+import com.shoppingmall.vo.Myshop_searchVO;
 
 public class NoticeServiceImpl implements NoticeService{
 	@Autowired
@@ -22,8 +23,8 @@ public class NoticeServiceImpl implements NoticeService{
 	}
 	
 	//admin - 조건 검색 리스트
-	public ArrayList<Myshop_noticeVO>getAdminSearchList(String text, String searchtype, String nsdate, String nedate){
-		return noticeDao.search_select(text, searchtype, nsdate, nedate);
+	public ArrayList<Myshop_noticeVO>getAdminSearchList(Myshop_searchVO vo){
+		return noticeDao.search_select(vo);
 	}
 	
 	//전체 공지사항 개수

@@ -26,21 +26,129 @@ $(document).ready(function(){
 		var startdate = $("input[name='startdate']").val();
 		var enddate = $("input[name='enddate']").val();
 		var text = $(".search_bar").val();
-		/* alert(searchtype);
-		alert(startdate);
-		alert(enddate);
-		alert(text); */
-		$.ajax({
-	 		url:"admin_notice_search.do?searchtype="+searchtype+"&text="+text+"&startdate="+startdate+"&enddate="+enddate,
-	 		success:function(nvo){
-	 			
-	 		}//success
-	 	});//ajax
+		var ncode = "";
+		var ncrucial = "";
+		var posttype ="";
+		//mapper처리를 위하여 null값이 아닌 빈값으로 넘기기 위해서
+		if($("input[name='noticetype']:checked").val() == null){
+			ncode = "";	
+		}else{
+			ncode = $("input[name='noticetype']:checked").val();		
+		}
+		
+		if($("input[name='crucial']:checked").val() == null){
+			ncrucial = "";
+		}else{
+			ncrucial = $("input[name='crucial']:checked").val();
+		}
+		
+		if($("input[name='post_type']:checked").val() == null){
+			posttype = "";
+		}else{
+			posttype = $("input[name='post_type']:checked").val();
+		}
+		
+		/* alert(ncrucial); */
+		
+		var param = {"searchtype":searchtype, "startdate":startdate, "enddate":enddate, "text":text, "ncode":ncode, "ncrucial":ncrucial, "posttype":posttype};
+		var search = JSON.stringify(param);
+		
+		//검색창에 값이 있지만 분류를 선택하지 않았을 때
+		if($(".search_bar").val() != "" && $(".search_class").val() ==""){
+			alert("검색 분류를 선택해야 합니다.");
+			return false;
+		//검색 분류는 선택했지만 검색어는 입력하지 않았을 때	
+		}else if($(".search_class").val() != "" && $(".search_bar").val() == ""){
+			alert("검색어를 입력해주세요");
+			return false;
+		//기간 시작일을 선택했지만 기간 종료일을 선택하지 않았을 때	
+		}else if($("input[name='startdate']").val() != "" && $("input[name='enddate']").val() == ""){
+			alert("기간 조건의 종료일을 선택해주세요");
+			return false;
+		//기간 종료일을 선택하고 기간 종료일을 선택하지 않았을 때	
+		}else if($("input[name='enddate']").val() != "" && $("input[name='startdate']").val() == ""){		
+			alert("기간 조건의 시작일을 선택해주세요");
+			return false;
+		}else{
+			alert("데이터 전송");
+			$.ajax({
+				url:"admin_notice_search.do",
+		 		type: "POST",
+		 		data: search,
+		 		contentType : 'application/json;',
+		 		dataType:"json",
+		 		success:function(nvo){
+		 			
+		 		}//success
+		 	});//ajax
+		}//if
 	});//function
 		
+	//게시 기간 유효성 체크
+		$("input[name='startdate']").blur(function(){
+			if(todayCheck($("input[name='startdate']").val())== true){
+				if($("input[name='enddate']").val() != ""){
+					if(noticedateCheck()==false){
+						$("input[name='startdate']").val("");
+					}
+				}	
+			}else{
+				$("input[name='startdate']").val("");	
+			} 
+		});
 		
+		$("input[name='enddate']").blur(function(){
+			if(todayCheck($("input[name='enddate']").val()) == true){
+				if($("input[name='startdate']").val() != ""){
+					if(noticedateCheck()==false){
+						$("input[name='enddate']").val("");
+					}
+				}	
+			}else{
+				$("input[name='enddate']").val("");	
+			} 
+		});
+		
+		function todayCheck(ndate){
+			var nowDate = new Date(+new Date() + 3240 * 10000).toISOString().split("T")[0];
+			var nowDateArr = nowDate.split('-');
+
+			var nDateArr = ndate.split('-');	
+			
+			var nowDateCompare = new Date(nowDateArr[0], parseInt(nowDateArr[1])-1, nowDateArr[2]);
+		    var nDateCompare = new Date(nDateArr[0], parseInt(nDateArr[1])-1, nDateArr[2]);
+			
+		    if(nowDateCompare.getTime() > nDateCompare.getTime()) {
+		        alert("오늘날짜 이전의 날짜는 입력할 수 없습니다.");
+		        return false;
+		    }else{
+		    	return true;
+		    }
+		}
+		
+		function noticedateCheck(){
+		 	var startDate = $("input[name='startdate']").val();
+	        var startDateArr = startDate.split('-');
+	         
+	        var endDate = $("input[name='enddate']").val();
+	        var endDateArr = endDate.split('-');
+	                 
+	        var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+	        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+	         
+	        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+	            alert("시작날짜와 종료날짜를 확인해 주세요.");
+	            return false;
+	        }else{
+	        	return true;
+	        }
+	        
+		}
+	
+	
+	//리셋버튼	
 	$("#resetbtn").click(function(){
-		$(".search_class").val("notice_title");
+		$(".search_class").val("");
 		$("input[type='date']").val("");
 		$(".search_bar").val("");
 		alert("리셋");
@@ -135,14 +243,31 @@ $(document).ready(function(){
 					<div class="list_content">
 						<table class="seller_search">
 							<tr>
+								<th>공지 분류</th>
+								<td><label><input type="radio" name="noticetype" value="notice"><span>공지 사항</span></label>
+								<label><input type="radio" name="noticetype" value="event"><span>이벤트</span></label>
+								</td>
+								<th>중요여부체크</th>
+								<td><label><input type="radio" name="crucial" value="1"><span>설정</span></label>
+								<label><input type="radio" name="crucial" value="0"><span>미 설정</span></label>
+								</td>
+							</tr>
+							<tr>
+								<th>게시 현황 분류</th>
+								<td><label><input type="radio" name="post_type" value="ready"><span>전시 준비중</span></label>
+								<label><input type="radio" name="post_type" value="ing"><span>전시중</span></label>
+								<label><input type="radio" name="post_type" value="end"><span>전시 종료</span></label>
+								</td>
+								<th>기간</th>
+								<td><input type="date" name="startdate">~ <input type="date" name="enddate"></td>
+							</tr>
+							<tr>
 								<th>검색</th>
 								<td><select class="search_class">
-										<option value="notice_title">글 제목</option>
-										<option value="noticeNum">게시글 번호</option>
+										<option value="">검색 분류</option>
+										<option value="ntitle">글 제목</option>
+										<option value="ncotnet">게시글 내용</option>
 								</select> <input type="text" class="search_bar"></td>
-								<th>기간</th>
-								<td><input type="date" name="startdate">~ <input
-									type="date" name="enddate"></td>
 							</tr>
 						</table>
 						<div class="seller_search_btns">
@@ -212,15 +337,15 @@ $(document).ready(function(){
 										</c:choose>
 										<!-- <td>-</td> -->
 										<td>${vo.nsdate}</td>
-										<td>${vo.nedate}</td>
-										<%-- <c:choose>
-										<c:when test="${vo.nedate == 9999-12-31 }">
-											<td>-</td>
-										</c:when>
-										<c:otherwise>
-											<td>${vo.nedate}</td>
-										</c:otherwise>
-									</c:choose> --%>
+										<%-- <td>${vo.nedate}</td> --%>
+										<c:choose>
+											<c:when test="${vo.nedate == '9999-12-31' }">
+												<td>-</td>
+											</c:when>
+											<c:otherwise>
+												<td>${vo.nedate}</td>
+											</c:otherwise>
+										</c:choose>
 									<tr>
 								</c:forEach>
 

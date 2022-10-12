@@ -5,6 +5,7 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
 <mapper namespace="mapper.notice">
+
 	<!-- notice join-->
 	<insert id="insert" parameterType="com.shoppingmall.vo.Myshop_noticeVO">
 		insert into myshop_notice
@@ -47,8 +48,8 @@
 		where rno between #{start} and #{end}
 	</select>
 	
-	<!-- notice search_select-->
-	<select id="search_select" parameterType="map" resultType="com.shoppingmall.vo.Myshop_noticeVO">
+	<!-- notice admin_search_select-->
+	<select id="admin_search_select" parameterType="map" resultType="com.shoppingmall.vo.Myshop_noticeVO">
 		
 		select rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
 		from (select rownum rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
@@ -69,5 +70,25 @@
 		
 	</select>
 	
-	
+	<!-- notice search_select-->
+	<select id="search_select" parameterType="map" resultType="com.shoppingmall.vo.Myshop_noticeVO">
+		select rownum rno, nid, ntitle, ncrucial, nfile ,nsdate, nedate, ncode
+				from(select nid, ntitle, ncrucial, nfile ,nsdate, nedate, ncode from myshop_notice
+				<where>
+				<if test="searchtype neq ''">
+					<choose>
+				    <when test="searchtype == 'ntitle'">
+				      and ntitle like '%'||#{text}||'%'
+				    </when>
+				    <otherwise>
+				       and ncontent like '%'||#{text}||'%'
+				    </otherwise>
+				  </choose>
+				</if>
+				<if test="nsdate neq ''">and nsdate >= #{nsdate} and #{nedate} >= nedate </if>
+				<if test="ncode neq ''">and ncode = #{ncode}</if>
+				<if test="ncrucial neq ''">and ncrucial = #{ncrucial}</if>
+				</where>
+				)
+	</select>
 </mapper>  
