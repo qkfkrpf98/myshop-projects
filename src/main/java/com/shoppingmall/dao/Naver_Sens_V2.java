@@ -36,14 +36,16 @@ public class Naver_Sens_V2 {
         JSONObject toJson = new JSONObject();
 	    JSONArray  toArr = new JSONArray();
 
-	    toJson.put("content","Going 본인인증 ["+rand+"]");		// 난수와 함께 전송
-	    toJson.put("to",pnumber);
+	    toJson.put("to",pnumber); //pnumber
+	    toJson.put("subject","본인인증");
+		toJson.put("content","Going 본인인증 ["+rand+"]");	// 난수와 함께 전송
 	    toArr.add(toJson);
 	    
-	    bodyJson.put("type","sms");	// 메시지 Type (sms | lms)
+	    bodyJson.put("type","SMS");	// 메시지 Type (sms | lms)
 	    bodyJson.put("contentType","COMM");
 	    bodyJson.put("countryCode","82");
 	    bodyJson.put("from","01047192860");	// 발신번호 * 사전에 인증/등록된 번호만 사용할 수 있습니다.		
+	    bodyJson.put("content", "Going 본인인증 ["+rand+"]");
 	    bodyJson.put("messages", toArr);		
 	    
 

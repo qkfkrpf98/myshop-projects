@@ -43,7 +43,7 @@ public class LoginController {
 			}
 		}else{
 			mv.addObject("login_result","fail");
-			mv.setViewName("login");
+			mv.setViewName("/login");
 		}
 		
 		return mv;

@@ -29,7 +29,15 @@ $(document).ready(function(){
 		var ncode = "";
 		var ncrucial = "";
 		var posttype ="";
-		//mapper처리를 위하여 null값이 아닌 빈값으로 넘기기 위해서
+		
+		//날짜 비교를 위한 현재날짜 세팅
+		const date = new Date();
+		var now = date.getFullYear()+"-"+(date.getMonth() + 1)+"-"+date.getDate();
+		/* if(now >= '2022-10-11'){
+			alert("완료");
+		} */
+		
+		//mapper처리를 위하여 null값이 아닌 빈값으로 넘기기
 		if($("input[name='noticetype']:checked").val() == null){
 			ncode = "";	
 		}else{
@@ -76,8 +84,69 @@ $(document).ready(function(){
 		 		type: "POST",
 		 		data: search,
 		 		contentType : 'application/json;',
-		 		dataType:"json",
+		 		/* dataType:"json", */ //아마 받는 타입이 String 이라서 오류 발생
 		 		success:function(nvo){
+		 			let dataset = JSON.parse(nvo);
+		 			
+		 			var output = "<div class='seller_list'>";
+		 			output += "<div class='list_heading'>";
+		 			output += "<div class='heading_left'><h3>공지사항 검색목록(총 "+dataset.count+"개)</h3></div>";
+		 			output += "<div class='heading_right'>";
+		 			output += "<button type='button' class='btn_delete'>선택 삭제</button>";
+		 			output += "<a href='admin_notice_write.do'><button type='button'>공지사항 등록</button></a>";
+		 			output += "</div></div>";
+		 			
+		 			
+		 			
+		 			output += "<div class='list_content' id='datalist'>";
+		 			output += "<div class='table_flame'>";
+		 			output += "<table class='list_table'>";
+		 			output += "<tr>"
+		 			output += "<th><input type='checkbox' class='notice_check' name='checkAll'></th>"
+		 			output += "<th>번호</th><th>분류</th><th>제목</th><th>중요 여부</th><th>첨부 파일 유무</th><th>게시 현황</th><th>게시 시작일</th><th>게시 종료일</th></tr>"
+		 			
+		 			for(obj of dataset.list){
+			 			output += "<tr>";
+			 			output += "<td><input type='checkbox' class='notice_check' name='check' value='"+obj.nid+"'></td>";
+			 			output += "<td>"+obj.rno+"</td>";
+			 			output += "<td>"+obj.ncode+"</td>";
+			 			output += "<td><a href='admin_notice_update.do?nid="+obj.nid+"'>"+obj.ntitle+"</a></td>";		
+			 			//중요 선택여부
+			 			if(obj.ncrucial == "1"){
+				 			output += "<td>설정</td>";	
+			 			}else{
+				 			output += "<td>미 설정</td>";		
+			 			}
+			 			
+			 			//파일 여부
+			 			if(obj.nfile == null){
+			 				output += "<td>-</td>";
+			 			}else{
+				 			output += "<td>"+obj.nfile+"</td>";
+			 			}
+			 			
+			 			//게시현황
+			 			if(obj.nsdate <= now && obj.nedate >= now){
+			 				output += "<td>게시 중</td>";
+			 			}else if(obj.nsdate > now){
+			 				output += "<td>게시 준비중</td>";	
+			 			}else{
+			 				output += "<td>게시 종료</td>";				 				
+			 			}
+			 			output += "<td>"+obj.nsdate+"</td>";
+			 			//게시 종료일
+			 			if(obj.nedate == '9999-12-31'){
+			 				output += "<td>-</td>"
+			 			}else{
+				 			output += "<td>"+obj.nedate+"</td>";			 				
+			 			}
+			 			output += "</tr>";
+			 			
+		 			}
+		 			output += "</table></div></div></div>";
+		 			
+		 			$(".seller_list").remove();
+		 			$(".seller_content").after(output);
 		 			
 		 		}//success
 		 	});//ajax
@@ -254,9 +323,9 @@ $(document).ready(function(){
 							</tr>
 							<tr>
 								<th>게시 현황 분류</th>
-								<td><label><input type="radio" name="post_type" value="ready"><span>전시 준비중</span></label>
-								<label><input type="radio" name="post_type" value="ing"><span>전시중</span></label>
-								<label><input type="radio" name="post_type" value="end"><span>전시 종료</span></label>
+								<td><label><input type="radio" name="post_type" value="ready"><span>게시 준비중</span></label>
+								<label><input type="radio" name="post_type" value="ing"><span>게시중</span></label>
+								<label><input type="radio" name="post_type" value="end"><span>게시 종료</span></label>
 								</td>
 								<th>기간</th>
 								<td><input type="date" name="startdate">~ <input type="date" name="enddate"></td>
@@ -288,7 +357,7 @@ $(document).ready(function(){
 							</a>
 						</div>
 					</div>
-					<div class="list_content">
+					<div class="list_content" id="datalist">
 						<div class="table_flame">
 							<table class="list_table">
 								<tr>

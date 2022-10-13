@@ -77,6 +77,7 @@
 </script>
 </head>
 <body>
+<jsp:include page="/header.do"/>
 
 	<div class="content" id="new_mypage" style="margin-bottom: 120px;">
 		<div class="mypage_lnb">
@@ -255,7 +256,7 @@
 								<option value="seller_id">판매자</option>
 								<option value="jp.gou_number">주문번호</option>
 							</select>
-							<div class="search">
+							<div class="search1">
 								<input type="text" name="searchKeyword" value=""
 									class="new_text"> <img
 									src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/btn_search.png"

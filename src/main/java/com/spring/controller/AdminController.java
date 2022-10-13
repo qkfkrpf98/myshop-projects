@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.shoppingmall.service.FileServiceImpl;
 import com.shoppingmall.service.NoticeServiceImpl;
 import com.shoppingmall.service.ReviewServiceImpl;
@@ -82,17 +85,35 @@ public class AdminController {
 		
 		//관리자 - 공지사항 조건검색 -ajax
 		@ResponseBody
-		@RequestMapping(value="/admin_notice_search.do", method=RequestMethod.POST)
-		public ModelAndView admin_notice_search(@RequestBody Myshop_searchVO vo) {
-			ModelAndView mv = new ModelAndView();
+		@RequestMapping(value="/admin_notice_search.do", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
+		public String admin_notice_search(@RequestBody Myshop_searchVO vo) {
 			System.out.println("컨트롤러");
 			/* System.out.println(vo.getText()); */
-
 			ArrayList<Myshop_noticeVO> list = noticeService.getAdminSearchList(vo);
 			
+			JsonObject jobject = new JsonObject(); //CgvNoticeVO
+			JsonArray jarray = new JsonArray();  //ArrayList
+			Gson gson = new Gson();
 			
+			for(Myshop_noticeVO nvo: list) {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("rno", nvo.getRno());
+				jo.addProperty("nid", nvo.getNid());
+				jo.addProperty("ntitle", nvo.getNtitle());
+				jo.addProperty("ncrucial", nvo.getNcrucial());
+				jo.addProperty("nfile", nvo.getNfile());
+				jo.addProperty("nsdate", nvo.getNsdate());
+				jo.addProperty("nedate", nvo.getNedate());
+				jo.addProperty("ncode", nvo.getNcode());
+				
+				jarray.add(jo);
+			}
+			jobject.add("list", jarray);
+			jobject.addProperty("count", list.size());
 			
-			return mv;
+			System.out.println(gson.toJson(jobject));
+
+			return gson.toJson(jobject);
 		}
 		
 		

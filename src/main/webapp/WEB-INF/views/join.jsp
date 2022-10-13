@@ -200,9 +200,9 @@
 </script>
 <style>
 .join {
-	margin-bottom: 60px;
+	/* margin: 60px 0; */
 	width: 1080px;
-	margin: auto; /*  margin-bottom:49px; min-height:600px; */
+	margin:50px auto; /*  margin-bottom:49px; min-height:600px; */
 	/* border: 1px solid black; */
 }
 
@@ -405,6 +405,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="/header.do"/>
 	<div class="join">
 		<div class="content_header">
 			<div class="fl">
@@ -433,7 +434,7 @@
 							<th>아이디</th>
 							<td><input type="text" class="new_text seller_id" name="id"
 								id="id" maxlength="12" value=""
-								 style="ime-mode: disabled;" placeholder="영문 또는 영문+숫자 조합 4~12">
+								 style="ime-mode: disabled;" placeholder="아이디 입력">
 								 <button type="button" class="btn_style" id="idCheck">중복확인</button>
 								 <div id="idCheckMsg"></div>
 								 </td>

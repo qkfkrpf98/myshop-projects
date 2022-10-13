@@ -304,6 +304,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 </style>
 </head>
 <body>
+<jsp:include page="/header.do"/>
 	<div class="membership_benefit_content">
 		<h1 class="membership_title">멤버십 혜택 안내</h1>
 		<div class="grade_friends">

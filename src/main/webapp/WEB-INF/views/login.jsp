@@ -36,6 +36,7 @@
 			$("#checkbox_savaID").attr("checked",true); 	//id 저장하기 체크 상태
 		}
 		
+		//입력된 id 쿠키에 저장
 		$("#checkbox_savaID").change(function(){  
 			if($("checkbox_savaID").is(":checked")){  //아이디 저장에 체크하면
 				setCookie("key",$("#id").val(), 7);  //7일 동안 쿠키 보관
@@ -51,8 +52,17 @@
 			}
 		})
 		
+		//id를 입력하고 체크박스가 선택되면
+		$("#checkbox_savaID").click(function(){
+			if($("#checkbox_savaID").attr("checked",true) && $("#id").val() != ""){
+				setCookie("key",$("#id").val(), 7);
+				alert("선택")
+			}
+		});
+		
 		//쿠키 저장하기 함수
 		function setCookie(cookieName, value, exdays){
+			alert("저장");
 			var exdate = new Date();
 			exdate.setDate(exdate.getDate()+ exdays); //유효 기간 계산
 			var cookieValue = escape(value) + ((exdays ==null)? "" : "; expires="+exdate.toGMTString());
@@ -141,7 +151,7 @@
 	#new_member { /*  float:center; */
 		width: 1080px;
 		margin: auto; /*  margin-bottom:49px; min-height:600px; */
-		border: 1px solid black;
+		/* border: 1px solid black; */
 	}
 	
 	#login .top_welcome {
@@ -304,6 +314,7 @@
 </style>
 </head>
 <body>
+<jsp:include page="/header.do"/>
 	<div class="wraper" id="wrap">
 		<div id="container">
 			<div id="new_member">
@@ -331,7 +342,7 @@
 						        			<div class="find_lnfo">
 						        				<a href="/find_id">아이디 찾기</a>
 						        				<a href="/find_pw">비밀번호 찾기</a>
-						        				<a href="/join">회원가입</a>
+						        				<a href="http://localhost:9000/myshop/join.do">회원가입</a>
 						        			</div>
 						        		</div>
 						        		<div class="social_login">

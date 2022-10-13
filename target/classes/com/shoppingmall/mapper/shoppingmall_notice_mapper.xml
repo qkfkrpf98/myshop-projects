@@ -88,6 +88,19 @@
 				<if test="nsdate neq ''">and nsdate >= #{nsdate} and #{nedate} >= nedate </if>
 				<if test="ncode neq ''">and ncode = #{ncode}</if>
 				<if test="ncrucial neq ''">and ncrucial = #{ncrucial}</if>
+				<if test="posttype neq ''">
+					<choose>
+				    <when test="posttype == 'ready'">
+				      and nsdate > to_char(sysdate, 'yyyy-mm-dd')
+				    </when>
+				    <when test="posttype == 'ing'">
+				      and to_char(sysdate, 'yyyy-mm-dd') between nsdate and nedate
+				    </when>
+				    <otherwise>
+				       and to_char(sysdate, 'yyyy-mm-dd') > nedate 
+				    </otherwise>
+				  </choose>
+				</if>
 				</where>
 				)
 	</select>
