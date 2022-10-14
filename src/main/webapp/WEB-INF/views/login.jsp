@@ -122,9 +122,9 @@
 </script>
 <style>
 	/* 폰트적용 */
-    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+   /*  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
-	em, img, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
+	em, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
 	dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
 	tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,
 	figure, figcaption, footer, header, hgroup, menu, nav, output, ruby,
@@ -139,7 +139,7 @@
 		vertical-align: baseline;
 		color: inherit;
 	}
-	
+	 */
 	/* .wraper { width: 100%; min-width:1344px; position: relative;} */
 	/* #container{ width:1344px; min-width:1100px; margin:0 auto; text-align:left; *margin-bottom:50px; border:1px solid black;} */
 	
