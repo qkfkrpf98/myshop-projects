@@ -11,7 +11,7 @@
 			where myshop_orders.pid = myshop_product.pid and oid = #{oid}
 	</select>
 	<select id="select" parameterType="java.lang.String" resultType="com.shoppingmall.vo.Myshop_ordersVO">
-		select oid,  to_char(odate, 'yyyy-mm-dd') odate, psfile, brand, pname, price, myshop_product.pid pid
+		select oid,  to_char(odate, 'yyyy-mm-dd') odate, psfile, brand, pname, price, myshop_product.pid pid, status
     from myshop_orders, myshop_product
     where myshop_orders.pid = myshop_product.pid and myshop_orders.id =#{id}
 	</select>

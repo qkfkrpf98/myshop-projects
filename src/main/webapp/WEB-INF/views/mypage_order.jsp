@@ -100,11 +100,6 @@
 						<div class="num">0</div>
 					</div>
 					<div class="top_now cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=8'">
-						교환반품
-						<div class="num">0</div>
-					</div>
-					<div class="top_now cursor"
 						onclick="window.location.href='/mypage/my_buying?stats=11'">
 						판매취소
 						<div class="num">0</div>
@@ -204,8 +199,6 @@
 						<li onclick="buying_tab(this,'complete')">완료주문내역</li>
 						<!--발송전구매취소, 구매취소완료, 구매취소, 판매취소, 판매취소완료 상태-->
 						<li onclick="buying_tab(this,'cancel')">취소주문내역</li>
-						<!--교환반품요청, 반품성사, 반품완료-->
-						<li onclick="buying_tab(this,'refund')">교환/반품내역</li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -229,13 +222,21 @@
 							</tr>
 							<c:forEach var="vo" items="${list}">
 							<tr class="frist">
-								<td>${vo.odate}<br>${vo.oid}<br>발송완료</td>
+								<td>${vo.odate}<br>${vo.oid}<br>${vo.status }</td>
 								<td>
 									<div class="pro_img"></div><div class="pro_text"><p>${vo.brand}<br>${vo.pname }</p></div>
 									</td>
 								<td><a>${vo.price }</a> 원</td>
 								<td><a>3000</a> 원</td>
 									<!--발송전까지는 구매철회, 발송 후(발송진행중), 구매완료면 리뷰작성-->
+								<%-- <c:choose>
+											<c:when test="${vo.ncrucial == 1 }">
+												<td>설정</td>
+											</c:when>
+											<c:otherwise>
+												<td>미 설정</td>
+											</c:otherwise>
+										</c:choose>	 --%>
 								<td>리뷰 작성하기<br><button type="button" id="openModalPop" value="${vo.oid }">리뷰 작성하기</button></td>
 							</tr>
 							</c:forEach>

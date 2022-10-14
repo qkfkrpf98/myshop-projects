@@ -15,7 +15,7 @@
 	
 <style>
 	body {padding-top:245px; margin:0;font-family: "Noto Sans KR";}
-	header {position:fixed;width:100%; height: 230px; padding:0; top:0; transition: top 0.2s ease-in-out; z-index:300; background-color:white;}
+	header {position:fixed;width:100%; height: 230px; padding:0; top:0; transition: top 0.2s ease-in-out; z-index:1; background-color:white;}
 	.header_util { width:100%; line-height:40px; height:40px; margin:auto; background-color:#fafafa; font-size:12px; }
 	
 	.nav-up { top: -247px;}

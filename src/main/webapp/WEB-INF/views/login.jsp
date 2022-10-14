@@ -52,9 +52,11 @@
 			}
 		})
 		
+		
+		
 		//id를 입력하고 체크박스가 선택되면
 		$("#checkbox_savaID").click(function(){
-			if($("#checkbox_savaID").attr("checked",true) && $("#id").val() != ""){
+			if($("#checkbox_savaID").is(":checked")&& $("#id").val() != ""){
 				setCookie("key",$("#id").val(), 7);
 				alert("선택")
 			}
