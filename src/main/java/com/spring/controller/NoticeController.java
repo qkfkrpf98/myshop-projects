@@ -12,14 +12,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.shoppingmall.service.FileServiceImpl;
-import com.shoppingmall.service.NoticeServiceImpl;
-import com.shoppingmall.service.OrderServiceImpl;
-import com.shoppingmall.service.PageServiceImpl;
-import com.shoppingmall.service.ReviewServiceImpl;
-import com.shoppingmall.vo.Myshop_noticeVO;
-import com.shoppingmall.vo.Myshop_ordersVO;
-import com.shoppingmall.vo.Myshop_reviewVO;
+import com.myshop.vo.MyshopNoticeVO;
+import com.myshop.vo.MyshopOrderVO;
+import com.myshop.vo.MyshopReviewVO;
+import com.spring.service.FileServiceImpl;
+import com.spring.service.NoticeServiceImpl;
+import com.spring.service.OrderServiceImpl;
+import com.spring.service.PageServiceImpl;
+import com.spring.service.ReviewServiceImpl;
 @Controller
 public class NoticeController {
 	@Autowired
@@ -40,29 +40,29 @@ public class NoticeController {
 	//府轰 累己 其捞瘤-test
 	@ResponseBody
 	@RequestMapping(value="/review_write.do", method=RequestMethod.GET)
-	public Myshop_ordersVO review_write(String oid) {
-		Myshop_ordersVO vo = orderService.getInfo(oid);
+	public MyshopOrderVO review_write(String oid) {
+		MyshopOrderVO vo = orderService.getInfo(oid);
 		
 		return vo;
 	}
 	//府轰其捞瘤
-	@RequestMapping(value="/review_test.do", method=RequestMethod.GET)
-	public ModelAndView review_test(String rpage) {
+	@RequestMapping(value="/review.do", method=RequestMethod.GET)
+	public ModelAndView review(String rpage) {
 		ModelAndView mv = new ModelAndView();
 		
 		Map<String, Integer> param = pageService.getPageResult(rpage, "review", reviewService);
-		ArrayList<Myshop_reviewVO> list = reviewService.getList(param.get("startCount"),param.get("endCount"));
+		ArrayList<MyshopReviewVO> list = reviewService.getList(param.get("startCount"),param.get("endCount"));
 		
 		mv.addObject("list",list);
 		mv.addObject("dbCount", param.get("dbCount"));
 		mv.addObject("rpage", param.get("rpage"));
 		mv.addObject("pageSize", param.get("pageSize"));
-		mv.setViewName("/review_test");
+		mv.setViewName("/review");
 		return mv;
 	}
 	//府轰 累己 -test
 	@RequestMapping(value="/review_write_check.do", method=RequestMethod.POST)
-	public ModelAndView review_write_check(Myshop_reviewVO vo, HttpServletRequest request) 
+	public ModelAndView review_write_check(MyshopReviewVO vo, HttpServletRequest request) 
 												throws Exception{
 		ModelAndView mv = new ModelAndView();
 		
@@ -91,7 +91,7 @@ public class NoticeController {
 			ModelAndView mv = new ModelAndView();
 			
 			Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
-			ArrayList<Myshop_noticeVO> list = noticeService.getList(param.get("startCount"),param.get("endCount"));
+			ArrayList<MyshopNoticeVO> list = noticeService.getList(param.get("startCount"),param.get("endCount"));
 			
 			mv.addObject("list",list);
 			mv.addObject("dbCount", param.get("dbCount"));
@@ -109,7 +109,7 @@ public class NoticeController {
 			System.out.println(searchtype);
 			
 			Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
-			ArrayList<Myshop_noticeVO> list=noticeService.getSearchList(text,searchtype,param.get("startCount"),param.get("endCount")); 
+			ArrayList<MyshopNoticeVO> list=noticeService.getSearchList(text,searchtype,param.get("startCount"),param.get("endCount")); 
 			mv.addObject("list",list);
 			mv.addObject("dbCount", param.get("dbCount"));
 			mv.addObject("rpage", param.get("rpage"));

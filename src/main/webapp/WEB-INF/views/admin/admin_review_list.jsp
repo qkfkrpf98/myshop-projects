@@ -8,77 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-    <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_ReviewList.css">
+    <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/admin_review_list.css">
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/sidebarMenu.js"></script>
-    <script src="http://localhost:9000/myshop/resources/js/admin_list.js"></script>
+    <script src="http://localhost:9000/myshop/resources/js/admin_review_list.js"></script>
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
    <!--폰트어썸 최신 CDN-->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>
-$(document).ready(function() {
-	//레이드 팝업
-    $(".openModalPop").click(function() {
-    	var rid = $(this).val();
-    	$.ajax({
-	 		url:"admin_review_content.do?rid="+rid,
-	 		success:function(rvo){
-	 			/* alert(rvo.rcontent); */
-	 			var score =parseInt(rvo.score);
-	 			alert(score);
-	 			
-	 			let output = "<div id='modal'></div>";
-	 			output += "<div class='lay_review_content'>";
-	 			output += "<div class='header'>";
-	 			output += "<div class='rtitle'>리뷰 상세보기</div>";
-	 			output += "<div id='close_button' style='cursor: pointer;'><img src='http://localhost:9000/myshop/resources/images/close.png'></div>";
-	 			output += "</div>";
-	 			output += "<div class='content'>";
-	 			output += "<div class='flame'>";
-	 			output += "<div class='star'>";
-	 			for(var i=0;i<score; i++){
-		 			output +="<label>⭐</label>";
-	 			}
-	 			output +="<span>"+rvo.score+"</span>";
-	 			output +="<div>"+rvo.rwriter+"  |  "+rvo.rdate+"</div>";
-	 			output +="</div>";
-	 			output +="<div class='rcontent'>"+rvo.rcontent+"</div>";
-	 			if(rvo.rsfile != null){
-	 				output +="<div class='rsfile'>"+rvo.rsfile+"</div>";
-	 			}
-	 			output += "<div class='order_info'>";
-	 			output +="<span>"+rvo.pname+"  |  "+rvo.oid+"</span>";
-	 			output +="</div>";
-	 			output +="<div class='review_info'>";
-	 			output +="<table>";
-	 			output +="<tr>";
-	 			output +="<th>리뷰 글 번호</th>";
-	 			output +="<td>"+rvo.rid+"</td>";
-	 			output +="<th>리뷰 공감수</th>";
-	 			output +="<td>"+rvo.recom+"</td>";
-	 			output +="</tr>";
-	 			output +="</table>";
-	 			output +="</div></div></div></div>";
-	 			
-	 			$("#modal").remove();
-	 			$(".lay_review_content").remove();
-				$("#nav-toggle").after(output);
-		 		$(".lay_review_content").fadeIn();
-		 		$("#modal").fadeIn();
-	
-			    $("#close_button").click(function(){
-			        $(".lay_review_content").fadeOut();
-			        $("#modal").fadeOut();
-			    });
-	 		}//success
-	 	}); 
-    });
 
-    
-});
-
-</script>
     <title>회원 관리페이지</title> 
 <style>
 	.lay_review_content {
@@ -224,74 +161,8 @@ $(document).ready(function() {
 		</div>
 	</div> -->
 	
-    <input type="checkbox" id="nav-toggle">
-    <div class="sidebar">
-        <div class="sidebar-brand"> 
-            <h2><span class="lab la-accusoft"></span><span>Myshop</span></h2>
-        </div>
-       
-        <div class="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="" ><span class="las la-igloo"></span><span>Home</span></a>
-                </li>
-                
-                <li class="menu">
-                    <a class="active"><span class="las la-users"></span><span>사용자 관리</span></a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="www.naver.com"><span>사용자 목록</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>메시지 보내기</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>메일 발송 설정</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>SMS발송 설정</span></a>
-                        </li>
-                    </ul>
-                </li>
- 
-                <li>
-                    <a href=""><span class="las la-shopping-bag"></span><span>상품관리</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-receipt"></span><span>주문관리</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-user-circle"></span><span>관리자 정보수정</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-sign-out-alt"></span><span>Logout</span></a>
-                </li> 
-            </ul>
-        </div>
-    </div>
-
-    <div class="main-content">
-        <header>
-            <h2>
-                <label for="nav-toggle">
-                    <span class="las la-bars"></span>
-                </label>
-                
-            </h2>
-            
-            <div class="search-wrapper">
-                <span class="las la-search"></span>
-                <input type="search" placeholder="Search here">
-            </div>
-
-            <div class="user-wrapper">
-                <img src="4dda8b6ed915b478044d8db587d11da7.jpeg" alt="" width="30px" height="30px" display="inline">
-                <div>
-                    <h4>고범규</h4>
-                    <small>사이트 관리 전용</small>
-                </div>
-            </div>
-        </header>
+    	<!-- header -->    
+		<jsp:include page="/admin_header.do"></jsp:include>
 
         <main>
 		

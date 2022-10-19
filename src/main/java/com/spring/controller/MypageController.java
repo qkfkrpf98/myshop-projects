@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.shoppingmall.service.OrderServiceImpl;
-import com.shoppingmall.vo.Myshop_ordersVO;
+import com.myshop.vo.MyshopOrderVO;
+import com.spring.service.OrderServiceImpl;
 
 @Controller
 public class MypageController {
@@ -20,9 +20,9 @@ public class MypageController {
 		@RequestMapping(value="/mypage_order.do", method=RequestMethod.GET)
 		public ModelAndView mypage_order() {
 			ModelAndView mv = new ModelAndView();
-			String id = "test";
+			String id = "admin";
 			
-			ArrayList<Myshop_ordersVO> list = orderService.getList(id);			
+			ArrayList<MyshopOrderVO> list = orderService.getList(id);			
 			
 			mv.addObject("list",list);
 			mv.setViewName("/mypage_order");

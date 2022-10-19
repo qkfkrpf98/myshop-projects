@@ -1,12 +1,17 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<link rel="stylesheet"  href="http://localhost:9000/myshop/resources/css/am-pagination.css">
 <link rel="stylesheet"  href="http://localhost:9000/myshop/resources/css/product_list.css">
+<script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
+<script src="http://localhost:9000/myshop/resources/js/am-pagination.js"></script>
 <Style>
+
 	/*폰트&기본세팅*/
 	html, h1, h2, h3, h4, h5, h6, form, fieldset, img {margin:0;padding:0;border:0}
 	h1, h2, h3, h4, h5, h6 {font-size:1em;font-family:'Noto Sans KR', sans-serif;}
@@ -112,7 +117,7 @@
 	.sct_10 .sct_li_pannel{border:1px solid #e2e2e2 !important;border-radius:5px !important;overflow:hidden;background:#fff;padding:10px}
 	.sct_10 .sct_a {position:relative;text-decoration:none}
 	.sct_10 .sct_a:focus, .sct_10 .sct_a:hover {text-decoration:none}
-	.sct_10 .sct_img img{width:100% !important;height:auto}
+	.sct_10 .sct_img img{width:100% !important;}
 	.sct_brand{ font-weight: bold;font-size:1.2em;}
 	.sct_10 .sct_txt {margin:15px 0 10px 0; font-weight:bold; font-size:1.2em;}
 	.sct_10 .sct_icon {margin:0 0 10px}
@@ -131,8 +136,41 @@
 	#top_btn, #top_btn2{position:fixed;top:70%;right:20px;background:#fff;width:42px;height:40px;background:url("http://localhost:9000//resources/myshop/top_btn.png") no-repeat;text-indent:-9999px;overflow:hidden;opacity:0.8;z-index: 6;}
 
 </Style>
+<script>
+/* $(document).ready(function(){
+	
+	//페이징 리스트 출력
+	var pager = jQuery('#ampaginationsm').pagination({
+	
+	    maxSize: 7,	    		// max page size
+	    totals: '${dbCount}',	// total rows	
+	    page: '${rpage}',		// initial page		
+	    pageSize: '${pageSize}',	// max number items per page
+	
+	    // custom labels		
+	    lastText: '&raquo;&raquo;', 		
+	    firstText: '&laquo;&laquo;',		
+	    prevText: '&laquo;',		
+	    nextText: '&raquo;',
+			     
+	    btnSize:'sm'	// 'sm'  or 'lg'		
+	});
+	
+	//페이징 번호 클릭 시 이벤트 처리
+	jQuery('#ampaginationsm').on('am.pagination.change',function(e){		
+		   jQuery('.showlabelsm').text('The selected page no: '+e.page);
+           $(location).attr('href', "http://localhost:9000/myshop/product_list.do?rpage="+e.page);         
+    });
+	
+	}); */
+</script>
 </head>
 <body>
+
+<!-- header -->    
+<jsp:include page="/header.do"></jsp:include>
+
+
 	<!-- 추천상품 전시 -->
 	<div id="wrapper">
 		<!-- } 상단 끝 -->
@@ -141,23 +179,24 @@
 			<div id="wrapper_title" class="col-lg-12 text-center">
 				highly recommended </div>
 				<ul class="sct sct_10">
+					<c:forEach var="vo" items="${list}">
 					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
 						<div class="sct_li_pannel">
 							<div class="sct_img">
 								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
+									href="product_detail.do?pid=${vo.pid}"
 									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
+									src="http://localhost:9000/myshop/resources/upload/${vo.psfile}"
 									width="230px" height="230px" alt="연청 스키니진" title="">
 								</a>
 							</div>
 							<div class="sct_brand">STONE ISLAND</div>
 							<div class="sct_txt">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
+								<a 
+									href="product_detail.do?pid=${vo.pid}"
+									class="sct_a">${vo.pname}</a>
 							</div>
-							<div class="sct_cost">51,000원</div>
+							<div class="sct_cost">${vo.price}원</div>
 							<div class="sct_basic"></div>
 							<div class="sct_wish">
 								<span class="product_zzim__box">
@@ -171,96 +210,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
+					</c:forEach>
 				</ul>
 				
 				
@@ -312,22 +262,24 @@
 				</div>
 				<!-- 상품진열 10 시작 { -->
 				<ul class="sct sct_10">
+					<c:forEach var="vo" items="${list}">
 					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
 						<div class="sct_li_pannel">
 							<div class="sct_img">
 								<a
-									href="https://theme.sir.kr/youngcart5/shop/item.php?it_id=1538976916"
-									class="sct_a"> <img src="http://localhost:9000/myshop/resources/images/Hood.jpg"
+									href="product_detail.do?pid=${vo.pid}"
+									href="http://localhost:9000/myshop/product_detail.do"
+									class="sct_a"> <img src="http://localhost:9000/myshop/resources/upload/${vo.psfile}"
 									width="230px" height="230px" alt="연청 스키니진" title="">
 								</a>
 							</div>
-							<div class="sct_brand">STONE ISLAND</div>
+							<div class="sct_brand">${vo.brand}</div>
 							<div class="sct_txt">
 								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
+									href="http://localhost:9000/myshop/product_detail.do"
+									class="sct_a">${vo.pname}</a>
 							</div>
-							<div class="sct_cost">51,000원</div>
+							<div class="sct_cost">${vo.price}원</div>
 							<div class="sct_basic"></div>
 							<div class="sct_wish">
 								<span class="product_zzim__box">
@@ -341,97 +293,9 @@
 							</div>
 						</div>
 					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
-					<li class="sct_li col-md-3 col-sm-6 col-xs-6  sct_clear">
-						<div class="sct_li_pannel">
-							<div class="sct_img">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> <img
-									src="http://localhost:9000/myshop/resources/images/Hood.jpg"
-									width="230px" height="230px" alt="연청 스키니진" title="">
-								</a>
-							</div>
-							<div class="sct_brand">STONE ISLAND</div>
-							<div class="sct_txt">
-								<a
-									href="https://theme.sir.kr/youngcart5/myshop/item.php?it_id=1538976916"
-									class="sct_a"> 연청 스키니진 </a>
-							</div>
-							<div class="sct_cost">51,000원</div>
-							<div class="sct_basic"></div>
-							<div class="sct_wish">
-								<span class="product_zzim__box">
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon_zzim_12.svg" alt="찜"></i>
-							<span class="product_zzim__num">65</span>
-							<i class="product_zzim__icon">
-								<img src="http://localhost:9000/myshop/resources/images/icon-star-lp.svg" alt="별점"></i>
-							<span class="product_zzim__num">5.0</span>
-						</span>
-							</div>
-						</div>
-					</li>
+					</c:forEach>
 				</ul>
+				<div id="ampaginationsm"></div>
 				<!-- } 상품진열 10 끝 -->
 
 				<div id="sct_thtml"></div>
@@ -439,8 +303,12 @@
 			<!-- } 상품 목록 끝 -->
 
 			
-			<a href="#hd" id="top_btn2">상단으로</a>
-		
+				<a href="#hd" id="top_btn2">상단으로</a>
+			
+			<from id="moveForm" action="/product_list" method="get">
+				<input type="hidden" name=category_id value="<c:out value="${category_id}"/>">
+				<input type="hidden" name=category_nm value="<c:out value="${category_nm}"/>">
+			</from>
 		<script>
         $(function() {
             $("#container #top_btn2").on("click", function() {
@@ -453,5 +321,7 @@
 		<!-- } container 끝 -->
 	</div>
 
+	<!-- footer -->    
+	<jsp:include page="/footer.do"></jsp:include>
 </body>
 </html>

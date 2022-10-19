@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.shoppingmall.service.MemberServiceImpl;
-import com.shoppingmall.vo.Myshop_memberVO;
-import com.shoppingmall.vo.SessionVO;
+import com.myshop.vo.MyshopMemberVO;
+import com.myshop.vo.SessionVO;
+import com.spring.service.MemberServiceImpl;
 
 @Controller
 public class LoginController {
@@ -29,7 +29,7 @@ public class LoginController {
 		
 	//로그인 처리
 	@RequestMapping(value="/loginCheck.do", method=RequestMethod.POST)
-	public ModelAndView loginCheck(Myshop_memberVO vo, HttpSession session) {
+	public ModelAndView loginCheck(MyshopMemberVO vo, HttpSession session) {
 	ModelAndView mv = new ModelAndView();
 			
 		SessionVO svo= memberService.getLoginResult(vo);
@@ -38,12 +38,14 @@ public class LoginController {
 			if(svo.getLoginresult() == 1){
 				//로그인 성공 --> session객체에 key(sid),value(로그인계정) 추가 후 index 페이지로 이동
 				session.setAttribute("svo", svo);
-				mv.addObject("login_result","ok");
-				mv.setViewName("indextest");
+				//최근 방문일 카운트
+				memberService.updateVisit(vo.getId());
+				//mv.addObject("login_result","ok");
+				mv.setViewName("myshop");
 			}
 		}else{
 			mv.addObject("login_result","fail");
-			mv.setViewName("/login");
+			mv.setViewName("login");
 		}
 		
 		return mv;

@@ -36,7 +36,6 @@
 			$("#checkbox_savaID").attr("checked",true); 	//id 저장하기 체크 상태
 		}
 		
-		//입력된 id 쿠키에 저장
 		$("#checkbox_savaID").change(function(){  
 			if($("checkbox_savaID").is(":checked")){  //아이디 저장에 체크하면
 				setCookie("key",$("#id").val(), 7);  //7일 동안 쿠키 보관
@@ -52,19 +51,8 @@
 			}
 		})
 		
-		
-		
-		//id를 입력하고 체크박스가 선택되면
-		$("#checkbox_savaID").click(function(){
-			if($("#checkbox_savaID").is(":checked")&& $("#id").val() != ""){
-				setCookie("key",$("#id").val(), 7);
-				alert("선택")
-			}
-		});
-		
 		//쿠키 저장하기 함수
 		function setCookie(cookieName, value, exdays){
-			alert("저장");
 			var exdate = new Date();
 			exdate.setDate(exdate.getDate()+ exdays); //유효 기간 계산
 			var cookieValue = escape(value) + ((exdays ==null)? "" : "; expires="+exdate.toGMTString());
@@ -124,7 +112,7 @@
 	/* 폰트적용 */
    /*  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
-	em, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
+	em, img, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
 	dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
 	tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed,
 	figure, figcaption, footer, header, hgroup, menu, nav, output, ruby,
@@ -138,8 +126,8 @@
 		color: #666666;
 		vertical-align: baseline;
 		color: inherit;
-	}
-	 */
+	} */
+	
 	/* .wraper { width: 100%; min-width:1344px; position: relative;} */
 	/* #container{ width:1344px; min-width:1100px; margin:0 auto; text-align:left; *margin-bottom:50px; border:1px solid black;} */
 	
@@ -316,7 +304,10 @@
 </style>
 </head>
 <body>
-<jsp:include page="/header.do"/>
+
+	<!-- header -->    
+	<jsp:include page="/header.do"></jsp:include>
+	
 	<div class="wraper" id="wrap">
 		<div id="container">
 			<div id="new_member">
@@ -393,5 +384,7 @@
 		</div>
 	</div>
 
+	<!-- footer -->    
+	<jsp:include page="/footer.do"></jsp:include>
 </body>
 </html>
