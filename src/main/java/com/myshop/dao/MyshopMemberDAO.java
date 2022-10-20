@@ -77,6 +77,19 @@ public class MyshopMemberDAO {
 	 *  delete : È¸¿øÅ»Åð
 	 */
 	public int delete(String id) {
+		System.out.println(id);
 		return sqlSession.delete("mapper.member.delete",id);
+	}
+	
+	
+	/** 
+	 * select : È¸¿ø»ó¼¼º¸±â
+	 */
+	public MyshopMemberVO select(String id) {
+		return sqlSession.selectOne("mapper.member.select",id);
+	}
+	
+	public int update(MyshopMemberVO vo) {
+		return sqlSession.update("mapper.member.admin_update",vo);
 	}
 }

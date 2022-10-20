@@ -14,4 +14,6 @@ public interface MemberService {
 	void updateVisit(String id);
 	ArrayList<MyshopMemberVO> getSearchList(String searchtext, String sorttype);
 	int getDelete(String id);
+	MyshopMemberVO getContent(String id);
+	int getUpdate(MyshopMemberVO vo);
 }

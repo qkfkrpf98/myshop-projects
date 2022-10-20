@@ -198,12 +198,13 @@
 				 				location.reload();
 				 			}
 				 		}//success
-				 	}); 
-				 	 
+				 	}); 			 	 
 			 	 }//if문 
-			 	
 			 }//if-else
 		}//function
+		
+		
+		
  	});
 </script>  
 </head>
@@ -274,7 +275,8 @@
 		                                        <td><input type="checkbox" class='member_check' name="check" value="${vo.id }"></td>
 											</c:otherwise>
 										</c:choose>
-                                        <td>${vo.name }</td>
+                                        <td><a href="http://localhost:9000/myshop/admin_member_content.do?id=${vo.id}"
+                                        		onclick="window.open(this.href,'회원 상세보기', 'width=625, height=850'); return false;">${vo.name }</a></td>
                                         <td>${vo.id }</td>
                                         <td>${vo.email }</td>
                                         <td>${vo.grade }</td>

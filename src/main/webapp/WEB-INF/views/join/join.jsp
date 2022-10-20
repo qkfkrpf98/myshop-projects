@@ -9,6 +9,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
 	$(document).ready(function(){
+		
 		/*********************
 		회원가입 폼 유효성 체크 
 	**********************/
@@ -32,20 +33,15 @@
 			}else if($("#email").val() == ""){
 				alert("이메일을 입력해주세요");
 				$("#email").focus();
-				return false;
-			}else if($("#select_email").val() == "default"){
-				alert("주소를 선택해주세요");
-				$("#select_email").focus();
+				return false;		
+			}else if(email_regExp()== false){
+				alert("올바른 이메일 형식이 아닙니다.");
+				$("#email").focus();
 				return false;
 			}else if($(".hp_check").val()=="defalt"){
-				if(email_regExp()== false){
-					alert("올바른 이메일 형식이 아닙니다.");
-					$("#email").focus();
-				}else{
-					alert("통신사를 선택해주세요");
-					$("#hp").focus();
-					return false;
-				}
+				alert("통신사를 선택해주세요");
+				$("#hp").focus();
+				return false;
 			}else if($("#pnumber").val() == ""){
 				alert("폰번호를 입력해주세요");
 				$("#pnumber").focus();
@@ -53,6 +49,10 @@
 			}else if($("#name").val() == ""){
 				alert("성명을 입력해주세요");
 				$("#name").focus();
+				return false;
+			}else if($("#birth").val() == ""){
+				alert("생년월일을 입력해주세요");
+				$("#birth").focus();
 				return false;
 			}else if($("#addr1").val() == ""){
 				alert("주소를 입력해주세요");
@@ -109,6 +109,12 @@
 				}
 			}
 		});
+		//이메일 정규식 검토	
+		function email_regExp(){
+			/* alert($("#email").val()); */
+			var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+			return regExp.test($("#email").val());	
+		}
 		
 			/*********************
 			아이디 중복확인 이벤트 처리 --> AJAX
@@ -154,7 +160,7 @@
 		
 		
 		/*********************
-		회원가입 - 이메일 정규식 확인 & email 선택박스 처리
+		회원가입 - email 선택박스 처리
 	**********************/	
 		$("#select_email").change(function(){
 			if($(this).val()=="self"){
@@ -459,7 +465,6 @@
 								class="mi-selectbox mi-inline-block mi-group-r5"
 								style="width: 160px"> <select class="mi-input" id="select_email"
 									name="select_email">
-										<option value="">선택</option>
 										<option value="self">직접입력</option>
 										<option value="naver.com">naver.com</option>
 										<option value="gmail.com">gmail.com</option>

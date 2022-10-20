@@ -83,9 +83,20 @@ public class MemberServiceImpl implements MemberService{
 	}
 	
 	/** 
-	 * 검색리스트 도출
+	 * 회원 탈퇴
 	 */
 	public int getDelete(String id) {
 		return memberDao.delete(id);
+	}
+	
+	/** 
+	 * 회원 상태보기
+	 */
+	public MyshopMemberVO getContent(String id) {
+		return memberDao.select(id);
+	}
+	
+	public int getUpdate(MyshopMemberVO vo) {
+		return memberDao.update(vo);
 	}
 }

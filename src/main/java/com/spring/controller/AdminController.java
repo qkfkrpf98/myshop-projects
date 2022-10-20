@@ -105,12 +105,57 @@ public class AdminController {
 		
 			return result;
 		}
+		//관리자 - 멤버 지정 삭제
+		@ResponseBody
+		@RequestMapping(value="/admin_member_delete.do", method=RequestMethod.GET)
+		public int admin_member_list_delete(String id) {
+			int result = 0;
+			/* System.out.println("11111"); */
+			System.out.println(id);
+			result = memberService.getDelete(id);
+			System.out.println(result);
+			return result;
+		}
 		
 		//관리자 - 회원 상세보기
 		@RequestMapping(value="/admin_member_content.do", method=RequestMethod.GET)
-		public String admin_member_content() {
-			return "/admin/admin_member_content";
+		public ModelAndView admin_member_content(String id) {
+			ModelAndView mv = new ModelAndView();
+			
+			MyshopMemberVO vo = memberService.getContent(id);
+			
+			mv.addObject("vo", vo);
+			mv.setViewName("/admin/admin_member_content");
+			return mv;
 		}
+		//관리자 - 회원 상세보기 - 회원 수정
+		@RequestMapping(value="/admin_member_update.do", method=RequestMethod.GET)
+		public ModelAndView admin_member_update(String id) {
+			ModelAndView mv = new ModelAndView();
+			
+			MyshopMemberVO vo = memberService.getContent(id);
+			
+			mv.addObject("vo", vo);
+			mv.setViewName("/admin/admin_member_update");
+			return mv;
+		}
+		
+		@RequestMapping(value="/admin_member_update_check.do", method=RequestMethod.POST)
+		public ModelAndView admin_member_update_check(MyshopMemberVO vo) {
+			ModelAndView mv = new ModelAndView();
+			
+			int result = memberService.getUpdate(vo);
+			if(result == 1) {
+				
+				mv.addObject("update_result", "ok");	
+				mv.setViewName("redirect:/admin_member_content.do?id="+vo.getId());
+			}else {
+				mv.setViewName("error_page");
+			}
+						
+			return mv;
+		}
+		
 		//관리자 - admin-home
 		@RequestMapping(value="/admin.do", method=RequestMethod.GET)
 		public String admin() {
