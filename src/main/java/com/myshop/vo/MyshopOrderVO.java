@@ -1,8 +1,8 @@
 package com.myshop.vo;
 
 public class MyshopOrderVO {
-	int oid, pid, quantity, price, category_id;
-	String id, status, odate, recipient_zonecode, recipient_addr, recipient_name,
+	int oid, pid, quantity, price, status, category_id;
+	String id,  odate, recipient_zonecode, recipient_addr, recipient_name,
 	recipient_hp, recipient_pnumber, oddr, payment, pname, brand, psfile;
 	public int getOid() {
 		return oid;
@@ -58,10 +58,10 @@ public class MyshopOrderVO {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public String getStatus() {
+	public int getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(int status) {
 		this.status = status;
 	}
 	public String getOdate() {

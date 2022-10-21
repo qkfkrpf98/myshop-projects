@@ -7,4 +7,5 @@ import com.myshop.vo.MyshopOrderVO;
 public interface OrderService {
 	MyshopOrderVO getInfo(String oid);
 	ArrayList<MyshopOrderVO> getList(String id);
+	int updateStatus(int oid);
 }

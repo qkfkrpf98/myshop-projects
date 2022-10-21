@@ -28,5 +28,15 @@ public class MyshopOrderDAO {
 		List<MyshopOrderVO> list = sqlSession.selectList(namespace+".select",id);
 		return (ArrayList<MyshopOrderVO>)list;
 	}
+	
+	/**
+	 * update_status: 주문 취소 요청시 주문 상태변경
+	 */
+	public int update_status(int oid) {
+		
+		return sqlSession.selectOne(namespace+".update_status",oid);
+	}
+	
+	
 
 }

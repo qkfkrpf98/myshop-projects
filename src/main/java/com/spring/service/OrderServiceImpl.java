@@ -18,4 +18,8 @@ public class OrderServiceImpl implements OrderService{
 	public ArrayList<MyshopOrderVO> getList(String id) {
 		return orderDao.select(id);
 	}
+	
+	public int updateStatus(int oid) {
+		return orderDao.update_status(oid);
+	}
 }

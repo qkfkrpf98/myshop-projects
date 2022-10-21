@@ -11,8 +11,11 @@
 			where myshop_orders.pid = myshop_product.pid and oid = #{oid}
 	</select>
 	<select id="select" parameterType="java.lang.String" resultType="com.myshop.vo.MyshopOrderVO">
-		select oid,  to_char(odate, 'yyyy-mm-dd') odate, psfile, brand, pname, price, myshop_product.pid pid, status
+		select oid,  to_char(odate, 'yyyy-mm-dd') odate, psfile, brand, pname, price, myshop_product.pid pid, status, myshop_orders.quantity quantity
     from myshop_orders, myshop_product
     where myshop_orders.pid = myshop_product.pid and myshop_orders.id =#{id}
 	</select>
+	<update id="update_status" parameterType="int">
+		update myshop_orders set status = 6 where oid= #{oid}
+	</update>
 </mapper>

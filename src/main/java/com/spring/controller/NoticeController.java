@@ -70,13 +70,14 @@ public class NoticeController {
 		System.out.println(vo.getRwriter());
 		System.out.println(vo.getScore());
 		System.out.println(vo.getRcontent());
+		System.out.println("---------------------");
 		
 		vo = fileService.fileCheck(vo);
 		int result = reviewService.getWriteResult(vo);
 		
 		if(result == 1){			
 			fileService.fileSave(vo, request);
-			mv.setViewName("redirect:/mypage_order.do");
+			mv.setViewName("redirect:/mypage_order.do?id="+vo.getRwriter());
 		}else{
 
 			mv.setViewName("error_page");

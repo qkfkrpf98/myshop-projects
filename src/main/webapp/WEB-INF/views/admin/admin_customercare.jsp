@@ -98,7 +98,7 @@
 				 			}else{
 					 			output +="<td><input type='checkbox' class='member_check' name='check' value='"+obj.id+"'></td>";
 				 			}
-				 			output +="<td>"+obj.name+"</td>";
+				 			output +="<td><a href='#' onclick='popup("+obj.id+");'>"+obj.name+"</a></td>";
 				 			output +="<td>"+obj.id+"</td>";
 				 			output +="<td>"+obj.email+"</td>";
 				 			output +="<td>"+obj.grade+"</td>";
@@ -124,7 +124,7 @@
 			 				}//if
 			 			});//function
 			 			
-			 			/* 체크박스 전체 선택(공지사항)  */
+			 			/* 체크박스 전체 선택  */
 			 			$("input[name=checkAll]").click(function(){
 			 				if($("input[name=checkAll]").prop("checked")){
 			 					$(".member_check").prop("checked",true);
@@ -145,10 +145,17 @@
 			 				/* alert("삭제"); */
 			 				memberDelete();
 			 			 });//delete function
+			 			 
+			 			 
 			 			
 		 			}//if-else
 		 		}//success
 			});//ajax
+		}
+		
+		
+		function popup(id){
+			var popup = window.open('http://localhost:9000/myshop/admin_member_content.do?id='+id+'','회원 상세보기', 'width=625, height=850'); //return false;
 		}
 		
 		/* 체크박스 전체 선택(공지사항)  */

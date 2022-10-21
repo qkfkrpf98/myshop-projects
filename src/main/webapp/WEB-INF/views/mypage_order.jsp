@@ -10,9 +10,14 @@
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/mypage_order.css">
 <script>
+//onclick 이벤트
+function buying_tab(n,p){
+	alert(n);
+	alert(p);
+}
 	$(document).ready(function() {
 		//레이드 팝업
-	    $("#openModalPop").click(function() {
+	    $(".openModalPop").click(function() {
 	    	var oid = $(this).val();
 	    	$.ajax({
 	    		url:"review_write.do?oid="+oid,
@@ -29,7 +34,7 @@
 		 			output += "<div class='flame'>"
 		 			output += "<div class='product_info'>"
 		 			output += "<div class='pro_flame'>"
-		 			output += "<div class='pro_img'></div>"
+		 			output += "<div class='pro_img'><img class='proimg' src='http://localhost:9000/myshop/resources/upload/"+ovo.psfile+"'></div>"
 		 			output += "<div class='pro_text'>"
 		 			output += "<ul><li>"+ovo.pname+"/<a>옵션</a></li><li>"+ovo.brand+"</li><li>₩ "+ovo.price+"</li></ul>"
 		 			output += "</div></div></div>"
@@ -50,10 +55,13 @@
 		 			$(".content").before(output);
 			        $(".review_write").fadeIn();
 			        $("#modal").fadeIn();
+			        
 		 			
 				    $("#close_button").click(function(){
 				        $(".review_write").fadeOut();
 				        $("#modal").fadeOut();
+				        $(".review_write").remove();
+				        $("#modal").remove();
 				    });
 				    
 				    $("#btnWritereview").click(function(){
@@ -67,14 +75,55 @@
 				    	}
 				    });
 		 		}
-	    		
 	    	});
-	    	
 	    });
+		
+		//주문 취소 요청 버튼
+	    $("#cancel_order").click(function(){
+	    	var confirmflag = confirm("주문 취소 요청을 하시겠습니까?.");
+	    	var cancel_order = $(this).val();
+	    	if(confirmflag){
+	    		$.ajax({
+		    		url:"order_cancel_update.do?oid="+cancel_order,
+			 		success:function(result){
+			 			if(result ==1){
+				    		alert("관리자에게 주문 취소 요청을 보냈습니다.");	
+				    		location.reload();
+			 			}else{
+			 				alert("요청 오류");
+			 			}
+			 			
+			 		}
+	    		}); 
+	    	}else{
+	    		
+	    	}
+	    });
+		
+		//검색
+		
 
 	});
 
 </script>
+<style>
+.cancel_order, .cancel_order_cancel{
+	background:#fff;;
+	border:1px solid #323232;;
+	color:black;
+	border-radius:2px;
+	padding: 5px 10px;
+}
+.openModalPop{
+	background:#a00;
+	border:1px solid #a00;
+	border-radius:2px;
+	padding: 5px 10px;
+	color:#fff
+
+}
+
+</style>
 </head>
 <body>
 <jsp:include page="/header.do"/>
@@ -88,7 +137,8 @@
 					class="want_go" onclick="/member/change_seller">상품판매하기</a>
 			</div>
 		</div>
-
+		
+		<%-- <input type="text" value="${sessionScope.svo.id}"> --%>
 		<div id="layerNode"></div>
 		<div id="my_buying" class="fl new_mypage" style="">
 			<div class="now_order ">
@@ -193,7 +243,7 @@
 			<div class="mypage_table" style="position: relative">
 				<div class="menu_tab">
 					<ul>
-						<li class="on" onclick="buying_tab(this,'all')">전체주문내역</li>
+						<li class="on" onclick="buying_tab()">전체주문내역</li>
 						<!--결제대기, 입금확인중, 발송전, 배송준비중, 배송중, 배송완료, 구매완료-->
 						<li onclick="buying_tab(this,'success')">진행주문내역</li>
 						<li onclick="buying_tab(this,'complete')">완료주문내역</li>
@@ -207,7 +257,8 @@
 						id="new_mypage_table" style="table-layout: fixed;">
 						<colgroup>
 							<col width="140">
-							<col width="390">
+							<col width="340">
+							<col width="50">
 							<col width="98">
 							<col width="110">
 							<col width="110">
@@ -216,28 +267,63 @@
 							<tr>
 								<th>주문정보</th>
 								<th>상품정보</th>
-								<th>판매가격</th>
+								<th>상품단가</th>
+								<th>수량</th>
 								<th>배송비</th>
 								<th>관리</th>
 							</tr>
 							<c:forEach var="vo" items="${list}">
 							<tr class="frist">
-								<td>${vo.odate}<br>${vo.oid}<br>${vo.status }</td>
+								<c:choose>
+									<c:when test="${vo.status == 0}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>입금준비중</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 1}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>발송전</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 2}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>배송준비중</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 3}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>배송중</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 4}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>배송완료</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 5}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3>구매완료</h3></td>
+									</c:when>
+									<c:when test="${vo.status == 6}">
+										<td>${vo.odate}<br>${vo.oid}<br><h3 style="color:#a00">구매취소</h3></td>
+									</c:when>
+									<c:otherwise>
+										<td>${vo.odate}<br>${vo.oid}<br><h3>판매취소</h3></td>
+									</c:otherwise>
+								</c:choose>
 								<td>
-									<div class="pro_img"></div><div class="pro_text"><p>${vo.brand}<br>${vo.pname }</p></div>
+									<%-- <div>${vo.psfile }</div> --%>
+									<div class="pro_img"><img class="proimg" src="http://localhost:9000/myshop/resources/upload/${vo.psfile }" ></div>
+									<div class="pro_text"><h4>${vo.brand}</h4><p>${vo.pname }</p></div>
 									</td>
 								<td><a>${vo.price }</a> 원</td>
+								<td><a>${vo.quantity }</a></td>
 								<td><a>3000</a> 원</td>
 									<!--발송전까지는 구매철회, 발송 후(발송진행중), 구매완료면 리뷰작성-->
-								<%-- <c:choose>
-											<c:when test="${vo.ncrucial == 1 }">
-												<td>설정</td>
-											</c:when>
-											<c:otherwise>
-												<td>미 설정</td>
-											</c:otherwise>
-										</c:choose>	 --%>
-								<td>리뷰 작성하기<br><button type="button" id="openModalPop" value="${vo.oid }">리뷰 작성하기</button></td>
+								<c:choose>
+									<c:when test="${vo.status < 2 }">
+										<td>주문 취소 요청<button type="button" class="cancel_order" value="${vo.oid }">주문 취소</button></td>
+									</c:when>
+									<c:when test="${vo.status == 5 }">
+										<td>리뷰 작성하기<button type="button" class="openModalPop" value="${vo.oid }">리뷰 작성</button></td>
+									</c:when>
+									<c:when test="${vo.status == 6 }">
+										<td><div style="color:#a00">주문 취소 요청 중</div><button type="button" class="cancel_order_cancel" value="${vo.oid }">요청 취소</button></td>
+									</c:when>
+									<c:otherwise>
+										<td>-</td>
+									</c:otherwise>
+								</c:choose>
+								<%-- <td>리뷰 작성하기<br><button type="button" id="openModalPop" value="${vo.oid }">리뷰 작성하기</button></td> --%>
 							</tr>
 							</c:forEach>
 							<!-- <tr class="second">
