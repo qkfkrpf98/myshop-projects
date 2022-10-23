@@ -1,9 +1,15 @@
 package com.myshop.vo;
 
 public class MyshopOrderVO {
-	int oid, pid, quantity, price, status, category_id;
+	int oid, pid, quantity, price, status, category_id,stutuscount;
 	String id,  odate, recipient_zonecode, recipient_addr, recipient_name,
-	recipient_hp, recipient_pnumber, oddr, payment, pname, brand, psfile;
+	recipient_hp, recipient_pnumber, oddr, payment, pname, brand, psfile, rid;
+	public String getRid() {
+		return rid;
+	}
+	public void setRid(String rid) {
+		this.rid = rid;
+	}
 	public int getOid() {
 		return oid;
 	}
@@ -15,6 +21,12 @@ public class MyshopOrderVO {
 	}
 	public void setPid(int pid) {
 		this.pid = pid;
+	}
+	public int getStutuscount() {
+		return stutuscount;
+	}
+	public void setStutuscount(int stutuscount) {
+		this.stutuscount = stutuscount;
 	}
 	public int getPrice() {
 		return price;

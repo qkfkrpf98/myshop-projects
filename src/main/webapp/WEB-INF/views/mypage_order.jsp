@@ -11,10 +11,78 @@
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/mypage_order.css">
 <script>
 //onclick 이벤트
-function buying_tab(n,p){
-	alert(n);
-	alert(p);
+function buying_tab(searchtext,searchtype ,sorttype){
+	/* alert(searchtext);
+	alert(searchtype); */
+	
+	var id = $(".user_id").val();
+	var param ={"searchtext":searchtext,"searchtype":searchtype,"sorttype":sorttype,"id":id};
+	var search = JSON.stringify(param);
+	alert(id);
+	$.ajax({
+		url:"order_search.do",
+ 		type: "POST",
+ 		data: search,
+ 		contentType : 'application/json;',
+ 		/* dataType:"json", */ //아마 받는 타입이 String 이라서 오류 발생
+ 		success:function(ovo){
+ 			let dataset = JSON.parse(ovo);
+ 			/* alert(dataset.list[0].oid); */
+ 			if(dataset.count == 0){
+ 				alert("없음");
+ 			}else{
+ 				let output = "<table class='new_mypage_table order_progress' id='new_mypage_table' style='table-layout: fixed';>"
+ 				output += "<colgroup>";
+ 				output += "<col width='140'><col width='340'><col width='50'><col width='98'><col width='110'><col width='110'>";
+ 				output += "</colgroup><tbody><tr>";
+ 				output += "<th>주문정보</th><th>상품정보</th><th>상품단가</th><th>수량</th><th>배송비</th><th>관리</th></tr>";
+ 				for(obj of dataset.list){
+ 					output += "<tr class='first'>";
+ 					if(obj.status ==0){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>입금준비중</h3></td>";
+ 					}else if(obj.status ==1){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>발송전</h3></td>";
+ 					}else if(obj.status ==2){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>배송준비중</h3></td>";
+ 					}else if(obj.status ==3){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>배송중</h3></td>";
+ 					}else if(obj.status ==4){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>배송완료</h3></td>";
+ 					}else if(obj.status ==5){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>구매완료</h3></td>";
+ 					}else if(obj.status ==6){
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3 style='color:#a00'>구매취소</h3></td>";
+ 					}else{
+ 						output += "<td>"+obj.odate+"<br>"+obj.oid+"<br><h3>판매취소</h3></td>";
+ 					}
+ 				output +="<td>";
+ 				output +="<div class='pro_img'><img class='proimg' src='http://localhost:9000/myshop/resources/upload/"+obj.psfile+"' ></div>";
+ 				output +="<div class='pro_text'><h4>"+obj.brand+"</h4><p>"+obj.pname+"</p></div>";
+ 				output +="</td>";
+ 				output +="<td><a>"+obj.price+"</a> 원</td><td><a>"+obj.quantity+"</a></td><td><a>3000</a> 원</td>";
+ 				if(obj.status < 2){
+ 					output +="<td>주문 취소 요청<button type='button' class='cancel_order' value='"+obj.oid+"'>주문 취소</button></td>"
+ 				}else if(obj.status ==5){
+ 					if(obj.rid == 0){
+ 						output += "<td>리뷰 작성하기<button type='button' class='openModalPop' value='"+obj.oid+"'>리뷰 작성</button></td>"
+ 					}else{
+ 						output += "<td>리뷰 수정하기<button type='button' class='openModalPop_update' value='"+obj.oid+"'>리뷰 수정</button></td>"
+ 					}
+ 				}else if(obj.status ==6){
+ 					output +="<td><div style='color:#a00'>주문 취소 요청 중</div><button type='button' class='cancel_order_cancel' value='"+obj.oid+"'>요청 취소</button></td>"
+ 				}else{
+ 					output +="<td>-</td>";
+ 				}
+ 				output +="</tr>";
+ 			}//for	
+ 			$("#new_mypage_table").remove();
+ 			$(".menu_tab").after(output);
+ 		}//if-else
+	}//success
+	});
 }
+
+
 	$(document).ready(function() {
 		//레이드 팝업
 	    $(".openModalPop").click(function() {
@@ -100,8 +168,13 @@ function buying_tab(n,p){
 	    	}
 	    });
 		
-		//검색
-		
+		//정렬 & 검색
+	   $(".new_text").keyup(function(key){
+			if(key.keyCode==13){
+				buying_tab($(".new_text").val(),$(".new_select").val(),'');
+				/* alert("선택"); */
+			}
+	   });
 
 	});
 
@@ -114,7 +187,7 @@ function buying_tab(n,p){
 	border-radius:2px;
 	padding: 5px 10px;
 }
-.openModalPop{
+.openModalPop, .openModalPop_update{
 	background:#a00;
 	border:1px solid #a00;
 	border-radius:2px;
@@ -128,6 +201,7 @@ function buying_tab(n,p){
 <body>
 <jsp:include page="/header.do"/>
 
+	<input type="hidden" class="user_id" value="${sessionScope.svo.id}">
 	<div class="content" id="new_mypage" style="margin-bottom: 120px;">
 		<div class="mypage_lnb">
 			<a href="/mypage/new_mypage_home" class="lnb_header">마이페이지</a>
@@ -138,7 +212,6 @@ function buying_tab(n,p){
 			</div>
 		</div>
 		
-		<%-- <input type="text" value="${sessionScope.svo.id}"> --%>
 		<div id="layerNode"></div>
 		<div id="my_buying" class="fl new_mypage" style="">
 			<div class="now_order ">
@@ -158,8 +231,7 @@ function buying_tab(n,p){
 				<div class="clear"></div>
 
 				<div class="order_course home_buyer">
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=2'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_confirming_deposit.png"
@@ -171,8 +243,7 @@ function buying_tab(n,p){
 						</div>
 					</div>
 
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=3'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_before_shipping.png"
@@ -184,8 +255,7 @@ function buying_tab(n,p){
 						</div>
 					</div>
 
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=3_1'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_preparing_ delivery.png"
@@ -197,8 +267,7 @@ function buying_tab(n,p){
 						</div>
 					</div>
 
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=4'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_shipping.png"
@@ -210,8 +279,7 @@ function buying_tab(n,p){
 						</div>
 					</div>
 
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=4&amp;delivery_complete=1'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_delivery_completed.png"
@@ -223,8 +291,7 @@ function buying_tab(n,p){
 						</div>
 					</div>
 
-					<div class="course cursor"
-						onclick="window.location.href='/mypage/my_buying?stats=6'">
+					<div class="course cursor">
 						<div class="order_img_box">
 							<img
 								src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/icon_purchase_completed.png"
@@ -245,10 +312,10 @@ function buying_tab(n,p){
 					<ul>
 						<li class="on" onclick="buying_tab()">전체주문내역</li>
 						<!--결제대기, 입금확인중, 발송전, 배송준비중, 배송중, 배송완료, 구매완료-->
-						<li onclick="buying_tab(this,'success')">진행주문내역</li>
-						<li onclick="buying_tab(this,'complete')">완료주문내역</li>
+						<li onclick="buying_tab('','','ing')">진행주문내역</li>
+						<li onclick="buying_tab('','','complete')">완료주문내역</li>
 						<!--발송전구매취소, 구매취소완료, 구매취소, 판매취소, 판매취소완료 상태-->
-						<li onclick="buying_tab(this,'cancel')">취소주문내역</li>
+						<li onclick="buying_tab('cancel')">취소주문내역</li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -314,7 +381,14 @@ function buying_tab(n,p){
 										<td>주문 취소 요청<button type="button" class="cancel_order" value="${vo.oid }">주문 취소</button></td>
 									</c:when>
 									<c:when test="${vo.status == 5 }">
-										<td>리뷰 작성하기<button type="button" class="openModalPop" value="${vo.oid }">리뷰 작성</button></td>
+										<c:choose>
+											<c:when test="${vo.rid eq '0' }">
+												<td>리뷰 작성하기<button type="button" class="openModalPop" value="${vo.oid }">리뷰 작성</button></td>
+											</c:when>
+											<c:otherwise>
+												<td>리뷰 수정하기<button type="button" class="openModalPop_update" value="${vo.oid }">리뷰 수정</button></td>
+											</c:otherwise>
+										</c:choose>
 									</c:when>
 									<c:when test="${vo.status == 6 }">
 										<td><div style="color:#a00">주문 취소 요청 중</div><button type="button" class="cancel_order_cancel" value="${vo.oid }">요청 취소</button></td>
@@ -334,23 +408,20 @@ function buying_tab(n,p){
 
 					<div class="pageArea">&nbsp;</div>
 
-					<form action="/mypage/my_buying" accept-charset="utf-8"
-						id="search_t" method="get" style="text-align: center;">
-						<input type="hidden" id="total_cnt" value="0">
+					<div style="text-align: center";>
 						<div class="searchArea">
 							<select name="searchType" class="new_select">
-								<option value="title">상품명</option>
-								<option value="seller_id">판매자</option>
-								<option value="jp.gou_number">주문번호</option>
+								<option value="pname">상품명</option>
+								<option value="oid">주문번호</option>
 							</select>
 							<div class="search1">
 								<input type="text" name="searchKeyword" value=""
 									class="new_text"> <img
 									src="https://s3.ap-northeast-2.amazonaws.com/mustit-ux/img/front/mypage/btn_search.png"
-									alt="검색" class="search_img" onclick="$('#search_t').submit();">
+									class="search_img">
 							</div>
 						</div>
-					</form>
+					</div>
 				</div>
 			</div>
 			<div class="clear"></div>
