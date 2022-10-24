@@ -245,18 +245,18 @@
 					</div>
 					<div class="list_content">
 						<div class="table_flame">
-							<table class="list_table" style="table-layout: fixed;" >
+							<table class="list_table" >
 								<tr>
-									<th><input type="checkbox" class="review_check" name="checkAll"></th>
-									<th style="width:150px;">리뷰글 번호</th>
+									<th><input type="checkbox" class="review_check" name="checkAll" style="width:50px;"></th>
+									<th>리뷰글 번호</th>
 									<th>리뷰 상품명</th>
-									<th style="width:200px;" >상품 카테고리</th>
+									<th>상품 카테고리</th>
 									<th>리뷰 내용</th>
-									<th style="width:100px;">리뷰 작성자</th>
-									<th style="width:150px;">사용자 평점</th>
-									<th style="width:125px;">사진 첨부유무</th>
-									<th style="width:125px;">리뷰 공감 수</th>
-									<th style="width:150px;">작성일</th>
+									<th>리뷰 작성자</th>
+									<th>사용자 평점</th>
+									<th>사진 첨부유무</th>
+									<th>리뷰 공감 수</th>
+									<th>작성일</th>
 								</tr>
 								<c:forEach var="vo" items="${list}">
 									<tr>

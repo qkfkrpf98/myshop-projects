@@ -30,4 +30,5 @@ public class OrderServiceImpl implements OrderService{
 	public ArrayList<MyshopOrderVO> getSearchList(MyshopSearchVO vo){
 		return orderDao.search_select(vo);
 	}
+	
 }

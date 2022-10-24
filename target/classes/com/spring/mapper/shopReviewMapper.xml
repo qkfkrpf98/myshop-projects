@@ -24,6 +24,11 @@
 		select score, rwriter, to_char(rdate, 'yyyy-mm-dd') rdate, rcontent, pname, recom, rsfile, rid, oid 
 			from myshop_review, myshop_product where rid = #{rid} and myshop_review.pid = myshop_product.pid  
 	</select>
+	<select id="user_content" parameterType="java.lang.String" resultType="com.myshop.vo.MyshopReviewVO">
+		select mr.score, mr.rcontent, mr.rsfile, mp.pname, mp.brand, mp.price, mp.psfile, mp.pid, mp.category_id, mr.oid, mr.rwriter 
+			from myshop_review mr, myshop_product mp where rid = #{rid} and mr.pid = mp.pid  
+	</select>
+	
 	<select id="selectAll" parameterType="map" resultType="com.myshop.vo.MyshopReviewVO">
 		select rno, rid, pname, category_id, rcontent, rwriter, score, rfile, recom, rdate, brand    
 			from(select rownum rno, rid, pname, category_id, rcontent, rwriter, score, rfile, recom, rdate, brand
@@ -35,4 +40,9 @@
 		select rid, myshop_product.pid, pname, category_id, rcontent, rwriter, oid, score, rfile, recom, to_char(rdate, 'yyyy-mm-dd') rdate
 			from MYSHOP_REVIEW, myshop_product where MYSHOP_REVIEW.pid = myshop_product.pid
 	</select>
+	
+	<update id="update" parameterType="com.myshop.vo.MyshopReviewVO">
+		update myshop_review set score = #{score}, rcontent = #{rcontent}, rfile = #{rfile}, rsfile = #{rsfile} where rid= #{rid}
+	</update>
+	
 </mapper>

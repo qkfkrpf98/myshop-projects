@@ -10,7 +10,7 @@
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="http://localhost:9000/myshop/resources/css/mypage_order.css">
 <script>
-//onclick 이벤트
+//onclick 정렬 & 검색 이벤트
 function buying_tab(searchtext,searchtype ,sorttype){
 	/* alert(searchtext);
 	alert(searchtype); */
@@ -66,10 +66,11 @@ function buying_tab(searchtext,searchtype ,sorttype){
  					if(obj.rid == 0){
  						output += "<td>리뷰 작성하기<button type='button' class='openModalPop' value='"+obj.oid+"'>리뷰 작성</button></td>"
  					}else{
- 						output += "<td>리뷰 수정하기<button type='button' class='openModalPop_update' value='"+obj.oid+"'>리뷰 수정</button></td>"
+ 						output += "<td>리뷰가 작성된 주문<button type='button' class='openModalPop_update' value='"+obj.rid+"'>리뷰 수정</button>"
+ 						output += "<button type='button' class='openModalPop_delete' value='"+obj.rid+"'>리뷰 삭제</button></td>"
  					}
  				}else if(obj.status ==6){
- 					output +="<td><div style='color:#a00'>주문 취소 요청 중</div><button type='button' class='cancel_order_cancel' value='"+obj.oid+"'>요청 취소</button></td>"
+ 					output +="<td><div style='color:#a00'>주문 취소 요청 중</div><button type='button' class='cancel_order_cancel' value='"+obj.oid+"' style='color:#a00'>요청 취소</button></td>"
  				}else{
  					output +="<td>-</td>";
  				}
@@ -77,92 +78,228 @@ function buying_tab(searchtext,searchtype ,sorttype){
  			}//for	
  			$("#new_mypage_table").remove();
  			$(".menu_tab").after(output);
+ 			
+ 			
+ 			$(".openModalPop").click(function() {
+ 				var oid = $(this).val();
+ 				reviewwrite(oid);
+ 		    });
+ 			
+		  $(".cancel_order").click(function(){
+		    	var confirmflag = confirm("주문 취소 요청을 하시겠습니까?.");
+		    	var cancel_order = $(this).val();
+		    	if(confirmflag){
+		    		cancelorder(cancel_order);
+		    	}else{
+		    		
+		    	}
+		    });
+		//리뷰수정
+			$(".openModalPop_update").click(function(){
+				var rid = $(this).val();
+				reviewupdate(rid);
+			});
+		  
+		  
  		}//if-else
 	}//success
 	});
 }
 
 
+//리뷰작성
+function reviewwrite(oid){
+	$.ajax({
+		url:"review_write.do?oid="+oid,
+ 		success:function(ovo){
+ 			
+ 			let output = "<div id='modal'></div>"
+ 			output += "<div class='review_write'>"
+ 			output += "<div id='close_button' style='cursor: pointer;'>"
+ 			output += "<img src='http://localhost:9000/myshop/resources/images/close.png'>"
+ 			output += "</div>"
+ 			output += "<form name='reviewwriteForm' action='review_write_check.do' method='post' enctype='multipart/form-data'>"
+ 			output += "<input type='hidden' name='pid' value='"+ovo.pid+"'>"
+ 			output += "<input type='hidden' name='rwriter' value='"+ovo.id+"'>"
+ 			output += "<input type='hidden' name='oid' value='"+ovo.oid+"'>"
+ 			output += "<div class='flame'>"
+ 			output += "<div class='product_info'>"
+ 			output += "<div class='pro_flame'>"
+ 			output += "<div class='pro_img'><img class='proimg' src='http://localhost:9000/myshop/resources/upload/"+ovo.psfile+"'></div>"
+ 			output += "<div class='pro_text'>"
+ 			output += "<ul><li>"+ovo.pname+"/<a>옵션</a></li><li>"+ovo.brand+"</li><li>₩ "+ovo.price+"</li></ul>"
+ 			output += "</div></div></div>"
+ 			output += "<span>상품에 만족하셨나요?</span>"
+ 			output += "<div class='score_star'>"
+ 			output += "<input type='radio' name='score' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='score' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='score' value='3' id='rate3'><label for='rate3'>⭐</label>" 
+ 			output += "<input type='radio' name='score' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='score' value='1' id='rate5'><label for='rate5'>⭐</label>"
+ 			output += "</div>"
+ 			output += "<div class='filebox'>"
+ 			output += "<label for='file1'><span class='material-symbols-outlined'>add_a_photo</span><a>사진 추가하기(0/1)</a></label><input type='file' id='file1' name='file1'>"
+ 			output += "</div>"
+ 			output += "<span>간단한 리뷰를 작성해 주세요!</span>"
+ 			output += "<input type='text' class='rcontent' name='rcontent'>"
+ 			output += "<button type='button' class='btn_style' id='btnWritereview'>"
+ 			output += "<span>리뷰 남기기</span>"
+ 			output += "</button></div></form></div>"
+ 			
+ 			$(".content").before(output);
+	        $(".review_write").fadeIn();
+	        $("#modal").fadeIn();
+	        
+ 			
+		    $("#close_button").click(function(){
+		        $(".review_write").fadeOut();
+		        $("#modal").fadeOut();
+		        $(".review_write").remove();
+		        $("#modal").remove();
+		    });
+		    
+		    $("#btnWritereview").click(function(){
+		    	if($("input[name='score']:checked").length ==0){
+		    		alert("평점을 남겨주세요");
+		    		return false;
+		    	}else if($(".rcontent").val()==""){
+		    		alert("간단한 리뷰를 남겨주세요!")
+		    	}else{
+		    		reviewwriteForm.submit();
+		    	}
+		    });
+ 		}
+	});
+}
+
+
+//리뷰 수정
+function  reviewupdate(rid){
+	$.ajax({
+		url:"review_update.do?rid="+rid,
+ 		success:function(rvo){
+ 			
+ 			let output = "<div id='modal'></div>"
+ 	 			output += "<div class='review_write'>"
+ 	 			output += "<div id='close_button' style='cursor: pointer;'>"
+ 	 			output += "<img src='http://localhost:9000/myshop/resources/images/close.png'>"
+ 	 			output += "</div>"
+ 	 			output += "<form name='reviewUpdateForm' action='review_update_check.do' method='post' enctype='multipart/form-data'>"
+ 	 			output += "<input type='hidden' name='pid' value='"+rvo.pid+"'>"
+ 	 			output += "<input type='hidden' name='rid' value='"+rid+"'>"
+ 	 			output += "<input type='hidden' name='oid' value='"+rvo.oid+"'>"
+ 	 			output += "<input type='hidden' name='rwriter' value='"+rvo.rwriter+"'>"
+ 	 			output += "<div class='flame'>"
+ 	 			output += "<div class='product_info'>"
+ 	 			output += "<div class='pro_flame'>"
+ 	 			output += "<div class='pro_img'><img class='proimg' src='http://localhost:9000/myshop/resources/upload/"+rvo.psfile+"'></div>"
+ 	 			output += "<div class='pro_text'>"
+ 	 			output += "<ul><li>"+rvo.pname+"/<a>옵션</a></li><li>"+rvo.brand+"</li><li>₩ "+rvo.price+"</li></ul>"
+ 	 			output += "</div></div></div>"
+ 	 			output += "<span>상품에 만족하셨나요?</span>";	 				
+ 	 			output += "<div class='score_star'>"
+ 	 			output += "<input type='radio' name='score' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='score' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='score' value='3' id='rate3'><label for='rate3'>⭐</label>" 
+ 	 			output += "<input type='radio' name='score' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='score' value='1' id='rate5'><label for='rate5'>⭐</label>"
+ 	 			output += "</div>"
+ 	 			output += "<div class='filebox'>"
+ 	 			if(rvo.rsfile != ""){
+ 	 				output += "<label for='file1'><span class='material-symbols-outlined'>add_a_photo</span><a>사진 변경하기(1/1)</a></label><input type='file' id='file1' name='file1'>"
+ 	 			}else{
+	 	 			output += "<label for='file1'><span class='material-symbols-outlined'>add_a_photo</span><a>사진 변경하기(0/1)</a></label><input type='file' id='file1' name='file1'>"	
+ 	 			}
+ 	 			output += "</div>"
+ 	 			output += "<span>간단한 리뷰를 작성해 주세요!</span>"
+ 	 			output += "<input type='text' class='rcontent' name='rcontent' value='"+rvo.rcontent+"'>"
+ 	 			output += "<button type='button' class='btn_style' id='btnUpdatereview'>"
+ 	 			output += "<span>리뷰 수정하기</span>"
+ 	 			output += "</button></div></form></div>"
+ 	 			
+ 	 			
+ 	 			$(".content").before(output);
+ 		        $(".review_write").fadeIn();
+ 		        $("#modal").fadeIn();
+ 		        
+ 		        //별점 세팅
+ 		       if(rvo.score ==1){
+	 				$("#rate5").attr("checked",true);
+	 			}else if(rvo.score == 2){
+	 				$("#rate4").attr("checked",true);
+	 			}else if(rvo.score == 3){
+	 				/* alert("알람"); */
+	 				$("#rate3").attr("checked",true);
+	 			}else if(rvo.score == 4){
+	 				$("#rate2").attr("checked",true);
+	 			}else{
+	 				$("#rate1").attr("checked",true);
+	 			}
+ 		        
+ 	 			
+ 			    $("#close_button").click(function(){
+ 			        $(".review_write").fadeOut();
+ 			        $("#modal").fadeOut();
+ 			        $(".review_write").remove();
+ 			        $("#modal").remove();
+ 			    });
+ 			    
+ 			    $("#btnUpdatereview").click(function(){
+ 			    	if($("input[name='score']:checked").length ==0){
+ 			    		alert("평점을 남겨주세요");
+ 			    		return false;
+ 			    	}else if($(".rcontent").val()==""){
+ 			    		alert("간단한 리뷰를 남겨주세요!")
+ 			    	}else{
+ 			    		reviewUpdateForm.submit();
+ 			    	}
+ 			    });
+ 	 		}
+	});
+}
+
+
+function cancelorder(cancel_order){
+	$.ajax({
+		url:"order_cancel_update.do?oid="+cancel_order,
+ 		success:function(result){
+ 			if(result ==1){
+	    		alert("관리자에게 주문 취소 요청을 보냈습니다.");	
+	    		location.reload();
+ 			}else{
+ 				alert("요청 오류");
+ 			}
+ 			
+ 		}
+	});
+}
+
+
+function reviewdelete(rid){
+	$.ajax({
+		url:"review_delete_check.do?rid="+rid,
+ 		success:function(result){
+ 			if(result ==1){
+	    		alert("삭제 완료");
+	    		location.reload();
+ 			}else{
+ 				alert("삭제 오류");
+ 			}
+ 			
+ 		}
+	});
+}
+
+	//리뷰쓰기 레이어 팝업	
 	$(document).ready(function() {
-		//레이드 팝업
+		//레이어 팝업
 	    $(".openModalPop").click(function() {
-	    	var oid = $(this).val();
-	    	$.ajax({
-	    		url:"review_write.do?oid="+oid,
-		 		success:function(ovo){
-		 			let output = "<div id='modal'></div>"
-		 			output += "<div class='review_write'>"
-		 			output += "<div id='close_button' style='cursor: pointer;'>"
-		 			output += "<img src='http://localhost:9000/myshop/resources/images/close.png'>"
-		 			output += "</div>"
-		 			output += "<form name='reviewwriteForm' action='review_write_check.do' method='post' enctype='multipart/form-data'>"
-		 			output += "<input type='hidden' name='pid' value='"+ovo.pid+"'>"
-		 			output += "<input type='hidden' name='rwriter' value='"+ovo.id+"'>"
-		 			output += "<input type='hidden' name='oid' value='"+ovo.oid+"'>"
-		 			output += "<div class='flame'>"
-		 			output += "<div class='product_info'>"
-		 			output += "<div class='pro_flame'>"
-		 			output += "<div class='pro_img'><img class='proimg' src='http://localhost:9000/myshop/resources/upload/"+ovo.psfile+"'></div>"
-		 			output += "<div class='pro_text'>"
-		 			output += "<ul><li>"+ovo.pname+"/<a>옵션</a></li><li>"+ovo.brand+"</li><li>₩ "+ovo.price+"</li></ul>"
-		 			output += "</div></div></div>"
-		 			output += "<span>상품에 만족하셨나요?</span>"
-		 			output += "<div class='score_star'>"
-		 			output += "<input type='radio' name='score' value='5' id='rate1'><label for='rate1'>⭐</label><input type='radio' name='score' value='4' id='rate2'><label for='rate2'>⭐</label><input type='radio' name='score' value='3' id='rate3'><label for='rate3'>⭐</label>" 
-		 			output += "<input type='radio' name='score' value='2' id='rate4'><label for='rate4'>⭐</label><input type='radio' name='score' value='1' id='rate5'><label for='rate5'>⭐</label>"
-		 			output += "</div>"
-		 			output += "<div class='filebox'>"
-		 			output += "<label for='file1'><span class='material-symbols-outlined'>add_a_photo</span><a>사진 추가하기(0/1)</a></label><input type='file' id='file1' name='file1'>"
-		 			output += "</div>"
-		 			output += "<span>간단한 리뷰를 작성해 주세요!</span>"
-		 			output += "<input type='text' class='rcontent' name='rcontent'>"
-		 			output += "<button type='button' class='btn_style' id='btnWritereview'>"
-		 			output += "<span>리뷰 남기기</span>"
-		 			output += "</button></div></form></div>"
-		 			
-		 			$(".content").before(output);
-			        $(".review_write").fadeIn();
-			        $("#modal").fadeIn();
-			        
-		 			
-				    $("#close_button").click(function(){
-				        $(".review_write").fadeOut();
-				        $("#modal").fadeOut();
-				        $(".review_write").remove();
-				        $("#modal").remove();
-				    });
-				    
-				    $("#btnWritereview").click(function(){
-				    	if($("input[name='score']:checked").length ==0){
-				    		alert("평점을 남겨주세요");
-				    		return false;
-				    	}else if($(".rcontent").val()==""){
-				    		alert("간단한 리뷰를 남겨주세요!")
-				    	}else{
-				    		reviewwriteForm.submit();
-				    	}
-				    });
-		 		}
-	    	});
+			var oid = $(this).val();
+			reviewwrite(oid);
 	    });
 		
+		
+		
 		//주문 취소 요청 버튼
-	    $("#cancel_order").click(function(){
+	    $(".cancel_order").click(function(){
 	    	var confirmflag = confirm("주문 취소 요청을 하시겠습니까?.");
 	    	var cancel_order = $(this).val();
 	    	if(confirmflag){
-	    		$.ajax({
-		    		url:"order_cancel_update.do?oid="+cancel_order,
-			 		success:function(result){
-			 			if(result ==1){
-				    		alert("관리자에게 주문 취소 요청을 보냈습니다.");	
-				    		location.reload();
-			 			}else{
-			 				alert("요청 오류");
-			 			}
-			 			
-			 		}
-	    		}); 
+	    		cancelorder(cancel_order);
 	    	}else{
 	    		
 	    	}
@@ -175,25 +312,58 @@ function buying_tab(searchtext,searchtype ,sorttype){
 				/* alert("선택"); */
 			}
 	   });
+		
+		//리뷰수정
+		$(".openModalPop_update").click(function(){
+			var rid = $(this).val();
+			reviewupdate(rid);
+		});
+		
+		//리뷰 삭제
+		$(".openModalPop_delete").click(function(){
+			var rid = $(this).val();
+			var confirmflag = confirm("선택한 리뷰를 삭제합니다.");
+			if(confirmflag){
+	    		reviewdelete(rid);
+	    	}else{
+	    		
+	    	}
+		});
+		
+		
 
 	});
 
 </script>
 <style>
-.cancel_order, .cancel_order_cancel{
+.cancel_order{
 	background:#fff;;
-	border:1px solid #323232;;
+	border:1px solid #323232;
 	color:black;
 	border-radius:2px;
 	padding: 5px 10px;
 }
-.openModalPop, .openModalPop_update{
+.cancel_order_cancel{
+	background:#fff;;
+	border:1px solid #323232;
+	color:#a00;
+	border-radius:2px;
+	padding: 5px 10px;
+}
+.openModalPop{
 	background:#a00;
 	border:1px solid #a00;
 	border-radius:2px;
 	padding: 5px 10px;
 	color:#fff
-
+}
+.openModalPop_update, .openModalPop_delete{
+	margin-top: 2px;
+	background:#323232;
+	border:1px solid #323232;
+	border-radius:2px;
+	padding: 5px 10px;
+	color:#fff
 }
 
 </style>
@@ -220,7 +390,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 					<div class="top_now cursor"
 						onclick="window.location.href='/mypage/my_buying?stats=14'">
 						구매취소
-						<div class="num">0</div>
+						<div class="num">${status6}</div>
 					</div>
 					<div class="top_now cursor"
 						onclick="window.location.href='/mypage/my_buying?stats=11'">
@@ -239,7 +409,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							입금확인중
-							<div class="num ">0</div>
+							<div class="num ">${status0}</div>
 						</div>
 					</div>
 
@@ -251,7 +421,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							발송전
-							<div class="num ">0</div>
+							<div class="num ">${status1}</div>
 						</div>
 					</div>
 
@@ -263,7 +433,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							배송준비중
-							<div class="num ">0</div>
+							<div class="num ">${status2}</div>
 						</div>
 					</div>
 
@@ -275,7 +445,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							배송중
-							<div class="num ">0</div>
+							<div class="num ">${status3}</div>
 						</div>
 					</div>
 
@@ -287,7 +457,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							배송완료
-							<div class="num ">0</div>
+							<div class="num ">${status4}</div>
 						</div>
 					</div>
 
@@ -299,7 +469,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 						</div>
 						<div class="course_desc">
 							구매완료
-							<div class="num ">0</div>
+							<div class="num ">${status5}</div>
 						</div>
 					</div>
 					<div class="clear"></div>
@@ -310,12 +480,12 @@ function buying_tab(searchtext,searchtype ,sorttype){
 			<div class="mypage_table" style="position: relative">
 				<div class="menu_tab">
 					<ul>
-						<li class="on" onclick="buying_tab()">전체주문내역</li>
+						<li class="on" onclick="location.href='http://localhost:9000/myshop/mypage_order.do?id=${sessionScope.svo.id}'">전체주문내역</li>
 						<!--결제대기, 입금확인중, 발송전, 배송준비중, 배송중, 배송완료, 구매완료-->
 						<li onclick="buying_tab('','','ing')">진행주문내역</li>
 						<li onclick="buying_tab('','','complete')">완료주문내역</li>
 						<!--발송전구매취소, 구매취소완료, 구매취소, 판매취소, 판매취소완료 상태-->
-						<li onclick="buying_tab('cancel')">취소주문내역</li>
+						<li onclick="buying_tab('','','cancel')">취소주문내역</li>
 					</ul>
 					<div class="clear"></div>
 				</div>
@@ -369,7 +539,7 @@ function buying_tab(searchtext,searchtype ,sorttype){
 								</c:choose>
 								<td>
 									<%-- <div>${vo.psfile }</div> --%>
-									<div class="pro_img"><img class="proimg" src="http://localhost:9000/myshop/resources/upload/${vo.psfile }" ></div>
+									<div class="pro_img"><img class="proimg" src="http://localhost:9000/myshop/resources/upload/${vo.psfile }"></div>
 									<div class="pro_text"><h4>${vo.brand}</h4><p>${vo.pname }</p></div>
 									</td>
 								<td><a>${vo.price }</a> 원</td>
@@ -386,7 +556,8 @@ function buying_tab(searchtext,searchtype ,sorttype){
 												<td>리뷰 작성하기<button type="button" class="openModalPop" value="${vo.oid }">리뷰 작성</button></td>
 											</c:when>
 											<c:otherwise>
-												<td>리뷰 수정하기<button type="button" class="openModalPop_update" value="${vo.oid }">리뷰 수정</button></td>
+												<td>리뷰가 작성된 주문<button type="button" class="openModalPop_update" value="${vo.rid }">리뷰 수정</button>
+												<button type="button" class="openModalPop_delete" value="${vo.rid }">리뷰 삭제</button></td>
 											</c:otherwise>
 										</c:choose>
 									</c:when>

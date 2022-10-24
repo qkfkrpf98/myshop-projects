@@ -54,7 +54,7 @@ public class MyshopOrderDAO {
 	
 	public ArrayList<MyshopOrderVO> search_select(MyshopSearchVO vo){
 		Map<String,String> param = new HashMap<String,String>();
-		System.out.println(vo.getSorttype());
+		/* System.out.println(vo.getSorttype()); */
 		param.put("searchtext",vo.getSearchtext());
 		param.put("searchtype",vo.getSearchtype());
 		param.put("sorttype",vo.getSorttype());

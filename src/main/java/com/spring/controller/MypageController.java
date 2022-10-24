@@ -30,9 +30,13 @@ public class MypageController {
 			/* String id = "admin"; */
 			System.out.println(id);
 			ArrayList<MyshopOrderVO> list = orderService.getList(id);	
-			ArrayList<MyshopOrderVO> count = orderService.getCount(id);
+			ArrayList<MyshopOrderVO> count = orderService.getCount(id);			
+			for(MyshopOrderVO vo: count) {
+				mv.addObject("status"+vo.getStatus(),vo.getStatuscount());
+				System.out.println(vo.getStatus()+":"+ vo.getStatuscount());
+			}
 			
-			
+
 			mv.addObject("count",count);
 			mv.addObject("list",list);
 			mv.setViewName("/mypage_order");
@@ -50,11 +54,11 @@ public class MypageController {
 			
 			return result;
 		}
-		//마이페이지 - 주문관리 - 주문 취소요청 시 주문 상태변경
+		//마이페이지 - 주문검색 조회
 		@ResponseBody
 		@RequestMapping(value="/order_search.do", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 		public String order_search(@RequestBody MyshopSearchVO vo) {
-			System.out.println(vo.getSorttype());
+			/* System.out.println(vo.getSorttype()); */
 			ArrayList<MyshopOrderVO> list = orderService.getSearchList(vo);
 			
 			JsonObject jobject = new JsonObject(); 

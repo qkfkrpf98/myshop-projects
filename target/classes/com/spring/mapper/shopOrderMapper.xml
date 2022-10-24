@@ -49,9 +49,12 @@
 		update myshop_orders set status = 6 where oid= #{oid}
 	</update>
 	<select id="status_count" parameterType="java.lang.String" resultType="com.myshop.vo.MyshopOrderVO">
-		select status, count(status) stutuscount
-        from myshop_orders, myshop_product
-        where myshop_orders.pid = myshop_product.pid and myshop_orders.id =#{id}
-		group by status
+		select status2.status, nvl(statuscount,0) statuscount
+			from (select  status, count(status) statuscount
+			            from myshop_orders, myshop_product
+			            where myshop_orders.pid = myshop_product.pid and myshop_orders.id =#{id}
+			            group by status order by status) status1, myshop_status_test status2
+			where status1.status(+) = status2.status
+			order by status2.status
 	</select>
 </mapper>

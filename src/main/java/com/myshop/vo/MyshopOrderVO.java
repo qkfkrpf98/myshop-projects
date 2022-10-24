@@ -1,7 +1,7 @@
 package com.myshop.vo;
 
 public class MyshopOrderVO {
-	int oid, pid, quantity, price, status, category_id,stutuscount;
+	int oid, pid, quantity, price, status, category_id,statuscount;
 	String id,  odate, recipient_zonecode, recipient_addr, recipient_name,
 	recipient_hp, recipient_pnumber, oddr, payment, pname, brand, psfile, rid;
 	public String getRid() {
@@ -22,11 +22,11 @@ public class MyshopOrderVO {
 	public void setPid(int pid) {
 		this.pid = pid;
 	}
-	public int getStutuscount() {
-		return stutuscount;
+	public int getStatuscount() {
+		return statuscount;
 	}
-	public void setStutuscount(int stutuscount) {
-		this.stutuscount = stutuscount;
+	public void setStatuscount(int statuscount) {
+		this.statuscount = statuscount;
 	}
 	public int getPrice() {
 		return price;

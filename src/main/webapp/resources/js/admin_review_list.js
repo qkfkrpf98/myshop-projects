@@ -26,7 +26,7 @@ $(document).ready(function() {
 	 			output +="</div>";
 	 			output +="<div class='rcontent'>"+rvo.rcontent+"</div>";
 	 			if(rvo.rsfile != null){
-	 				output +="<div class='rsfile'>"+rvo.rsfile+"</div>";
+	 				output +="<div class='rsfile'><img src='http://localhost:9000/myshop/resources/upload/"+rvo.psfile+"'></div>";
 	 			}
 	 			output += "<div class='order_info'>";
 	 			output +="<span>"+rvo.pname+"  |  "+rvo.oid+"</span>";
