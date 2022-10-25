@@ -1,7 +1,26 @@
 package com.myshop.vo;
 
+import java.util.ArrayList;
+
 public class MyshopSearchVO {
-	String searchtype, startdate, enddate, text, ncode, ncrucial, posttype,searchtext,sorttype,id;
+	String searchtype, startdate, enddate, text, ncode, ncrucial, posttype,searchtext,sorttype,id,searchdate;
+	ArrayList searchscore;
+
+	public String getSearchdate() {
+		return searchdate;
+	}
+
+	public void setSearchdate(String searchdate) {
+		this.searchdate = searchdate;
+	}
+
+	public ArrayList getSearchscore() {
+		return searchscore;
+	}
+
+	public void setSearchscore(ArrayList searchscore) {
+		this.searchscore = searchscore;
+	}
 
 	public String getId() {
 		return id;

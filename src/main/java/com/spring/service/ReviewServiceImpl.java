@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.myshop.dao.MyshopReviewDAO;
 import com.myshop.vo.MyshopOrderVO;
 import com.myshop.vo.MyshopReviewVO;
+import com.myshop.vo.MyshopSearchVO;
 
 public class ReviewServiceImpl implements ReviewService{
 	@Autowired
@@ -47,5 +48,9 @@ public class ReviewServiceImpl implements ReviewService{
 	
 	public int delete(String rid) {
 		return reviewDao.delete(rid);
+	}
+	
+	public ArrayList<MyshopReviewVO> getAdminSearchList(MyshopSearchVO vo){
+		return reviewDao.searchreview(vo);
 	}
 }

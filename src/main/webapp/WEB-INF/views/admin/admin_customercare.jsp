@@ -13,6 +13,7 @@
     <script src="http://localhost:9000/myshop/resources/js/jquery-3.6.0.min.js"></script>
     <title>회원 관리페이지</title>
 <script>
+
 	$(document).ready(function(){
 		var sorttype="";
 		var searchtext = "";
@@ -98,7 +99,7 @@
 				 			}else{
 					 			output +="<td><input type='checkbox' class='member_check' name='check' value='"+obj.id+"'></td>";
 				 			}
-				 			output +="<td><a href='#' onclick='popup("+obj.id+");'>"+obj.name+"</a></td>";
+				 			output +="<td><a href='#' onclick="+popup('http://localhost:9000/myshop/admin_member_content.do?id='+obj.id)+";>"+obj.name+"</td>";
 				 			output +="<td>"+obj.id+"</td>";
 				 			output +="<td>"+obj.email+"</td>";
 				 			output +="<td>"+obj.grade+"</td>";
@@ -146,7 +147,9 @@
 			 				memberDelete();
 			 			 });//delete function
 			 			 
-			 			 
+			 			function popup(url){
+			 				window.open(url,'회원 상세보기', 'width=625, height=850'); return false;
+			 			}
 			 			
 		 			}//if-else
 		 		}//success
@@ -154,9 +157,6 @@
 		}
 		
 		
-		function popup(id){
-			var popup = window.open('http://localhost:9000/myshop/admin_member_content.do?id='+id+'','회원 상세보기', 'width=625, height=850'); //return false;
-		}
 		
 		/* 체크박스 전체 선택(공지사항)  */
 		$("input[name=checkAll]").click(function(){

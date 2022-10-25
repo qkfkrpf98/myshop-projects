@@ -175,20 +175,7 @@ public class AdminController {
 			return mv;
 		}
 		
-		
-		//관리자 - 공지사항 리스트
-		@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
-		public ModelAndView admin_notice_list() {
-			ModelAndView mv = new ModelAndView();
-			ArrayList<MyshopNoticeVO> list = noticeService.getList();
-			int totalcount = noticeService.getTotalCount();
-			
-			mv.addObject("totalcount",totalcount);
-			mv.addObject("list",list);
-			mv.setViewName("/admin/admin_notice_list");
-			return mv;
-		}
-		
+		//관리자 - 리뷰 상세보기
 		@ResponseBody
 		@RequestMapping(value="/admin_review_content.do", method=RequestMethod.GET)
 		public MyshopReviewVO admin_review_content(String rid) {
@@ -209,6 +196,37 @@ public class AdminController {
 		    }
 			
 			return result;
+		}
+		
+		//관리자 - 리뷰 리스트에서 선택 삭제(다중삭제) - ajax
+		@ResponseBody
+		@RequestMapping(value="/admin_review_search.do", method=RequestMethod.POST)
+		public String admin_review_search(@RequestBody MyshopSearchVO vo) {
+			System.out.println(vo.getSearchscore());
+			ArrayList<MyshopReviewVO> list = reviewService.getAdminSearchList(vo);
+//			int result = 0;
+//			System.out.println("11111");
+//			for(String rid : clist) {
+//				System.out.println(rid);
+//				result = reviewService.getDelete(rid);
+			
+			
+			return "no";
+
+		}
+		
+		
+		//관리자 - 공지사항 리스트
+		@RequestMapping(value="/admin_notice_list.do", method=RequestMethod.GET)
+		public ModelAndView admin_notice_list() {
+			ModelAndView mv = new ModelAndView();
+			ArrayList<MyshopNoticeVO> list = noticeService.getList();
+			int totalcount = noticeService.getTotalCount();
+			
+			mv.addObject("totalcount",totalcount);
+			mv.addObject("list",list);
+			mv.setViewName("/admin/admin_notice_list");
+			return mv;
 		}
 		
 		//관리자 - 공지사항 조건검색 -ajax

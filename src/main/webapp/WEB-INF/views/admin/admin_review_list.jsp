@@ -17,6 +17,62 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 
     <title>회원 관리페이지</title> 
+<script>
+$(document).ready(function(){
+		var searchdate = "";
+		var searchscore = "";
+		var searchtype ="";
+		var searchtext = "";
+	
+	//기간 값 세팅	
+	$(".period_search").click(function(){
+		searchdate = $(this).val();
+	});
+	
+	
+	//조건검색
+	$("#submitbtn").click(function(){
+		var chList = [];
+			
+		$("input[name=scorecheckbox]:checked").each(function(){
+			searchscore = $(this).val();
+			chList.push(searchscore);
+		});
+		/* if(chList == null){
+			chList.push("");
+		}	 */
+		var param = {"searchdate":searchdate, "searchscore":chList, "searchtype":searchtype, "searchtext":searchtext};
+		var search = JSON.stringify(param);
+		
+		alert(search);
+		
+		$.ajax({
+			url:"admin_review_search.do",
+	 		type: "POST",
+	 		data: search,
+	 		contentType : 'application/json;',
+	 		/* dataType:"json", */ //아마 받는 타입이 String 이라서 오류 발생
+	 		success:function(rvo){
+	 			let dataset = JSON.parse(rvo);
+	 		}
+		});
+	 			
+	});
+	
+	//리셋버튼
+	$("#resetbtn").click(function(){
+		$(".period_search").val("");
+		$(".period_search").css("background-color","#fff").css("color","black");
+		period_search_count = 0;
+		$("input[name=scorecheckbox]").prop("checked",false);
+		$(".search_bar").val("");
+		$(".search_class").val("defalt");
+	});
+	
+});
+
+
+</script>    
 <style>
 	.lay_review_content {
 	    width:500px;
@@ -117,6 +173,13 @@
 		cursor:pointer;
 		border:none;
 		background:none;
+		overflow: hidden; 
+		text-overflow: ellipsis; 
+		white-space: nowrap;
+		word-break:break-all;
+		width: 300px;
+		height: 20px;
+		
 	}
 
 
@@ -177,39 +240,39 @@
 								<tr>
 									<th>리뷰 작성일</th>
 									<td colspan="3">
-										<button type="button" class="period_search" id="p1">오늘</button>
-										<button type="button" class="period_search" id="p2">1주일</button>
-										<button type="button" class="period_search" id="p3">1개월</button>
-										<button type="button" class="period_search" id="p4">3개월</button>
-										<button type="button" class="period_search" id="p5">6개월</button>
-										<button type="button"class="period_search" id="p6">1년</button>
-										<button type="button" class="period_search" id="p7">전체</button> <input
+										<button type="button" class="period_search" id="p1" value="today">오늘</button>
+										<button type="button" class="period_search" id="p2" value="week">1주일</button>
+										<button type="button" class="period_search" id="p3" value="month">1개월</button>
+										<button type="button" class="period_search" id="p4" value="3months">3개월</button>
+										<button type="button" class="period_search" id="p5" value="6months">6개월</button>
+										<button type="button"class="period_search" id="p6" value="years">1년</button>
+										<button type="button" class="period_search" id="p7" value="all">전체</button> <input
 										type="date" class="first-date">~ <input type="date"
 										class="last-date">
 									</td>
 								</tr>
 								<tr>
 									<th>구매자 평점</th>
-									<td><input type="checkbox" id="review_check1"> <label
+									<td><input type="checkbox" name="scorecheckbox" id="review_check1" value="1"> <label
 										for="review_check1"></label> <span>1점</span> <input
-										type="checkbox" id="review_check2"> <label
+										type="checkbox" name="scorecheckbox" id="review_check2" value="2"> <label
 										for="review_check2"></label> <span>2점</span> <input
-										type="checkbox" id="review_check3"> <label
-										for="review_check3"></label> <span>3점</span> <input
-										type="checkbox" id="review_check4"> <label
+										type="checkbox" name="scorecheckbox" id="review_check3" value="3"> <label
+										for="review_check3" ></label> <span>3점</span> <input
+										type="checkbox" name="scorecheckbox" id="review_check4" value="4"> <label
 										for="review_check4"></label> <span>4점</span> <input
-										type="checkbox" id="review_check5"> <label
+										type="checkbox" name="scorecheckbox" id="review_check5" value="5"> <label
 										for="review_check5"></label> <span>5점</span></td>
-								</tr>
-								<tr>
 									<th>검색</th>
 									<td><select class="search_class">
 											<option value="defalt">분류</option>
-											<option value="review_title">리뷰 게시판 제목</option>
-											<option value="product_title">상품 제목</option>
-											<option value="review_num">리뷰 번호</option>
-											<option value="product_id">상품 아이디</option>
+											<option value="rcontent">리뷰 내용</option>
+											<option value="pname">상품 이름</option>
+											<option value="rid">리뷰 번호</option>
+											<option value="rwriter">리뷰 작성자</option>
 									</select> <input type="text" class="search_bar"></td>
+								</tr>
+								<!-- <tr>
 									<th>카테고리</th>
 									<td><select class="search_class_main">
 											<option value="defalt">대분류</option>
@@ -218,11 +281,11 @@
 											<option value="defalt">소분류</option>
 											<option value="x">준비 중</option>
 									</select></td>
-								</tr>
+								</tr> -->
 							</table>
 							<div class="review_search_btns">
-								<button class="search_btn" type="submit">검색</button>
-								<button class="search_btn" type="reset" id="btnReset">초기화</button>
+								<button class="search_btn" id="submitbtn" type="button">검색</button>
+								<button class="search_btn" type="button" id="resetbtn">초기화</button>
 							</div>
 						</div>
 					</form>
