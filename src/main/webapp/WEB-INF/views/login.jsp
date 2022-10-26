@@ -106,11 +106,22 @@
 			}
 		});
 		
+		//로그인 엔터 처리
+		$(".LoginPW").keyup(function(key){
+			if(key.keyCode==13){
+				if($("#id").val() == ""){
+					alert("아이디를 입력해주세요.")
+				}else{
+					loginForm.submit();
+				}
+			}
+		});
+		
 	});
 </script>
 <style>
 	/* 폰트적용 */
-    html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
+   /*  html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
 	em, img, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
 	dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption,
@@ -126,7 +137,7 @@
 		color: #666666;
 		vertical-align: baseline;
 		color: inherit;
-	}
+	} */
 	
 	/* .wraper { width: 100%; min-width:1344px; position: relative;} */
 	/* #container{ width:1344px; min-width:1100px; margin:0 auto; text-align:left; *margin-bottom:50px; border:1px solid black;} */
@@ -141,7 +152,7 @@
 	#new_member { /*  float:center; */
 		width: 1080px;
 		margin: auto; /*  margin-bottom:49px; min-height:600px; */
-		border: 1px solid black;
+		/* border: 1px solid black; */
 	}
 	
 	#login .top_welcome {
@@ -304,6 +315,10 @@
 </style>
 </head>
 <body>
+
+	<!-- header -->    
+	<jsp:include page="/header.do"></jsp:include>
+	
 	<div class="wraper" id="wrap">
 		<div id="container">
 			<div id="new_member">
@@ -331,7 +346,7 @@
 						        			<div class="find_lnfo">
 						        				<a href="/find_id">아이디 찾기</a>
 						        				<a href="/find_pw">비밀번호 찾기</a>
-						        				<a href="/join">회원가입</a>
+						        				<a href="http://localhost:9000/myshop/join.do">회원가입</a>
 						        			</div>
 						        		</div>
 						        		<div class="social_login">
@@ -380,5 +395,7 @@
 		</div>
 	</div>
 
+	<!-- footer -->    
+	<jsp:include page="/footer.do"></jsp:include>
 </body>
 </html>

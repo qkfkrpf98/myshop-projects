@@ -132,74 +132,8 @@
 
 </head>
 <body>
-    <input type="checkbox" id="nav-toggle">
-    <div class="sidebar">
-        <div class="sidebar-brand"> 
-            <h2><span class="lab la-accusoft"></span><span>Myshop</span></h2>
-        </div>
-       
-        <div class="sidebar-menu">
-            <ul>
-                <li>
-                    <a href="" ><span class="las la-igloo"></span><span>Home</span></a>
-                </li>
-                
-                <li class="menu">
-                    <a class="active"><span class="las la-users"></span><span>사용자 관리</span></a>
-                    <ul class="sub-menu">
-                        <li>
-                            <a href="www.naver.com"><span>사용자 목록</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>메시지 보내기</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>메일 발송 설정</span></a>
-                        </li>
-                        <li>
-                            <a href="#None"><span>SMS발송 설정</span></a>
-                        </li>
-                    </ul>
-                </li>
- 
-                <li>
-                    <a href=""><span class="las la-shopping-bag"></span><span>상품관리</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-receipt"></span><span>주문관리</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-user-circle"></span><span>관리자 정보수정</span></a>
-                </li>
-                <li>
-                    <a href=""><span class="las la-sign-out-alt"></span><span>Logout</span></a>
-                </li> 
-            </ul>
-        </div>
-    </div>
-
-	<div class="main-content">
-		<header>
-			<h2>
-				<label for="nav-toggle"> <span class="las la-bars"></span>
-				</label>
-
-			</h2>
-
-			<div class="search-wrapper">
-				<span class="las la-search"></span> <input type="search"
-					placeholder="Search here">
-			</div>
-
-			<div class="user-wrapper">
-				<img src="4dda8b6ed915b478044d8db587d11da7.jpeg" alt="" width="30px"
-					height="30px" display="inline">
-				<div>
-					<h4>고범규</h4>
-					<small>사이트 관리 전용</small>
-				</div>
-			</div>
-		</header>
+  	    <!-- header -->    
+		<jsp:include page="/admin_header.do"></jsp:include>
 
 		<main>
 
@@ -215,6 +149,7 @@
 						<form name="noticewriteForm" action="admin_notice_write_check.do" method="post" enctype="multipart/form-data">
 							<div class="flame">
 								<table class="write_table">
+								
 									<tr>
 										<th>분류</th>
 										<td>

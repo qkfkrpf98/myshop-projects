@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-/* 폰트적용 */
+/* 폰트적용 *
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn,
 	em, img, ins, kbd, q, s, samp, small, sub, sup, tt, var, b, u, center,
@@ -24,11 +24,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	vertical-align: baseline;
 	color: inherit;
 }
-
+*/
 .membership_benefit_content {
 	width: 1080px;
 	margin: auto;
-	/* border: 1px solid black; */
 	padding-bottom: 80px;
 }
 
@@ -304,6 +303,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 </style>
 </head>
 <body>
+	<!-- header  -->
+	<jsp:include page="/header.do"></jsp:include>
+	
 	<div class="membership_benefit_content">
 		<h1 class="membership_title">멤버십 혜택 안내</h1>
 		<div class="grade_friends">
@@ -527,5 +529,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 			조회에서 ‘구매완료’건 확인 가능
 		</p>
 	</div>
+	
+	<!-- footer -->    
+	<jsp:include page="/footer.do"></jsp:include>
 </body>
 </html>
