@@ -344,8 +344,8 @@
 						        				<input type="checkbox" class="checkbox_savaID" id="checkbox_savaID">아이디 저장
 						        			</div>
 						        			<div class="find_lnfo">
-						        				<a href="/find_id">아이디 찾기</a>
-						        				<a href="/find_pw">비밀번호 찾기</a>
+						        				<a href="http://localhost:9000/myshop/find_id.do">아이디 찾기</a>
+						        				<a href="http://localhost:9000/myshop/find_pass.do">비밀번호 찾기</a>
 						        				<a href="http://localhost:9000/myshop/join.do">회원가입</a>
 						        			</div>
 						        		</div>

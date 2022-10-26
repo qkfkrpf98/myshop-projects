@@ -18,6 +18,22 @@ public class MyshopProductDAO {
 	@Autowired 
 	private SqlSessionTemplate sqlSession;
 	
+	
+	//상품수정
+		public int update(MyshopProductVO vo) {
+			return sqlSession.update("mapper.product.update",vo);
+		}
+		
+		//상품수정 정보가져오기
+
+		/**
+		 * select : 상품 정보 조회
+		 */
+		public MyshopProductVO select(String pid) {
+			return sqlSession.selectOne("mapper.product.select",pid);
+		}
+	
+	
 
 	//totalCount 
 	public int totalCount() {
@@ -34,18 +50,37 @@ public class MyshopProductDAO {
 		return (ArrayList<MyshopProductVO>)list;
 	}
 	//상품목록 카테고리별 리스트
-	public ArrayList<MyshopProductVO> category_select(int category_id,int startCount,int endCount) {
-		System.out.println("--------------dao---->>" + category_id);
-		Map<String, Integer> param = new HashMap<String, Integer>();
+		public ArrayList<MyshopProductVO> category_select(int category_parent, int category_id ,int startCount,int endCount) {
+			Map<String, String> param = new HashMap<String, String>();
+			
+			param.put("category_parent", String.valueOf(category_parent));
+			param.put("category_id", String.valueOf(category_id));
+			param.put("start", String.valueOf(startCount));
+			param.put("end", String.valueOf(endCount));
+			
+			List<MyshopProductVO> list = sqlSession.selectList("mapper.product.category_select", param);
+			
+			return (ArrayList<MyshopProductVO>)list;
+		}
 		
-		param.put("category_id", category_id);
-		param.put("start", startCount);
-		param.put("end", endCount);
+		//상품 검색
+		public ArrayList<MyshopProductVO> getProductList( String keyword, int startCount, int endCount) {
+			Map<String, String> param = new HashMap<String, String>();
+			System.out.println(keyword);
+			param.put("keyword", keyword);
+			param.put("start", String.valueOf(startCount));
+			param.put("end", String.valueOf(endCount));
+			
+			List<MyshopProductVO> list = sqlSession.selectList("mapper.product.getProductList", param);
+			
+			return (ArrayList<MyshopProductVO>) list;
+		}
 		
-		List<MyshopProductVO> list = sqlSession.selectList("mapper.product.category_select", param);
-		
-		return (ArrayList<MyshopProductVO>)list;
-	}
+		//관리자 상품목록 삭제리스트 삭제
+		public int delectProduct(String pid) {
+			System.out.println("삭제 ---> dao");
+			return sqlSession.delete("mapper.product.deleteProduct", pid);
+		}	
 	
 	// 관리자 상품등록  처리
 	public int insert(MyshopProductVO vo) {

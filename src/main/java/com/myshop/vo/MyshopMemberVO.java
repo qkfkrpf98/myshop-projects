@@ -1,7 +1,7 @@
 package com.myshop.vo;
 
 public class MyshopMemberVO {
-	private String id, pass, email, zonecode, hp, pnumber, addr1, addr2, addr, birth, mdate, grade, email_check, gender, name, visit;
+	private String id, pass, email, zonecode, hp, pnumber, addr1, addr2, addr, birth, mdate, grade, email_check, gender, name, visit,pnumber1,pnumber2,pnumber3;
 
 	public String getVisit() {
 		return visit;
@@ -85,7 +85,11 @@ public class MyshopMemberVO {
 	}
 
 	public String getPnumber() {
-		return pnumber;
+		if(pnumber == null) {
+			return pnumber1 +""+ pnumber2 + "" + pnumber3;
+		}else {
+			return pnumber; 
+		}
 	}
 
 	public void setPnumber(String pnumber) {

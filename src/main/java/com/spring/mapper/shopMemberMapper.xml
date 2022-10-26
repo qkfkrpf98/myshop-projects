@@ -68,4 +68,17 @@
 		update myshop_member set name=#{name}, email=#{email}, zonecode=#{zonecode}, addr=#{addr}
 		, birth=#{birth}, email_check=#{email_check}, gender=#{gender} where id=#{id}
 	</update>
+	
+	<!-- 로그인 아이디 , 비밀번호 찾기 -->
+	<select id="findId" resultType="com.myshop.vo.MyshopMemberVO">
+		select * from myshop_member where name=#{name}
+	</select>
+	
+	<select id="findPass" resultType="com.myshop.vo.MyshopMemberVO">
+		select * from myshop_member where id=#{id} and name=#{name} and pnumber=#{pnumber}
+	</select>
+	
+	<update id="updatePass">
+		update users set pwd=#{pwd} where id=#{id}
+	</update>
 </mapper>    	

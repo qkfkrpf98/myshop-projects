@@ -22,15 +22,12 @@ main {
 .card-body ul li {width: 100%; }
 .card-body ul li a { display: block; padding: 1rem;  color: var(--main-colors);}
 .card-body ul li a span {display: inline-block; margin-left: 1rem;}
-.card-body ul a.active1 {  background: var(--main-color);  padding: 1rem; color: #fff; border-radius: 2px;} 
+.card-body ul a.active {  background: var(--main-color);  padding: 1rem; color: #fff; border-radius: 2px;} 
 
 
-.card-header .search-wrapper {width: 500px;}
+.card-header .search-wrapper {width: 800px;}
 .card-header h3 { padding-left: .7rem;}
 .card-header .search-wrapper input {width: 100%;}
-
-.main_title{width:150px; display:inline-block;}
-.btn_delete{background: #fff; border-radius: 10px;color: var(--main-color);font-size: .8rem;padding: 0.5rem 2rem;border: 1px solid var(--main-color);margin-right: 10px;}
 
 table { border-collapse: collapse; ;}
 
