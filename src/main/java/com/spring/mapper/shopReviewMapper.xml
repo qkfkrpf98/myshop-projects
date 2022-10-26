@@ -64,7 +64,7 @@
 			    	</otherwise>
 				</choose>
 			</if>
-			<if test="searchscore neq '[]'">
+			<if test="!searchscore.isEmpty() ">
 				and score in (
 				<foreach collection="searchscore" item="arr" separator=",">
 					#{arr}

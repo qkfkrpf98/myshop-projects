@@ -81,7 +81,18 @@
 					</div>
 					<div class="list_content" id="datalist">
 						<div class="table_flame">
-							<table class="list_table">
+							<table class="list_table" style='table-layout:fixed'>
+							<colgroup>
+									<col width="50">
+									<col width="80">
+									<col width="110">
+									<col width="300">
+									<col width="130">
+									<col width="200">
+									<col width="130">
+									<col width="130">
+									<col width="130">
+								</colgroup>
 								<tr>
 									<th><input type="checkbox" class="notice_check"
 										name="checkAll"></th>
@@ -109,7 +120,14 @@
 												<td>미 설정</td>
 											</c:otherwise>
 										</c:choose>
-										<td>${vo.nfile}</td>
+										<c:choose>
+											<c:when test="${empty vo.nfile}">
+												<td>-</td>
+											</c:when>
+											<c:otherwise>
+												<td>${vo.nfile}</td>
+											</c:otherwise>
+										</c:choose>	
 										<c:set var="now" value="<%=new java.util.Date()%>" />
 										<fmt:formatDate value="${now}" pattern="yyyy-MM-dd"
 											var="nowDate" />

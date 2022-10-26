@@ -78,7 +78,9 @@ $(document).ready(function(){
 		 			
 		 			output += "<div class='list_content' id='datalist'>";
 		 			output += "<div class='table_flame'>";
-		 			output += "<table class='list_table'>";
+		 			output += "<table class='list_table' style='table-layout:fixed'>";
+		 			output += "<colgroup><col width='50'><col width='80'><col width='110'><col width='300'><col width='130'>";
+		 			output += "<col width='200'><col width='130'><col width='130'><col width='130'></colgroup>";
 		 			output += "<tr>"
 		 			output += "<th><input type='checkbox' class='notice_check' name='checkAll'></th>"
 		 			output += "<th>번호</th><th>분류</th><th>제목</th><th>중요 여부</th><th>첨부 파일 유무</th><th>게시 현황</th><th>게시 시작일</th><th>게시 종료일</th></tr>"

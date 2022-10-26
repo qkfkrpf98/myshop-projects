@@ -18,6 +18,62 @@
 
     <title>회원 관리페이지</title> 
 <script>
+/* 체크박스 전체 선택(리뷰)  */
+  //리뷰 상세보기 함수
+	   function reviewContent(rid){
+		   $.ajax({
+		 		url:"admin_review_content.do?rid="+rid,
+		 		success:function(rvo){
+		 			/* alert(rvo.rcontent); */
+		 			var score =parseInt(rvo.score);
+		 			
+		 			let output = "<div id='modal'></div>";
+		 			output += "<div class='lay_review_content'>";
+		 			output += "<div class='header'>";
+		 			output += "<div class='rtitle'>리뷰 상세보기</div>";
+		 			output += "<div id='close_button' style='cursor: pointer;'><img src='http://localhost:9000/myshop/resources/images/close.png'></div>";
+		 			output += "</div>";
+		 			output += "<div class='content'>";
+		 			output += "<div class='flame'>";
+		 			output += "<div class='star'>";
+		 			for(var i=0;i<score; i++){
+			 			output +="<label>⭐</label>";
+		 			}
+		 			output +="<span>"+rvo.score+"</span>";
+		 			output +="<div>"+rvo.rwriter+"  |  "+rvo.rdate+"</div>";
+		 			output +="</div>";
+		 			output +="<div class='rcontent'>"+rvo.rcontent+"</div>";
+		 			if(rvo.rsfile != null){
+		 				output +="<div class='rsfile'><img src='http://localhost:9000/myshop/resources/upload/"+rvo.psfile+"'></div>";
+		 			}
+		 			output += "<div class='order_info'>";
+		 			output +="<span>"+rvo.pname+"  |  "+rvo.oid+"</span>";
+		 			output +="</div>";
+		 			output +="<div class='review_info'>";
+		 			output +="<table>";
+		 			output +="<tr>";
+		 			output +="<th>리뷰 글 번호</th>";
+		 			output +="<td>"+rvo.rid+"</td>";
+		 			output +="<th>리뷰 공감수</th>";
+		 			output +="<td>"+rvo.recom+"</td>";
+		 			output +="</tr>";
+		 			output +="</table>";
+		 			output +="</div></div></div></div>";
+		 			
+		 			$("#modal").remove();
+		 			$(".lay_review_content").remove();
+					$("#nav-toggle").after(output);
+			 		$(".lay_review_content").fadeIn();
+			 		$("#modal").fadeIn();
+		
+				    $("#close_button").click(function(){
+				        $(".lay_review_content").fadeOut();
+				        $("#modal").fadeOut();
+				    });
+				    
+		 		}//success
+		 	}); 
+	   }
 $(document).ready(function(){
 		var searchdate = "";
 		var searchscore = "";
@@ -54,10 +110,66 @@ $(document).ready(function(){
 	 		/* dataType:"json", */ //아마 받는 타입이 String 이라서 오류 발생
 	 		success:function(rvo){
 	 			let dataset = JSON.parse(rvo);
-	 		}
-		});
 	 			
-	});
+	 			var output = "<div class='review_list'>";
+	 			output += "<div class='list_heading'><div class='heading_left'>";
+	 			output += "<h3>리뷰 조건검색 목록(총 "+dataset.count+"개)</h3></div>";
+	 			output += "<div class='heading_right'><button type='button' class='btn_review_delete'>선택 삭제</button></div></div>";
+	 			output += "<div class='list_content'><div class='table_flame'><table class='list_table' style='table-layout:fixed'>";
+	 			output += "<colgroup><col width='50'><col width='100'><col width='350'><col width='120'><col width='350'><col width='150'>";
+	 			output += "<col width='150'><col width='120'><col width='110'><col width='130'></colgroup>";
+	 			output += "<tr><th><input type='checkbox' class='review_check' name='checkAll'></th>";
+	 			output += "<th>리뷰글 번호</th><th>리뷰 상품명</th><th>상품 카테고리</th><th>리뷰 내용</th><th>리뷰 작성자</th><th>사용자 평점</th>";
+	 			output += "<th>사진 첨부유무</th><th>리뷰 공감 수</th><th>작성일</th></tr>";
+	 			for(obj of dataset.list){
+		 			output += "<tr><td><input type='checkbox' class='review_check' name='check' value='"+obj.rid+"' ></td>";
+		 			output += "<td>"+obj.rid+"</td><td>"+obj.pname+"</td><td>"+obj.category_id+"</td>";
+		 			output += "<td><button class='openModalPop' type='button' value='"+obj.rid+"'>"+obj.rcontent+"</button></td>";
+		 			output += "<td>"+obj.rwriter+"</td><td>";
+		 			for(var i=0; i<obj.score; i++){
+		 				output += "<label>⭐</label>";
+		 			}
+		 			output += obj.score+"</td>";
+		 			if(obj.rfile == null){
+			 			output += "<td>무</td>";
+		 			}else{
+		 				output += "<td>유</td>";
+		 			}
+		 			output += "<td>"+obj.recom+"</td><td>"+obj.rdate+"</td></tr>";
+	 			}
+	 			output += "</table></div></div></div>";
+	 			
+	 			$(".review_list").remove();
+	 			$(".review_content").after(output);
+	 			
+	 			/* 전체 선택 중 체크박스 하나를 풀었을 때, checkAll flase */
+	 			$("input[name=check]").click(function(){
+		 				  if(!$("input[name=check]").prop("checked")){
+		 					  $("input[name=checkAll]").prop("checked",false);
+		 				  }
+		 			 });
+	 			
+	 			 /* 체크박스 전체 선택(리뷰)  */
+	 			  $("input[name=checkAll]").click(function(){
+	 				  if($("input[name=checkAll]").prop("checked")){
+	 					  $(".review_check").prop("checked",true);
+	 				  }else{
+	 					  $(".review_check").prop("checked",false);
+	 				  }
+	 			  });
+	 			 
+	 			 $(".openModalPop").click(function() {
+	 		    	var rid = $(this).val();
+	 		    	reviewContent(rid);
+	 		    });
+	 			 
+	 			 $(".btn_review_delete").click(function(){
+	 				   reviewDelete();
+	 			   });
+	 		}//success
+		});//ajax
+	 			
+	});//function
 	
 	//리셋버튼
 	$("#resetbtn").click(function(){
@@ -67,8 +179,80 @@ $(document).ready(function(){
 		$("input[name=scorecheckbox]").prop("checked",false);
 		$(".search_bar").val("");
 		$(".search_class").val("defalt");
+		searchdate = "";
+		period_search_count = 0;
 	});
 	
+	
+	 let period_search_count = 0;
+	   let period_search_id = "";
+	
+	 /* 리뷰 작성일 형식은 하나만 선택 가능 */
+	   $(".first-date").click(function(){
+		  /*  alert("선택"); */
+		   if(period_search_count == 1){
+			   $(".period_search").css("background-color","#fff").css("color","black");
+			   searchdate = "";
+			   period_search_count = 0;
+		   }
+	   });
+	   /* 리뷰 작성일 형식은 하나만 선택 가능 */
+	   $(".last-date").click(function(){
+		  /*  alert("선택"); */
+		   if(period_search_count == 1){
+			   $(".period_search").css("background-color","#fff").css("color","black");
+			   period_search_count = 0;
+			   searchdate = "";
+		   }
+	   });
+	   
+	   $(".openModalPop").click(function() {
+	    	var rid = $(this).val();
+	    	reviewContent(rid);
+	    });
+	   
+	   $(".btn_review_delete").click(function(){
+		   reviewDelete();
+	   });
+	   
+	   
+	   function reviewDelete(){
+		   var cnt = $("input[name=check]:checked").length;
+			 
+			 if($("input[name=check]:checked").length == 0){
+				 alert("선택된 리스트가 없습니다.");
+			 }else{
+				
+				 var delete_list = new Array();
+				 
+			 	 $("input[name=check]:checked").each(function(){
+			 	 	delete_list.push($(this).val());
+			 	 });
+			 	
+			 	 if(confirm("선택한 항목을 정말 삭제하시겠습니까?")==true){
+			 		 /* alert(cnt); */
+			 		 
+				 	$.ajax({
+				 		url:"admin_review_list_delete.do",
+				 		type: "POST",
+				 		data: {clist: delete_list},
+				 		dataType:"json",
+				 		success:function(result){
+				 			if(result != 1){
+				 				alert("삭제 오류");
+				 			}else{
+				 				alert("삭제가 성공적으로 이루어졌습니다!");
+				 				location.reload();
+				 			}
+				 		}//success
+				 	}); 
+				 	 
+			 	 }//if문 
+			 	
+			 }//if-else
+		
+	   }
+	 
 });
 
 
@@ -308,9 +492,21 @@ $(document).ready(function(){
 					</div>
 					<div class="list_content">
 						<div class="table_flame">
-							<table class="list_table" >
+							<table class="list_table" style='table-layout:fixed'>
+							<colgroup>
+								<col width="50">
+								<col width="100">
+								<col width="350">
+								<col width="120">
+								<col width="350">
+								<col width="150">
+								<col width="150">
+								<col width="120">
+								<col width="110">
+								<col width="130">
+							</colgroup>
 								<tr>
-									<th><input type="checkbox" class="review_check" name="checkAll" style="width:50px;"></th>
+									<th><input type="checkbox" class="review_check" name="checkAll"></th>
 									<th>리뷰글 번호</th>
 									<th>리뷰 상품명</th>
 									<th>상품 카테고리</th>
@@ -325,7 +521,7 @@ $(document).ready(function(){
 									<tr>
 										<td><input type="checkbox" class="review_check" name="check" value="${vo.rid}" ></td>
 										<td>${vo.rid }</td>
-										<td>${vo.pname }</td>
+										<td style="width:300px">${vo.pname }</td>
 										<td>${vo.category_id}</td>
 										<td><button class="openModalPop" type="button" value="${vo.rid}">${vo.rcontent }</button></td>
 										<td>${vo.rwriter}</td>

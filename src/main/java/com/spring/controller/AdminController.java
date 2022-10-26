@@ -198,22 +198,39 @@ public class AdminController {
 			return result;
 		}
 		
-		//관리자 - 리뷰 리스트에서 선택 삭제(다중삭제) - ajax
+		//관리자 - 리뷰 리스트 검색- ajax
 		@ResponseBody
-		@RequestMapping(value="/admin_review_search.do", method=RequestMethod.POST)
+		@RequestMapping(value="/admin_review_search.do", method=RequestMethod.POST, produces="text/plain;charset=UTF-8")
 		public String admin_review_search(@RequestBody MyshopSearchVO vo) {
 			System.out.println(vo.getSearchscore());
 			ArrayList<MyshopReviewVO> list = reviewService.getAdminSearchList(vo);
-//			int result = 0;
-//			System.out.println("11111");
-//			for(String rid : clist) {
-//				System.out.println(rid);
-//				result = reviewService.getDelete(rid);
 			
+			JsonObject jobject = new JsonObject(); 
+			JsonArray jarray = new JsonArray();  
+			Gson gson = new Gson();
 			
-			return "no";
+			for(MyshopReviewVO rvo: list) {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("rid", rvo.getRid());
+				jo.addProperty("pname", rvo.getPname());
+				jo.addProperty("category_id", rvo.getCategory_id());
+				jo.addProperty("rcontent", rvo.getRcontent());
+				jo.addProperty("rwriter", rvo.getRwriter());
+				jo.addProperty("score", rvo.getScore());
+				jo.addProperty("rsfile", rvo.getRsfile());
+				jo.addProperty("recom", rvo.getRecom());
+				jo.addProperty("rdate", rvo.getRdate());	
+				
+				jarray.add(jo);
+			}
+			jobject.add("list", jarray);
+			jobject.addProperty("count", list.size());
+			
+			System.out.println(gson.toJson(jobject));
 
-		}
+			return gson.toJson(jobject);
+
+		}	
 		
 		
 		//관리자 - 공지사항 리스트
