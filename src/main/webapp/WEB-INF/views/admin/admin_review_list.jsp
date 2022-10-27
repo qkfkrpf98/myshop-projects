@@ -431,7 +431,7 @@ $(document).ready(function(){
 										<button type="button" class="period_search" id="p5" value="6months">6개월</button>
 										<button type="button"class="period_search" id="p6" value="years">1년</button>
 										<button type="button" class="period_search" id="p7" value="all">전체</button> <input
-										type="date" class="first-date">~ <input type="date"
+										type="date" id="rsdate" class="first-date">~ <input type="date" id="redate"
 										class="last-date">
 									</td>
 								</tr>

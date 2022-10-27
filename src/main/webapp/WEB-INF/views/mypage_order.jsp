@@ -18,7 +18,6 @@ function buying_tab(searchtext,searchtype ,sorttype){
 	var id = $(".user_id").val();
 	var param ={"searchtext":searchtext,"searchtype":searchtype,"sorttype":sorttype,"id":id};
 	var search = JSON.stringify(param);
-	alert(id);
 	$.ajax({
 		url:"order_search.do",
  		type: "POST",
@@ -257,7 +256,9 @@ function cancelorder(cancel_order){
 	$.ajax({
 		url:"order_cancel_update.do?oid="+cancel_order,
  		success:function(result){
+ 			/* alert(result); */
  			if(result ==1){
+ 				
 	    		alert("관리자에게 주문 취소 요청을 보냈습니다.");	
 	    		location.reload();
  			}else{

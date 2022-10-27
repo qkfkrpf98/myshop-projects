@@ -1,12 +1,14 @@
 package com.spring.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.myshop.vo.MyshopNoticeVO;
 import com.myshop.vo.MyshopOrderVO;
+import com.myshop.vo.MyshopProductVO;
 import com.myshop.vo.MyshopReviewVO;
 import com.spring.service.FileServiceImpl;
 import com.spring.service.NoticeServiceImpl;
@@ -146,20 +149,36 @@ public class NoticeController {
 			return mv;
 		}
 		
-		//공지사항 페이지 - 검색
-		@RequestMapping(value="/notice_search_check.do", method=RequestMethod.POST)
-		public ModelAndView notice_search_check(String text, String searchtype, String rpage) {
-			ModelAndView mv = new ModelAndView();
-			System.out.println(text);
-			System.out.println(searchtype);
-			
-			Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
-			ArrayList<MyshopNoticeVO> list=noticeService.getSearchList(text,searchtype,param.get("startCount"),param.get("endCount")); 
-			mv.addObject("list",list);
-			mv.addObject("dbCount", param.get("dbCount"));
-			mv.addObject("rpage", param.get("rpage"));
-			mv.addObject("pageSize", param.get("pageSize"));
-			mv.setViewName("notice_board");
-			return mv;
-		}
+//		//공지사항 페이지 - 검색
+//		@RequestMapping(value="/notice_search_check.do", method=RequestMethod.POST)
+//		public ModelAndView notice_search_check(String text, String searchtype, String rpage) {
+//			ModelAndView mv = new ModelAndView();
+//			System.out.println(text);
+//			System.out.println(searchtype);
+//			
+//			Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
+//			ArrayList<MyshopNoticeVO> list=noticeService.getSearchList(text,searchtype,param.get("startCount"),param.get("endCount")); 
+//			mv.addObject("list",list);
+//			mv.addObject("dbCount", param.get("dbCount"));
+//			mv.addObject("rpage", param.get("rpage"));
+//			mv.addObject("pageSize", param.get("pageSize"));
+//			mv.setViewName("notice_board");
+//			return mv;
+//		}
+		
+		@RequestMapping(value="/notice_search_check.do" , method=RequestMethod.GET)
+		   public String notice_search_check(String text, String searchtype, String rpage, Model model)  {
+		      
+			  Map<String, Integer> param = pageService.getPageResult(rpage, "notice", noticeService);
+		      ArrayList<MyshopNoticeVO> list=noticeService.getSearchList(text,searchtype,param.get("startCount"), param.get("endCount"));
+		      
+		      if(!list.isEmpty()) {
+		         model.addAttribute("list", list);
+		      }else {
+		         model.addAttribute("listcheck", "empty");
+		         
+		         return "search";
+		      }
+		      return "/notice_board";
+		   }
 }
