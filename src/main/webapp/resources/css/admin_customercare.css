@@ -22,7 +22,7 @@ main {
 .card-body ul li {width: 100%; }
 .card-body ul li a { display: block; padding: 1rem;  color: var(--main-colors);}
 .card-body ul li a span {display: inline-block; margin-left: 1rem;}
-.card-body ul a.active {  background: var(--main-color);  padding: 1rem; color: #fff; border-radius: 2px;} 
+.card-body ul a.active1 {  background: var(--main-color);  padding: 1rem; color: #fff; border-radius: 2px;} 
 
 
 .card-header .search-wrapper {width: 800px;}
@@ -36,5 +36,5 @@ thead tr {border-top: 1px solid #f0f0f0; border-bottom:2px solid #f0f0f0;}
 thead td {font-weight: 600;}
 td {padding: .5rem 1rem; font-size: .9rem; color: #222;} 
 
-
+.btn_delete{background: white;margin-right: 30px; padding: 10px;border-radius: 5px;}
 
