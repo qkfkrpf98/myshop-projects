@@ -141,8 +141,11 @@
 											<c:when test="${vo.nsdate > nowDate}">
 												<td>게시 준비 중</td>
 											</c:when>
-											<c:otherwise>
+											<c:when test="${vo.nedate < nowDate}">
 												<td>게시 종료</td>
+											</c:when>
+											<c:otherwise>
+												<td>게시 중</td>
 											</c:otherwise>
 										</c:choose>
 										<!-- <td>-</td> -->

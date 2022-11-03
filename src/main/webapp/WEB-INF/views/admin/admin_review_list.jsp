@@ -85,11 +85,13 @@ $(document).ready(function(){
 		searchdate = $(this).val();
 	});
 	
-	
 	//조건검색
 	$("#submitbtn").click(function(){
 		var chList = [];
 			
+		searchtype= $(".search_class").val();
+		searchtext= $(".search_bar").val();
+		
 		$("input[name=scorecheckbox]:checked").each(function(){
 			searchscore = $(this).val();
 			chList.push(searchscore);
@@ -100,7 +102,7 @@ $(document).ready(function(){
 		var param = {"searchdate":searchdate, "searchscore":chList, "searchtype":searchtype, "searchtext":searchtext};
 		var search = JSON.stringify(param);
 		
-		alert(search);
+		/* alert(search); */
 		
 		$.ajax({
 			url:"admin_review_search.do",
@@ -167,6 +169,7 @@ $(document).ready(function(){
 	 				   reviewDelete();
 	 			   });
 	 		}//success
+			
 		});//ajax
 	 			
 	});//function
