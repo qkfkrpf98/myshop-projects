@@ -42,7 +42,7 @@
 	<select id="user_select_all" parameterType="map" resultType="com.myshop.vo.MyshopNoticeVO">
 		select rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
 		from (select rownum rno, nid, ntitle, ncrucial, nsdate, nedate, ncode
-				from(select nid, ntitle, ncrucial, nsdate, nedate, ncode from myshop_notice)
+				from(select nid, ntitle, ncrucial, nsdate, nedate, ncode from myshop_notice order by ncrucial desc)
 				where to_char(sysdate, 'yyyy-mm-dd')>=nsdate and nedate>=to_char(sysdate, 'yyyy-mm-dd')
 				)
 		where rno between #{start} and #{end}

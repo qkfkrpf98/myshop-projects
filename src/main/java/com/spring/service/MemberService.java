@@ -16,4 +16,6 @@ public interface MemberService {
 	int getDelete(String id);
 	MyshopMemberVO getContent(String id);
 	int getUpdate(MyshopMemberVO vo);
+	MyshopMemberVO findId(MyshopMemberVO vo);
+	MyshopMemberVO findPass(MyshopMemberVO vo);
 }

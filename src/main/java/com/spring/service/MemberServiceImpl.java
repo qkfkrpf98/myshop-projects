@@ -15,6 +15,23 @@ public class MemberServiceImpl implements MemberService{
 	@Autowired
 	private MyshopMemberDAO memberDao;
 	
+	/**
+	 * 아이디 찾기
+	 */
+	@Override
+	public MyshopMemberVO findId(MyshopMemberVO vo) {
+		return memberDao.findId(vo);
+	}
+	
+	/**
+	 * 비밀번호 찾기
+	 */
+	@Override
+	public MyshopMemberVO findPass(MyshopMemberVO vo) {
+		return memberDao.findPass(vo);
+	}
+	
+	
 	/** 
 	 * 회원가입 처리
 	 */

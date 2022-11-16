@@ -15,6 +15,25 @@ import com.myshop.vo.SessionVO;
 public class MyshopMemberDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	/**
+	 * 아이디 찾기
+	 */
+	public MyshopMemberVO findId(MyshopMemberVO vo) {
+		System.out.print("dao == >  findId()기능처리");
+		return sqlSession.selectOne("mapper.member.findId", vo);
+	}
+	/**
+	 * 비밀번호 찾기
+	 */
+	public MyshopMemberVO findPass(MyshopMemberVO vo) {
+		System.out.print("dao == >  findPass()기능처리");
+		return sqlSession.selectOne("mapper.member.findPass", vo);
+	}
+	
+	
+	
+	
 	/**
 	 * insert : 회원가입 
 	 */

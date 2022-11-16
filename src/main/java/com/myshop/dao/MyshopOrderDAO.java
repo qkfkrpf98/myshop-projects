@@ -16,6 +16,7 @@ import com.myshop.vo.MyshopSearchVO;
 public class MyshopOrderDAO {
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
 	private String namespace = "mapper.order";
 	
 	/**
@@ -47,8 +48,10 @@ public class MyshopOrderDAO {
 	 * update_status: 주문 취소 요청시 주문 상태변경
 	 */
 	public int update_status(int oid) {
-		
-		return sqlSession.selectOne(namespace+".update_status",oid);
+		System.out.println("dao:"+oid);
+		int result =sqlSession.update(namespace+".update_status",oid);
+		System.out.println("result:"+result);
+		return result;
 	}
 	
 	

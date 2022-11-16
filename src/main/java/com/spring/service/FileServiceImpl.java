@@ -125,4 +125,43 @@ public class FileServiceImpl {
 			vo.getFile1().transferTo(file);
 		}
 	}
+	
+	/**
+	 * 상품 : 새로운 파일이 있는 경우 update시 파일체크
+	 */
+	public MyshopProductVO update_fileCheck(MyshopProductVO vo) {
+		if(vo.getFile1() != null) {	//새로운 파일객체가 있는지 여부체크 하는 경우에는 null을 사용
+			if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
+				
+				UUID uuid = UUID.randomUUID();
+				
+				vo.setPfile(vo.getFile1().getOriginalFilename());
+				vo.setPsfile(uuid+"_"+vo.getFile1().getOriginalFilename());
+			}
+		}
+		return vo;
+	}
+	
+	
+	/**
+	 * 상품 : 파일이 있는 경우 update시 파일저장
+	 */
+	public void update_filesave(MyshopProductVO vo, HttpServletRequest request, String old_filename) 
+														throws Exception {
+		//새로운 파일을 upload 폴더에 저장
+		if(!vo.getFile1().getOriginalFilename().equals("")) { //새로운 파일선택 O
+			String path = request.getSession().getServletContext().getRealPath("/");
+			path += "\\resources\\upload\\";
+			System.out.println(path);
+			
+			File file = new File(path+vo.getPsfile());
+			vo.getFile1().transferTo(file);
+		
+			//기존파일이 있는 경우에는 파일 삭제
+			File ofile = new File(path+old_filename);
+			if(ofile.exists()) {
+				ofile.delete();
+			}
+		}
+	}
 }

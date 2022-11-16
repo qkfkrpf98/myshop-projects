@@ -72,8 +72,8 @@ input {width : 200px; padding: 10px 8px; border:none; outline: none;}
 <body>
 <jsp:include page="/header.do"/>
 	
-    <form name="noticeboardForm" action="notice_search_check.do" method="post">
-    <p><img src="http://localhost:9000/myshop/resources/images/abc.jpg" class="shop_img"></p>
+    <form name="noticeboardForm" action="notice_search_check.do" method="get">
+    <p><img src="http://localhost:9000/myshop/resources/images/notice_board.png" class="shop_img"></p>
         <table width="100%">
                 <tr>
                     <th>번호</th>
@@ -86,7 +86,7 @@ input {width : 200px; padding: 10px 8px; border:none; outline: none;}
                     <td>${vo.rno }</td>
                     <c:choose>
 						<c:when test="${vo.ncrucial != 0 }">
-							<td class="title"><a href="notic_content.do?nid=${vo.nid}" style="color:red;font-weight:bold">[중요] ${vo.ntitle }</a></td>
+							<td class="title"><a href="notic_content.do?nid=${vo.nid}" style="color:#a00;font-weight:bold">[중요] ${vo.ntitle }</a></td>
 						</c:when>
 						<c:otherwise>
 							<td class="title"><a href="notic_content.do?nid=${vo.nid}">${vo.ntitle }</a></td>

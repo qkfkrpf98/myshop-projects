@@ -41,7 +41,7 @@ public class LoginController {
 				//최근 방문일 카운트
 				memberService.updateVisit(vo.getId());
 				//mv.addObject("login_result","ok");
-				mv.setViewName("myshop");
+				mv.setViewName("redirect:/myshop.do");
 			}
 		}else{
 			mv.addObject("login_result","fail");
@@ -66,7 +66,7 @@ public class LoginController {
 			mv.addObject("logout_result","ok"); //index 페이지에서 logout_result 값을 받아서 ok인 경우 alert 창을 띄움
 		}
 		
-		mv.setViewName("login");
+		mv.setViewName("redirect:/login.do");
 		
 		return mv;
 		

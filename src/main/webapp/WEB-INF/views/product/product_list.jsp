@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+l<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -310,12 +310,12 @@
 				<input type="hidden" name=category_nm value="<c:out value="${category_nm}"/>">
 			</from>
 		<script>
-        $(function() {
+        /* $(function() {
             $("#container #top_btn2").on("click", function() {
                 $("html, body").animate({scrollTop:0}, '500');
                 return false;
             });
-        });
+        }); */
         </script>
 		</div>
 		<!-- } container 끝 -->
